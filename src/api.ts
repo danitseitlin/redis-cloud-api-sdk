@@ -1,11 +1,13 @@
-import Axios from 'axios';
+import Axios, { AxiosInstance } from 'axios';
+import { createSubscriptionParameters, updateSubscriptionParameters, updateSubscriptionCidrWhitelistParameters, createSubscriptionVpcPeeringParameters } from './interfaces/subscription';
+
 export class CloudAPISDK {
     private protocol: string
     private domain: string
     private version: string
     private accessKey: string
     private secretKey: string
-    private httpClient: any
+    private httpClient: AxiosInstance
     constructor(apiAccessKey: string, apiSecretKey: string) {
         this.accessKey = apiAccessKey;
         this.secretKey = apiSecretKey;
@@ -16,9 +18,10 @@ export class CloudAPISDK {
             baseURL: `${this.protocol}://${this.domain}/${this.version}`,
             responseType: 'json',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'x-api-key': this.accessKey,
+                'x-api-secret-key': this.secretKey
             }
-            //add credentials here
         })
     }
 
@@ -48,40 +51,40 @@ export class CloudAPISDK {
 
     }
 
-    async getSubscription() {
+    async getSubscription(subscriptionId: number) {
 
     }
 
-    async createSubscription() {
+    async createSubscription(createParameters: createSubscriptionParameters) {
 
     }
 
 
-    async updateSubscription() {
+    async updateSubscription(subscriptionId: number, updateParameters: updateSubscriptionParameters) {
 
     }
 
-    async deleteSubscription() {
+    async deleteSubscription(subscriptionId: number) {
 
     }
 
-    async getSubscriptionCidrWhitelists() {
+    async getSubscriptionCidrWhitelists(subscriptionId: number) {
 
     }
 
-    async updateSubscriptionCidrWhitelists() {
+    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: updateSubscriptionCidrWhitelistParameters) {
 
     }
 
-    async getSubscriptionVpcPeerings() {
+    async getSubscriptionVpcPeerings(subscriptionId: number) {
 
     }
 
-    async createSubscriptionVpcPeerings() {
+    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: createSubscriptionVpcPeeringParameters) {
 
     }
 
-    async deleteSubscriptionVpcPeering() {
+    async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number) {
 
     }
 
