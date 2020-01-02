@@ -1,2 +1,2 @@
-# rl-cloud-api-client
-This is a client for the Redislabs Cloud API 
+# rl-cloud-api-sdk
+This is a sdk for the Redislabs Cloud API 
