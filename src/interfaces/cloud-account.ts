@@ -1,3 +1,4 @@
+import { CloudAccountProviderTypes } from "../types/cloud-account";
 
 /**
  * The parameters needed to create a cloud account
@@ -15,7 +16,7 @@ export interface CreateCloudAccountParameters {
     consolePassword: string,
     consoleUsername: string,
     name: string,
-    provider?: 'AWS' | 'GCP',
+    provider?: CloudAccountProviderTypes,
     signInLoginUrl: string
 }
 

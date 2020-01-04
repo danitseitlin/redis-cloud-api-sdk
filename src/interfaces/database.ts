@@ -1,3 +1,5 @@
+import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseDataEvictionPolicyTypes, DatabaseThroughputMeasurementByTypes, DatabaseImportSourceTypes } from "../types/database";
+
 /**
  * The parameters used to create a database
  * @param dryRun Optional. When 'false’: Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true’: creates a read-only deployment plan without any resource creation. Default: ‘true’
@@ -26,15 +28,15 @@
 export interface CreateDatabaseParameters {
     dryRun?: boolean,
     name: string,
-    protocol?: 'redis' | 'memcached',
+    protocol?: DatabaseProtocolTypes,
     memoryLimitInGb: number,
     supportOSSClusterApi?: boolean,
     useExternalEndpointForOSSClusterApi?: boolean,
-    dataPersistence?: 'none' | 'aof-every-1-second' | 'aof-every-write' | 'snapshot-every-1-hour' | 'snapshot-every-6-hours' | 'snapshot-every-12-hours',
-    dataEvictionPolicy?: 'allkeys-lru' | 'allkeys-lfu' | 'allkeys-random' | 'volatile-lru' | 'volatile-lfu' | 'volatile-random' | 'volatile-ttl' | 'noeviction',
+    dataPersistence?: DatabaseDataPersistenceTypes,
+    dataEvictionPolicy?: DatabaseDataEvictionPolicyTypes,
     replication?: boolean,
     throughputMeasurement?: {
-        by: 'number-of-shards' | 'operations-per-second',
+        by: DatabaseThroughputMeasurementByTypes,
         value: number
     },
     averageItemSizeInBytes?: number,
@@ -80,11 +82,11 @@ export interface UpdateDatabaseParameters {
     memoryLimitInGb?: number,
     supportOSSClusterApi?: boolean,
     useExternalEndpointForOSSClusterApi?: boolean,
-    dataPersistence?: 'none' | 'aof-every-1-second' | 'aof-every-write' | 'snapshot-every-1-hour' | 'snapshot-every-6-hours' | 'snapshot-every-12-hours',
-    dataEvictionPolicy?: 'allkeys-lru' | 'allkeys-lfu' | 'allkeys-random' | 'volatile-lru' | 'volatile-lfu' | 'volatile-random' | 'volatile-ttl' | 'noeviction',
+    dataPersistence?: DatabaseDataPersistenceTypes,
+    dataEvictionPolicy?: DatabaseDataEvictionPolicyTypes,
     replication?: boolean,
     throughputMeasurement?: {
-        by: 'number-of-shards' | 'operations-per-second',
+        by: DatabaseThroughputMeasurementByTypes,
         value: number
     },
     replicaOf?: string[],
@@ -105,6 +107,6 @@ export interface UpdateDatabaseParameters {
  * @param importFromUri Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1’, ‘http://mydomain.com/redis-backup-file2’])
  */
 export interface DatabaseImportParameters {
-    sourceType: 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-blob-storage' | 'google-blob-storage',
+    sourceType: DatabaseImportSourceTypes,
     importFromUri: string[]
 }

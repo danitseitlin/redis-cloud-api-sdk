@@ -1,3 +1,6 @@
+import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseThroughputMeasurementByTypes } from "../types/database";
+import { SubscriptionMemoryStorageTypes } from "../types/subscription";
+
 /**
  * The parameters needed to create a subscription
  * @param name Optional. Subscription name
@@ -32,7 +35,7 @@ export interface CreateSubscriptionParameters {
     name?: string,
     dryRun?: boolean,
     paymentMethodId: number,
-    memoryStorage?: 'ram' | 'ram-and-flash',
+    memoryStorage?: SubscriptionMemoryStorageTypes,
     persistentStorageEncryption?: boolean,
     cloudProviders: Array<{
         provider?: string,
@@ -49,13 +52,13 @@ export interface CreateSubscriptionParameters {
     }>,
     databases: Array<{
         name: string,
-        protocol?: 'redis' | 'memcached',
+        protocol?: DatabaseProtocolTypes,
         memoryLimitInGb: number,
         supportOSSClusterApi?: boolean,
-        dataPersistence?: 'none' | 'aof-every-1-second' | 'aof-every-write' | 'snapshot-every-1-hour' | 'snapshot-every-6-hours' | 'snapshot-every-12-hours',
+        dataPersistence?: DatabaseDataPersistenceTypes,
         replication?: boolean,
         throughputMeasurement?: {
-            by: 'number-of-shards' | 'operations-per-second',
+            by: DatabaseThroughputMeasurementByTypes,
             value: number
         },
         modules: string[], //Verify this!

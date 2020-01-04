@@ -1,0 +1,1 @@
+export type CloudAccountProviderTypes = 'AWS' | 'GCP';

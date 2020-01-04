@@ -1,0 +1,1 @@
+export type SubscriptionMemoryStorageTypes = 'ram' | 'ram-and-flash';
