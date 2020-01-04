@@ -1,4 +1,4 @@
-export interface createSubscriptionParameters {
+export interface CreateSubscriptionParameters {
     name?: string,
     dryRun?: boolean,
     paymentMethodId: number,
@@ -34,17 +34,17 @@ export interface createSubscriptionParameters {
     }>
 }
 
-export interface updateSubscriptionParameters {
+export interface UpdateSubscriptionParameters {
     name?: string,
     paymentMethodId?: number
 }
 
-export interface updateSubscriptionCidrWhitelistParameters {
+export interface UpdateSubscriptionCidrWhitelistParameters {
     cidrIps: string[],
     securityGroupIds: string[]
 }
 
-export interface createSubscriptionVpcPeeringParameters {
+export interface CreateSubscriptionVpcPeeringParameters {
     region: string,
     awsAccountId: string,
     vpcId: string,
