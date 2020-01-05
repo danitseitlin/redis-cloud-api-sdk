@@ -1,5 +1,5 @@
 import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseThroughputMeasurementByTypes } from "../types/database";
-import { SubscriptionMemoryStorageTypes } from "../types/subscription";
+import { SubscriptionMemoryStorageTypes, SubscriptionCloudProviderTypes } from "../types/subscription";
 
 /**
  * The parameters needed to create a subscription
@@ -38,7 +38,7 @@ export interface CreateSubscriptionParameters {
     memoryStorage?: SubscriptionMemoryStorageTypes,
     persistentStorageEncryption?: boolean,
     cloudProviders: Array<{
-        provider?: string,
+        provider?: SubscriptionCloudProviderTypes,
         cloudAccountId?: number,
         regions: Array<{
             region: string,
@@ -61,7 +61,7 @@ export interface CreateSubscriptionParameters {
             by: DatabaseThroughputMeasurementByTypes,
             value: number
         },
-        modules: string[], //Verify this!
+        modules: string[],
         quantity?: number,
         averageItemSizeInBytes?: number
     }>
