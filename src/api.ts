@@ -13,9 +13,9 @@ export class CloudAPISDK {
     constructor(parameters: CloudAPISDKParameters) {
         this.accessKey = parameters.accessKey;
         this.secretKey = parameters.secretKey;
-        if(parameters.protocol !== undefined) this.protocol = parameters.protocol;
-        if(parameters.domain !== undefined) this.domain = parameters.domain;
-        if(parameters.version !== undefined) this.version = parameters.version;
+        if (parameters.protocol !== undefined) this.protocol = parameters.protocol;
+        if (parameters.domain !== undefined) this.domain = parameters.domain;
+        if (parameters.version !== undefined) this.version = parameters.version;
         this.httpClient = Axios.create({
             baseURL: `${this.protocol}://${this.domain}/${this.version}`,
             responseType: 'json',
@@ -485,6 +485,36 @@ export class CloudAPISDK {
             throw error;
         }
     }
+
+    /**
+     * Waiting for task status to become given status
+     * @param taskId The id of the task
+     * @param status The expected status
+     */
+    async waitForTaskStatus(taskId: number, status: TASK_STATUS) {
+        let task: any = await this.getTask(taskId);
+        let taskStatus: string = task['status'];
+        while (taskStatus != status && taskStatus != TASK_STATUS.ERROR) { 
+            await this.sleep(1);
+            task = await this.getTask(taskId);
+            taskStatus = await task['status'];
+        }
+        if (taskStatus === TASK_STATUS.ERROR) { 
+            const errorType: string = task['response']['error']['type'];
+            const errorStatus: string = task['response']['error']['status'];
+            const errorDescription: string = task['response']['error']['description'];
+            console.log(`Task ${taskId} ended up in error: type: ${errorType}, status: ${errorStatus}, description: ${errorDescription}`);
+        }
+        return task;
+    }
+
+    /**
+     * Freezing the code for a number of seconds
+     * @param seconds seconds to freeze the code
+     */
+    private async sleep(seconds: number): Promise<any> {
+        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
 }
 
 /**
@@ -502,3 +532,11 @@ export interface CloudAPISDKParameters {
     domain?: string,
     version?: string,
 }
+
+/**
+ * The available task statuses
+ */
+export enum TASK_STATUS {
+    COMPLETED = 'processing-completed',
+    ERROR = 'processing-error'
+} 
