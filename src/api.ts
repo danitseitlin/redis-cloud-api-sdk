@@ -153,7 +153,6 @@ export class CloudAPISDK {
             const taskId: number = await response['body']['taskId'];
             const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
             return taskResponse['response'];
-            // return response['body'];
         }
         catch(error) {
             return error;
