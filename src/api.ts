@@ -31,7 +31,7 @@ export class CloudAPISDK {
     /**
      * A function that returns current account and related information
      */
-    async getAccountInformation() {
+    async getAccountInformation(): Promise<any> {
         try {
             const response = await this.httpClient.get('/');
             return response.data;
@@ -46,7 +46,7 @@ export class CloudAPISDK {
     /**
      * A function that returns a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
-    async getDatabaseModules() {
+    async getDatabaseModules(): Promise<any> {
         try {
             const response = await this.httpClient.get('/database-modules');
             return response.data;
@@ -61,7 +61,7 @@ export class CloudAPISDK {
     /**
      * A function that returns system log information for current account
      */
-    async getSystemLogs() {
+    async getSystemLogs(): Promise<any> {
         try {
             const response = await this.httpClient.get('/logs');
             return response.data;
@@ -76,7 +76,7 @@ export class CloudAPISDK {
     /**
      * A function that returns a lookup list of current Account’s payment methods
      */
-    async getPaymentMethods() {
+    async getPaymentMethods(): Promise<any> {
         try {
             const response = await this.httpClient.get('/payment-methods');
             return response.data;
@@ -92,7 +92,7 @@ export class CloudAPISDK {
     /**
      * A function that returns a lookup list of current Account's subscriptions
      */
-    async getSubscriptions() {
+    async getSubscriptions(): Promise<any> {
         try {
             const response = await this.httpClient.get('/subscriptions');
             return response.data;
@@ -108,7 +108,7 @@ export class CloudAPISDK {
      * A function that returns a subscription owned by the current account
      * @param subscriptionId The id of the subscription
      */
-    async getSubscription(subscriptionId: number) {
+    async getSubscription(subscriptionId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
             return response.data;
@@ -124,7 +124,7 @@ export class CloudAPISDK {
      * A function that creates a subscription using given parameters
      * @param createParameters The given parameters given for the subscription creation
      */
-    async createSubscription(createParameters: CreateSubscriptionParameters) {
+    async createSubscription(createParameters: CreateSubscriptionParameters): Promise<any> {
         try {
             const response = await this.httpClient.post('/subscriptions', createParameters);
             return response.data;
@@ -141,7 +141,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The given update parameters to update the subscription with
      */
-    async updateSubscription(subscriptionId: number, updateParameters: UpdateSubscriptionParameters) {
+    async updateSubscription(subscriptionId: number, updateParameters: UpdateSubscriptionParameters): Promise<any> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
             return response.data;
@@ -157,7 +157,7 @@ export class CloudAPISDK {
      * A function that delete's an existing subscription
      * @param subscriptionId The id of the subscription
      */
-    async deleteSubscription(subscriptionId: number) {
+    async deleteSubscription(subscriptionId: number): Promise<any> {
         try {
             const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}`);
             return response.data;
@@ -173,7 +173,7 @@ export class CloudAPISDK {
      * A function that returns the subscription cidr whitelists
      * @param subscriptionId The id of the subscription
      */
-    async getSubscriptionCidrWhitelists(subscriptionId: number) {
+    async getSubscriptionCidrWhitelists(subscriptionId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             return response.data;
@@ -190,7 +190,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The parameters to update the subscription with
      */
-    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: UpdateSubscriptionCidrWhitelistParameters) {
+    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: UpdateSubscriptionCidrWhitelistParameters): Promise<any> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             return response.data;
@@ -206,7 +206,7 @@ export class CloudAPISDK {
      * A function that returns the subscription VPC peerings
      * @param subscriptionId The id of the subscription
      */
-    async getSubscriptionVpcPeerings(subscriptionId: number) {
+    async getSubscriptionVpcPeerings(subscriptionId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
             return response.data;
@@ -223,7 +223,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
      */
-    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: CreateSubscriptionVpcPeeringParameters) {
+    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: CreateSubscriptionVpcPeeringParameters): Promise<any> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             return response.data;
@@ -240,7 +240,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the VPC peering
      */
-    async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number) {
+    async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<any> {
         try {
             const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
             return response.data;
@@ -257,7 +257,7 @@ export class CloudAPISDK {
      * A function that returns a lookup list of databases owned by the account
      * @param subscriptionId The id of the subscription
      */
-    async getDatabases(subscriptionId: number) {
+    async getDatabases(subscriptionId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases`);
             return response.data;
@@ -274,7 +274,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the database 
      */
-    async createDatabase(subscriptionId: number, createParameters: CreateDatabaseParameters) {
+    async createDatabase(subscriptionId: number, createParameters: CreateDatabaseParameters): Promise<any> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
             return response.data;
@@ -291,7 +291,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      */
-    async getDatabase(subscriptionId: number, databaseId: number) {
+    async getDatabase(subscriptionId: number, databaseId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             return response.data;
@@ -309,7 +309,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      * @param updateParameters The update parameters to update the database
      */
-    async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: UpdateDatabaseParameters) {
+    async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: UpdateDatabaseParameters): Promise<any> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
             return response.data;
@@ -326,7 +326,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      */
-    async deleteDatabase(subscriptionId: number, databaseId: number) {
+    async deleteDatabase(subscriptionId: number, databaseId: number): Promise<any> {
         try {
             const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             return response.data;
@@ -343,7 +343,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription 
      * @param databaseId The id of the database
      */
-    async backupDatabase(subscriptionId: number, databaseId: number) {
+    async backupDatabase(subscriptionId: number, databaseId: number): Promise<any> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             return response.data;
@@ -361,7 +361,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      * @param importParameters The import parameters to import into a database
      */
-    async importIntoDatabase(subscriptionId: number, databaseId: number, importParameters: DatabaseImportParameters) {
+    async importIntoDatabase(subscriptionId: number, databaseId: number, importParameters: DatabaseImportParameters): Promise<any> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`, importParameters);
             return response.data;
@@ -377,7 +377,7 @@ export class CloudAPISDK {
     /**
      * A function that returns a lookup list of cloud accounts owned by the account
      */
-    async getCloudAccounts() {
+    async getCloudAccounts(): Promise<any> {
         try {
             const response = await this.httpClient.get('/cloud-accounts');
             return response.data;
@@ -393,7 +393,7 @@ export class CloudAPISDK {
      * A function that creates a cloud account
      * @param createParameters The create parameters to create a cloud account
      */
-    async createCloudAccount(createParameters: CreateCloudAccountParameters) {
+    async createCloudAccount(createParameters: CreateCloudAccountParameters): Promise<any> {
         try {
             const response = await this.httpClient.post('/cloud-accounts', createParameters);
             return response.data;
@@ -409,7 +409,7 @@ export class CloudAPISDK {
      * A function that returns a cloud account
      * @param cloudAccountId The id of the cloud account
      */
-    async getCloudAccount(cloudAccountId: number) {
+    async getCloudAccount(cloudAccountId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/cloud-accounts/${cloudAccountId}`);
             return response.data;
@@ -426,7 +426,7 @@ export class CloudAPISDK {
      * @param cloudAccountId The id of the cloud account
      * @param updateParameters The update parameters to update a cloud account
      */
-    async updateCloudAccount(cloudAccountId: number, updateParameters: UpdateCloudAccountParameters) {
+    async updateCloudAccount(cloudAccountId: number, updateParameters: UpdateCloudAccountParameters): Promise<any> {
         try {
             const response = await this.httpClient.put(`/cloud-accounts/${cloudAccountId}`, updateParameters);
             return response.data;
@@ -442,7 +442,7 @@ export class CloudAPISDK {
      * A function that delete's a cloud account
      * @param cloudAccountId The id of the cloud account
      */
-    async deleteCloudAccount(cloudAccountId: number) {
+    async deleteCloudAccount(cloudAccountId: number): Promise<any> {
         try {
             const response = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
             return response.data;
@@ -458,7 +458,7 @@ export class CloudAPISDK {
     /**
      * A function that returns a lookup list of tasks owned by the account
      */
-    async getTasks() {
+    async getTasks(): Promise<any> {
         try {
             const response = await this.httpClient.get('/tasks');
             return response.data;
@@ -474,7 +474,7 @@ export class CloudAPISDK {
      * A function that returns a task
      * @param taskId The id of the task
      */
-    async getTask(taskId: number) {
+    async getTask(taskId: number): Promise<any> {
         try {
             const response = await this.httpClient.get(`/tasks/${taskId}`);
             return response.data;
@@ -491,7 +491,7 @@ export class CloudAPISDK {
      * @param taskId The id of the task
      * @param status The expected status
      */
-    async waitForTaskStatus(taskId: number, status: TASK_STATUS) {
+    async waitForTaskStatus(taskId: number, status: TASK_STATUS): Promise<any> {
         let task: any = await this.getTask(taskId);
         let taskStatus: string = task['status'];
         while (taskStatus != status && taskStatus != TASK_STATUS.ERROR) { 
