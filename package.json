@@ -5,7 +5,11 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "mocha -r ts-node/register src/tests/*.ts"
+    "test-all": "mocha -r ts-node/register src/tests/*.ts",
+    "test-general": "mocha -r ts-node/register src/tests/general.ts",
+    "test-cloud-account": "mocha -r ts-node/register src/tests/cloud-account.ts",
+    "test-database": "mocha -r ts-node/register src/tests/database.ts",
+    "test-subscription": "mocha -r ts-node/register src/tests/subscription.ts"
   },
   "repository": {
     "type": "git",
