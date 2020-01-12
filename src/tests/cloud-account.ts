@@ -18,19 +18,22 @@ describe('Testing cloud account', async function() {
     let cloudAccountId: number = -1;
     it('getCloudAccounts', async function() {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-        expect(cloudAccounts.length).gt(0);
+        expect(cloudAccounts.length).gt(0, 'Checking if the cloud accounts are greater than 0');
     }); 
     it('createCloudAccount', async function() {
-        //Create a cloud account and then get it to make sure it was created properly.
-        
+        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        cloudAccountId = response['resourceId'];
+        expect(cloudAccountId).not(undefined, 'Checking if the cloud account is created');
     })
     it('getCloudAccount', async function() {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.length).gt(0, 'Expecting to have more than 1 cloud account');
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccounts[0]['id']);
-        expect(cloudAccount)
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        expect(cloudAccount['error']).not('Not Found', 'Checking if the cloud account exists');
     }); 
     it('deleteCloudAccount', async function() {
-        //Delete the existing cloud account you created and validate it was removed.
+        await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        expect(cloudAccount['error']).eql('Not Found', 'Checking if the cloud account doesnt exist');
     })
   });
