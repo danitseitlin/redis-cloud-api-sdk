@@ -2,6 +2,7 @@ import Axios, { AxiosInstance } from 'axios';
 import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubscriptionCidrWhitelistParameters, CreateSubscriptionVpcPeeringParameters } from './interfaces/subscription';
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
+import { SubscriptionCloudProviderTypes } from './types/subscription';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -56,10 +57,12 @@ export class CloudAPISDK {
 
     /**
      * A function that returns system log information for current account
+     * @param limit Maximum number of items to return
+     * @param offset Number of items to skip
      */
-    async getSystemLogs(): Promise<any> {
+    async getSystemLogs(limit: number, offset: number): Promise<any> {
         try {
-            const response: any = await this.httpClient.get('/logs');
+            const response: any = await this.httpClient.get(`/logs?limit=${limit}&offset=${offset}`);
             return response['body'];
         }
         catch(error) {
@@ -68,11 +71,39 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a lookup list of current Account’s payment methods
+     * A function that returns a lookup list of current account’s payment methods
      */
     async getPaymentMethods(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/payment-methods');
+            return response['body'];
+        }
+        catch(error) {
+            return error;
+        }
+    }
+
+    /**
+     * A function that returns a lookup list of current account's plans
+     * @param provider The cloud provider of the plan
+     */
+    async getPlans(provider: SubscriptionCloudProviderTypes) {
+        try {
+            const response: any = await this.httpClient.get(`/plans?provider=${provider}`);
+            return response['body'];
+        }
+        catch(error) {
+            return error;
+        }
+    }
+
+    /**
+     * A function that returns a lookup list of current account's regions
+     * @param provider The cloud provider of the plan
+     */
+    async getRegions(provider: SubscriptionCloudProviderTypes) {
+        try {
+            const response: any = await this.httpClient.get(`/regions?provider=${provider}`);
             return response['body'];
         }
         catch(error) {
