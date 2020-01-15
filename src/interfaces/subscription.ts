@@ -61,7 +61,7 @@ export interface CreateSubscriptionParameters {
             by: DatabaseThroughputMeasurementByTypes,
             value: number
         },
-        modules: string[],
+        modules?: string[],
         quantity?: number,
         averageItemSizeInBytes?: number
     }>
