@@ -7,7 +7,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     domain: 'qa-api.redislabs.com'
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
-describe('Testing cloud account', async function() {
+describe('Testing databases', async function() {
     const subscriptionId: number = -1;
     let databaseId: number = -1;
     it('getDatabases', async function() {

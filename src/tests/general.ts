@@ -5,7 +5,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: 'your-secret-key'
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
-describe('Testing cloud account', async function() {
+describe('Testing general', async function() {
     it('getAccountInformation', async function() {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
         expect(accountInformation['account']).not(undefined, 'Checking if account key exists');
