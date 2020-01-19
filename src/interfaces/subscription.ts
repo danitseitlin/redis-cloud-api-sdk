@@ -83,8 +83,8 @@ export interface UpdateSubscriptionParameters {
  * @param securityGroupIds AWS Security group identifier
  */
 export interface UpdateSubscriptionCidrWhitelistParameters {
-    cidrIps: string[],
-    securityGroupIds: string[]
+    cidrIps?: string[],
+    securityGroupIds?: string[]
 }
 
 /**
