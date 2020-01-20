@@ -23,13 +23,13 @@ describe('Testing cloud account', async function() {
     it('createCloudAccount', async function() {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
-        expect(cloudAccountId).not(undefined, 'Checking if the cloud account is created');
+        expect(cloudAccountId).not.to.eql(undefined, 'Checking if the cloud account is created');
     });
     it('getCloudAccount', async function() {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.length).gt(0, 'Expecting to have more than 1 cloud account');
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['error']).not('Not Found', 'Checking if the cloud account exists');
+        expect(cloudAccount['error']).not.to.eql('Not Found', 'Checking if the cloud account exists');
     }); 
     it('deleteCloudAccount', async function() {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);

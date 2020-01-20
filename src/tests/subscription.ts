@@ -15,7 +15,6 @@ describe('Testing subscription', async function() {
     const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
     const cloudAccount: any = cloudAccounts.find(account => account['id'] !== 1);
     it('createSubscription', async function() {
-        
         const createParameters: CreateSubscriptionParameters = {
             dryRun: true,
             paymentMethodId: paymentMethods[0]['id'],
@@ -34,17 +33,17 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        expect(createResponse['error']).not(undefined, `Error was found ${createResponse['error']}`);
+        expect(createResponse['error']).not.to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
     });
     it('getSubscriptions', async function() {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
         const subscription: any = subscriptions.find(subscription => subscription['id'] === subscriptionId);
-        expect(subscription['error']).not(undefined, `Error was found ${subscription['error']}`);
+        expect(subscription['error']).not.to.eql(undefined, `Error was found ${subscription['error']}`);
     }); 
     it('getSubscription', async function() {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['error']).not(undefined, `Error was found ${subscription['error']}`);
+        expect(subscription['error']).not.to.eql(undefined, `Error was found ${subscription['error']}`);
     }); 
     it('updateSubscription', async function() {
         const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {

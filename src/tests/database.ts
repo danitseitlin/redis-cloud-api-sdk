@@ -12,7 +12,7 @@ describe('Testing databases', async function() {
     let databaseId: number = -1;
     it('getDatabases', async function() {
         const databases: any = await cloudAPIClient.getDatabases(subscriptionId);
-        expect(databases['error']).not('Not Found', 'Checking if there was no error');
+        expect(databases['error']).not.to.eql('Not Found', 'Checking if there was no error');
     });
     it('createDatabase', async function() {
         const createParameters: CreateDatabaseParameters = {
@@ -26,7 +26,7 @@ describe('Testing databases', async function() {
     });
     it('getDatabase', async function() {
         const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        expect(database['error']).not('Not Found', 'Checking if the database exists');
+        expect(database['error']).not.to.eql('Not Found', 'Checking if the database exists');
     });
     it('updateDatabase', async function() {
         const updateParameters: UpdateDatabaseParameters = {
