@@ -49,26 +49,26 @@ describe('Testing subscription', async function() {
         const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {
             name: 'updated-subscription'
         });
-        expect(updateResponse['error']).eql(undefined, `Error was found ${updateResponse['error']}`);
+        expect(updateResponse['error']).to.eql(undefined, `Error was found ${updateResponse['error']}`);
     }); 
     it('deleteSubscription', async function() {
         await cloudAPIClient.deleteSubscription(subscriptionId);
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['error']).eql('Not Found', 'Subscription was not removed');
+        expect(subscription['error']).to.eql('Not Found', 'Subscription was not removed');
     }); 
     it('getCidrWhitelistss', async function() {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        expect(cidrWhitelists['error']).eql(undefined, `Error was found ${cidrWhitelists['error']}`);
+        expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
     it('updateCidrWhitelists', async function() {
         const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: ['192.168.1.0']
         });
-        expect(updateResponse['error']).eql(undefined, `Error was found ${updateResponse['error']}`);
+        expect(updateResponse['error']).to.eql(undefined, `Error was found ${updateResponse['error']}`);
     }); 
     it('getSubscriptionVpcPeerings', async function() {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        expect(subscriptionVpcPeerings['error']).eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
+        expect(subscriptionVpcPeerings['error']).to.eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
     }); 
     it('createSubscriptionVpcPeering', async function() {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
@@ -80,12 +80,12 @@ describe('Testing subscription', async function() {
         vpcPeeringId = createResponse['resourceId'];
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         const subscriptionVpcPeering: any = subscriptionVpcPeerings.find(element => element.id === vpcPeeringId);
-        expect(subscriptionVpcPeering).eql(undefined, 'Subscription vpc was not created');
+        expect(subscriptionVpcPeering).to.eql(undefined, 'Subscription vpc was not created');
     }); 
     it('deleteSubscriptionVpcPeering', async function() {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         const subscriptionVpcPeering: any = subscriptionVpcPeerings.find(element => element.id === vpcPeeringId);
-        expect(subscriptionVpcPeering).eql(undefined, 'Subscription vpc peering was not removed');
+        expect(subscriptionVpcPeering).to.eql(undefined, 'Subscription vpc peering was not removed');
     }); 
   });

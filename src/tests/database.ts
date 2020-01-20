@@ -33,19 +33,19 @@ describe('Testing databases', async function() {
             name: 'test-updated-databases'
         };
         const updateDatabase: any = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
-        expect(updateDatabase['error']).eql(undefined, 'Checking if there is an error');
+        expect(updateDatabase['error']).to.eql(undefined, 'Checking if there is an error');
         const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        expect(updateParameters['name']).eql(database['name'], 'Checking that the name of the database was changed as expected');
+        expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
     });
     it('deleteDatabase', async function() {
         await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
         const database: any = cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        expect(database['error']).eql('Not Found', 'Checking that the database was deleted');
+        expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
     });
     it('backupDatabase', async function() {
         const response: any = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
         console.log(response)
-        expect(response['error']).eql(undefined, 'Checking that the backup was done successfully');
+        expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
     });
     it('importIntoDatabase', async function() {
         const importParameters: DatabaseImportParameters = {
@@ -53,6 +53,6 @@ describe('Testing databases', async function() {
             importFromUri: ['my-ftp-import-url']
         };
         const response: any = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
-        expect(response['error']).eql(undefined, 'Checking that the backup was done successfully');
+        expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
     });
 });
