@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../api';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../interfaces/database';
+import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
+import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../src/interfaces/database';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: 'your-access-key',
     secretKey: 'your-secret-key'

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../api';
+import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: 'your-access-key',
     secretKey: 'your-secret-key'
