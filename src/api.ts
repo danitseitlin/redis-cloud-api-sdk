@@ -11,6 +11,11 @@ export class CloudAPISDK {
     private accessKey: string
     private secretKey: string
     private httpClient: AxiosInstance
+
+    /**
+     * Initializing the constructur with given custom parameters
+     * @param parameters The parameters we can pass you customize our sdk client
+     */
     constructor(parameters: CloudAPISDKParameters) {
         this.accessKey = parameters.accessKey;
         this.secretKey = parameters.secretKey;
@@ -35,7 +40,7 @@ export class CloudAPISDK {
     async getAccountInformation(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/');
-            return response['data'];
+            return response['data']['account'];
         }
         catch(error) {
             return error;
@@ -48,7 +53,7 @@ export class CloudAPISDK {
     async getDatabaseModules(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/database-modules');
-            return response['data'];
+            return response['data']['modules'];
         }
         catch(error) {
             return error;
@@ -63,7 +68,7 @@ export class CloudAPISDK {
     async getSystemLogs(limit: number, offset: number): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/logs?limit=${limit}&offset=${offset}`);
-            return response['data'];
+            return response['data']['entries'];
         }
         catch(error) {
             return error;
@@ -76,7 +81,7 @@ export class CloudAPISDK {
     async getPaymentMethods(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/payment-methods');
-            return response['data'];
+            return response['data']['paymentMethods'];
         }
         catch(error) {
             return error;
@@ -90,7 +95,7 @@ export class CloudAPISDK {
     async getPlans(provider: SubscriptionCloudProviderTypes) {
         try {
             const response: any = await this.httpClient.get(`/plans?provider=${provider}`);
-            return response['data'];
+            return response['data']['plans'];
         }
         catch(error) {
             return error;
@@ -104,7 +109,7 @@ export class CloudAPISDK {
     async getRegions(provider: SubscriptionCloudProviderTypes) {
         try {
             const response: any = await this.httpClient.get(`/regions?provider=${provider}`);
-            return response['data'];
+            return response['data']['regions'];
         }
         catch(error) {
             return error;
@@ -118,7 +123,7 @@ export class CloudAPISDK {
     async getSubscriptions(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/subscriptions');
-            return response['data'];
+            return response['data']['subscriptions'];
         }
         catch(error) {
             return error;

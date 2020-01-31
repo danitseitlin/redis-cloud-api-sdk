@@ -5,30 +5,30 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: 'your-secret-key'
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
-describe('Testing general', async function() {
+describe('Testing general functions', async function() {
     this.timeout(1000 * 60 * 60);
     it('getAccountInformation', async () => {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
-        expect(accountInformation['account']).not.to.eql(undefined, 'Checking if account key exists');
+        expect(accountInformation).not.to.eql(undefined, 'Checking the account information json is not empty');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
-        expect(databaseModules['modules']).not.to.eql(undefined, 'Checking if modules key exists');
+        expect(databaseModules.length).gte(0, 'Checking if modules key exists');
     });
     it('getSystemLogs', async () => {
         const systemLogs: any = await cloudAPIClient.getSystemLogs(100, 0);
-        expect(systemLogs['enteries']).not.to.eql(undefined, 'Checking if enteries key exists');
+        expect(systemLogs.length).gte(0, 'Checking if enteries key exists');
     }); 
     it('getPaymentMethods', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
-        expect(paymentMethods['paymentMethods']).not.to.eql(undefined, 'Checking if paymentMethods key exists');
+        expect(paymentMethods.length).gte(0, 'Checking if paymentMethods key exists');
     });
     it('getPlans', async () => {
-        const paymentMethods: any = await cloudAPIClient.getPlans('AWS');
-        expect(paymentMethods['plans']).not.to.eql(undefined, 'Checking if plans key exists');
+        const plans: any = await cloudAPIClient.getPlans('AWS');
+        expect(plans.length).gte(0, 'Checking if plans key exists');
     });
     it('getRegions', async () => {
-        const paymentMethods: any = await cloudAPIClient.getRegions('AWS');
-        expect(paymentMethods['regions']).not.to.eql(undefined, 'Checking if regions key exists');
+        const regions: any = await cloudAPIClient.getRegions('AWS');
+        expect(regions.length).gte(0, 'Checking if regions key exists');
     });
   });
