@@ -510,7 +510,7 @@ export class CloudAPISDK {
     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus): Promise<void> { 
         let subscription: any = await this.getSubscription(subscriptionId);
         let subscriptionStatus: SubscriptionStatus = subscription['status'];
-        while (subscriptionStatus != expectedStatus && subscriptionStatus != SubscriptionStatus.error) { 
+        while (subscriptionStatus !== expectedStatus && (subscriptionStatus !== SubscriptionStatus.error || subscriptionStatus !== undefined)) { 
             await this.sleep(1);
             subscription = await this.getSubscription(subscriptionId);
             subscriptionStatus = await subscription['status'];
@@ -526,7 +526,7 @@ export class CloudAPISDK {
     async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus): Promise<void> {
         let database: any = await this.getDatabase(subscriptionId, databaseId);
         let databaseStatus: DatabaseStatus = database['status'];
-        while (databaseStatus != expectedStatus && databaseStatus != DatabaseStatus.error) { 
+        while (databaseStatus !== expectedStatus && (databaseStatus !== DatabaseStatus.error || databaseStatus !== undefined)) { 
             await this.sleep(1);
             database = await this.getDatabase(subscriptionId, databaseId);
             databaseStatus = await database['status'];
@@ -541,7 +541,7 @@ export class CloudAPISDK {
     async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus): Promise<void> {
         let cloudAccount: any = await this.getCloudAccount(cloudAccountId);
         let cloudAccountStatus: CloudAccountStatus = cloudAccount['status'];
-        while (cloudAccountStatus != expectedStatus && cloudAccountStatus != CloudAccountStatus.error) { 
+        while (cloudAccountStatus !== expectedStatus && (cloudAccountStatus !== CloudAccountStatus.error || cloudAccountStatus !== undefined)) { 
             await this.sleep(1);
             cloudAccount = await this.getCloudAccount(cloudAccountId);
             cloudAccountStatus = await cloudAccount['status'];
@@ -556,7 +556,7 @@ export class CloudAPISDK {
     async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<any> {
         let task: any = await this.getTask(taskId);
         let taskStatus: TaskStatus = task['status'];
-        while (taskStatus != expectedStatus && taskStatus != TaskStatus.error) { 
+        while (taskStatus !== expectedStatus && (taskStatus !== TaskStatus.error || taskStatus !== undefined)) { 
             await this.sleep(1);
             task = await this.getTask(taskId);
             taskStatus = await task['status'];
