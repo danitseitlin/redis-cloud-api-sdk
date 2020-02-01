@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../src/api';
 import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account'
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: 'your-access-key',
@@ -26,6 +26,9 @@ describe('Testing cloud account', async function() {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
         expect(cloudAccountId).not.to.eql(undefined, 'Checking if the cloud account is created');
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        expect(cloudAccount['stats']).to.eql(CloudAccountStatus.active, 'Checking the cloud account was created');
     });
     it('getCloudAccount', async () => {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
@@ -35,6 +38,7 @@ describe('Testing cloud account', async function() {
     });
     it('deleteCloudAccount', async () => {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount['error']).to.eql('Not Found', 'Checking if the cloud account doesnt exist');
     });

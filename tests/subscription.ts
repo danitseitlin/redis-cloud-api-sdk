@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus } from '../src/api';
 import { CreateSubscriptionParameters } from '../src/interfaces/subscription';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: 'your-access-key',
@@ -18,7 +18,6 @@ describe('Testing subscription', async function() {
     const cloudAccount: any = cloudAccounts.find((cloudAccount: any) => cloudAccount['id'] !== 1);
     it('createSubscription', async () => {
         const createParameters: CreateSubscriptionParameters = {
-            dryRun: true,
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
                 cloudAccountId: cloudAccount['id'],
@@ -37,6 +36,7 @@ describe('Testing subscription', async function() {
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
         expect(createResponse['error']).not.to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
     });
     it('getSubscriptions', async () => {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
