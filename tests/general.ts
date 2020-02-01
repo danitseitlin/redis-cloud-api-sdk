@@ -1,8 +1,9 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
+import { TEST_CONFIG } from './config';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: 'your-access-key',
-    secretKey: 'your-secret-key'
+    accessKey: TEST_CONFIG.API_ACCESS_KEY,
+    secretKey: TEST_CONFIG.API_SECRET_KEY
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {

@@ -1,14 +1,15 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../src/api';
 import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account'
+import { TEST_CONFIG } from './config';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: 'your-access-key',
-    secretKey: 'your-secret-key'
+    accessKey: TEST_CONFIG.API_ACCESS_KEY,
+    secretKey: TEST_CONFIG.API_SECRET_KEY
 }
 const cloudAccountCredentials: CreateCloudAccountParameters = {
     name: 'My cloud account',
-    accessKeyId: 'access-key-id',
-    accessSecretKey: 'access-secret-key',
+    accessKeyId: TEST_CONFIG.AWS_ACCESS_ID,
+    accessSecretKey: TEST_CONFIG.AWS_SECRET_KEY,
     consoleUsername: 'console-username',
     consolePassword: 'console-password',
     signInLoginUrl: 'sign-in-login-url'
