@@ -3,7 +3,8 @@ import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
 import { TEST_CONFIG } from './config';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: TEST_CONFIG.API_ACCESS_KEY,
-    secretKey: TEST_CONFIG.API_SECRET_KEY
+    secretKey: TEST_CONFIG.API_SECRET_KEY,
+    domain: TEST_CONFIG.ENVIRONMENT
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {

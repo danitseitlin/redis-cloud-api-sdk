@@ -4,7 +4,8 @@ import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account'
 import { TEST_CONFIG } from './config';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: TEST_CONFIG.API_ACCESS_KEY,
-    secretKey: TEST_CONFIG.API_SECRET_KEY
+    secretKey: TEST_CONFIG.API_SECRET_KEY,
+    domain: TEST_CONFIG.ENVIRONMENT
 }
 const cloudAccountCredentials: CreateCloudAccountParameters = {
     name: 'My cloud account',
@@ -29,7 +30,7 @@ describe('Testing cloud account', async function() {
         expect(cloudAccountId).not.to.eql(undefined, 'Checking if the cloud account is created');
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['stats']).to.eql(CloudAccountStatus.active, 'Checking the cloud account was created');
+        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Checking the cloud account was created');
     });
     it('getCloudAccount', async () => {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
