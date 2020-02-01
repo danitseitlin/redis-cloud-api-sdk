@@ -35,7 +35,7 @@ export class CloudAPISDK {
 
     //Account related requests
     /**
-     * A function that returns current account and related information
+     * Returning current account and related information
      */
     async getAccountInformation(): Promise<any> {
         try {
@@ -48,7 +48,7 @@ export class CloudAPISDK {
     }
     
     /**
-     * A function that returns a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
+     * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
     async getDatabaseModules(): Promise<any> {
         try {
@@ -61,7 +61,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns system log information for current account
+     * Returning system log information for current account
      * @param limit Maximum number of items to return
      * @param offset Number of items to skip
      */
@@ -76,7 +76,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a lookup list of current account’s payment methods
+     * Returning a lookup list of current account’s payment methods
      */
     async getPaymentMethods(): Promise<any> {
         try {
@@ -89,7 +89,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a lookup list of current account's plans
+     * Returning a lookup list of current account's plans
      * @param provider The cloud provider of the plan
      */
     async getPlans(provider: SubscriptionCloudProviderTypes) {
@@ -103,7 +103,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a lookup list of current account's regions
+     * Returning a lookup list of current account's regions
      * @param provider The cloud provider of the plan
      */
     async getRegions(provider: SubscriptionCloudProviderTypes) {
@@ -118,7 +118,7 @@ export class CloudAPISDK {
 
     //Subscription related requests
     /**
-     * A function that returns a lookup list of current Account's subscriptions
+     * Returning a lookup list of current account's subscriptions
      */
     async getSubscriptions(): Promise<any> {
         try {
@@ -131,7 +131,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a subscription owned by the current account
+     * Returning a subscription
      * @param subscriptionId The id of the subscription
      */
     async getSubscription(subscriptionId: number): Promise<any> {
@@ -145,14 +145,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that creates a subscription using given parameters
+     * Creating a subscription
      * @param createParameters The given parameters given for the subscription creation
      */
     async createSubscription(createParameters: CreateSubscriptionParameters): Promise<any> {
         try {
             const response: any = await this.httpClient.post('/subscriptions', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         
@@ -163,7 +163,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that updates and existing subscription
+     * Updating a subscription
      * @param subscriptionId The id of the subscription
      * @param updateParameters The given update parameters to update the subscription with
      */
@@ -171,7 +171,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -180,14 +180,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that delete's an existing subscription
+     * Deleting a subscription
      * @param subscriptionId The id of the subscription
      */
     async deleteSubscription(subscriptionId: number): Promise<any> {
         try {
             const response:any = await this.httpClient.delete(`/subscriptions/${subscriptionId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -196,14 +196,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns the subscription cidr whitelists
+     * Returning a lookup list of a subscription CIDR whitelists
      * @param subscriptionId The id of the subscription
      */
     async getSubscriptionCidrWhitelists(subscriptionId: number): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -212,7 +212,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that updates the subscription cidr whitelists with given parameters
+     * Updating a subscription CIDR whitelists
      * @param subscriptionId The id of the subscription
      * @param updateParameters The parameters to update the subscription with
      */
@@ -220,7 +220,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -229,14 +229,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns the subscription VPC peerings
+     * Returning a lookup list of the subscription VPC Peerings
      * @param subscriptionId The id of the subscription
      */
     async getSubscriptionVpcPeerings(subscriptionId: number): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -245,7 +245,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that created a subscription VPC peering
+     * Creating a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
      */
@@ -253,7 +253,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -262,7 +262,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that delete's the VPC peering
+     * Deleting a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the VPC peering
      */
@@ -270,7 +270,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -280,7 +280,7 @@ export class CloudAPISDK {
 
     //Databases related requests
     /**
-     * A function that returns a lookup list of databases owned by the account
+     * Returning a lookup list of databases owned by the account
      * @param subscriptionId The id of the subscription
      */
     async getDatabases(subscriptionId: number): Promise<any> {
@@ -294,7 +294,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that creates a database
+     * Creating a database
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the database 
      */
@@ -302,7 +302,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -311,7 +311,7 @@ export class CloudAPISDK {
     }   
     
     /**
-     * A function that returns a database
+     * Returning a database
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      */
@@ -326,7 +326,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that updates a database
+     * Updating a database
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      * @param updateParameters The update parameters to update the database
@@ -335,7 +335,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -344,7 +344,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that delete's a database
+     * Deleting a database
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      */
@@ -352,7 +352,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -361,7 +361,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that back's up a database
+     * Backing up a database
      * @param subscriptionId The id of the subscription 
      * @param databaseId The id of the database
      */
@@ -369,7 +369,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -378,7 +378,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that import into a database
+     * Importing a dataset into a database
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      * @param importParameters The import parameters to import into a database
@@ -387,7 +387,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`, importParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -397,12 +397,12 @@ export class CloudAPISDK {
 
     //Cloud accounts related requests
     /**
-     * A function that returns a lookup list of cloud accounts owned by the account
+     * Returning a lookup list of cloud accounts owned by the account
      */
     async getCloudAccounts(): Promise<any> {
         try {
             const response: any = await this.httpClient.get('/cloud-accounts');
-            return response['data'];
+            return response['data']['cloudAccounts'];
         }
         catch(error) {
             return error;
@@ -410,14 +410,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that creates a cloud account
+     * Creating a cloud account
      * @param createParameters The create parameters to create a cloud account
      */
     async createCloudAccount(createParameters: CreateCloudAccountParameters): Promise<any> {
         try {
             const response: any = await this.httpClient.post('/cloud-accounts', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -426,7 +426,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a cloud account
+     * Returning a cloud account
      * @param cloudAccountId The id of the cloud account
      */
     async getCloudAccount(cloudAccountId: number): Promise<any> {
@@ -440,7 +440,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that updates a cloud account
+     * Updating a cloud account
      * @param cloudAccountId The id of the cloud account
      * @param updateParameters The update parameters to update a cloud account
      */
@@ -448,7 +448,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.put(`/cloud-accounts/${cloudAccountId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -457,14 +457,14 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that delete's a cloud account
+     * Deleting a cloud account
      * @param cloudAccountId The id of the cloud account
      */
     async deleteCloudAccount(cloudAccountId: number): Promise<any> {
         try {
             const response: any = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TASK_STATUS.COMPLETED);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -474,7 +474,7 @@ export class CloudAPISDK {
 
     //Tasks related requests
     /**
-     * A function that returns a lookup list of tasks owned by the account
+     * Returning a lookup list of tasks owned by the account
      */
     async getTasks(): Promise<any> {
         try {
@@ -487,7 +487,7 @@ export class CloudAPISDK {
     }
 
     /**
-     * A function that returns a task
+     * Returning a task
      * @param taskId The id of the task
      */
     async getTask(taskId: number): Promise<any> {
@@ -500,20 +500,68 @@ export class CloudAPISDK {
         }
     }
 
+    /*--------------------------------------------------------------------------------------Helper--functions-----------------------------------------------------------------------------------*/
+    
     /**
-     * Waiting for task status to become given status
-     * @param taskId The id of the task
-     * @param status The expected status
+     * Waiting for the subscription status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param expectedStatus The expected status
      */
-    async waitForTaskStatus(taskId: number, status: TASK_STATUS): Promise<any> {
+    async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus): Promise<void> { 
+        let subscription: any = await this.getSubscription(subscriptionId);
+        let subscriptionStatus: SubscriptionStatus = subscription['status'];
+        while (subscriptionStatus != expectedStatus && subscriptionStatus != SubscriptionStatus.error) { 
+            await this.sleep(1);
+            subscription = await this.getSubscription(subscriptionId);
+            subscriptionStatus = await subscription['status'];
+        }
+    }
+
+    /**
+     * Waiting for database status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param databaseId The id of the database
+     * @param expectedStatus The expected status
+     */
+    async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus): Promise<void> {
+        let database: any = await this.getDatabase(subscriptionId, databaseId);
+        let databaseStatus: DatabaseStatus = database['status'];
+        while (databaseStatus != expectedStatus && databaseStatus != DatabaseStatus.error) { 
+            await this.sleep(1);
+            database = await this.getDatabase(subscriptionId, databaseId);
+            databaseStatus = await database['status'];
+        }
+    }
+
+    /**
+     * Waiting for cloud account status to change to a given status
+     * @param cloudAccountId The id of the cloud account
+     * @param expectedStatus The expected status
+     */
+    async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus): Promise<void> {
+        let cloudAccount: any = await this.getCloudAccount(cloudAccountId);
+        let cloudAccountStatus: CloudAccountStatus = cloudAccount['status'];
+        while (cloudAccountStatus != expectedStatus && cloudAccountStatus != CloudAccountStatus.error) { 
+            await this.sleep(1);
+            cloudAccount = await this.getCloudAccount(cloudAccountId);
+            cloudAccountStatus = await cloudAccount['status'];
+        }
+    }
+
+    /**
+     * Waiting for task status to change to a given status
+     * @param taskId The id of the task
+     * @param expectedStatus The expected status
+     */
+    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<any> {
         let task: any = await this.getTask(taskId);
-        let taskStatus: string = task['status'];
-        while (taskStatus != status && taskStatus != TASK_STATUS.ERROR) { 
+        let taskStatus: TaskStatus = task['status'];
+        while (taskStatus != expectedStatus && taskStatus != TaskStatus.error) { 
             await this.sleep(1);
             task = await this.getTask(taskId);
             taskStatus = await task['status'];
         }
-        if (taskStatus === TASK_STATUS.ERROR) { 
+        if (taskStatus === TaskStatus.error) { 
             const errorType: string = task['response']['error']['type'];
             const errorStatus: string = task['response']['error']['status'];
             const errorDescription: string = task['response']['error']['description'];
@@ -548,9 +596,57 @@ export interface CloudAPISDKParameters {
 }
 
 /**
- * The available task statuses
+ * The available subscription statuses
+ * @param active A subscription status indicating the subscription is active
+ * @param pending A subscription status indicating the subscription is pending
+ * @param deleted A subscription status indicating the subscription is deleted
+ * @param error A subscription status indicating the subscription ended up with error
  */
-export enum TASK_STATUS {
-    COMPLETED = 'processing-completed',
-    ERROR = 'processing-error'
-} 
+export enum SubscriptionStatus {
+    active = 'active',
+    pending = 'pending',
+    deleted = 404,
+    error = 'error'
+}
+
+/**
+ * The available database statuses
+ * @param active A database status indicating the database is active
+ * @param pending A database status indicating the database is pending
+ * @param pendingChange A database status indicating the database is pending a change
+ * @param deleted A database status indicating the database is deleted
+ * @param error A database status indicating the database ended up with error
+ */
+export enum DatabaseStatus {
+    active = 'active',
+    pending = 'draft',
+    pendingChange = 'active-change-pending',
+    deleted = 404,
+    error = 'error'
+}
+
+/**
+ * The available cloud account statuses
+ * @param active A cloud account status indicating the cloud account is active
+ * @param pending A cloud account status indicating the cloud account is pending
+ * @param pendingChange A cloud account status indicating the cloud account is pending a change
+ * @param deleted A cloud account status indicating the cloud account is deleted
+ * @param error A cloud account status indicating the cloud account ended up with error
+ */
+export enum CloudAccountStatus {
+    active = 'active',
+    pending = 'draft',
+    pendingChange = 'change-draft',
+    deleted = 404,
+    error = 'error'
+}
+
+/**
+ * The available task statuses
+ * @param completed A task status indicating the task is completed
+ * @param error A task status indicating the task ended up with error
+ */
+export enum TaskStatus {
+    completed = 'processing-completed',
+    error = 'processing-error'
+}
