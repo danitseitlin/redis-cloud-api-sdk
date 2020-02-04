@@ -518,6 +518,24 @@ export class CloudAPISDK {
     }
 
     /**
+     * Waiting for the subscription VPC peering status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param vpcPeeringId The id of the subscription VPC peering
+     * @param expectedStatus The expected status
+     */
+    async waitForSubscriptionVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: string) {
+        let subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
+        let subscriptionVpcPeering = await subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
+        let subscriptionVpcPeeringStatus = subscriptionVpcPeering['status'];
+        while (subscriptionVpcPeeringStatus !== expectedStatus && subscriptionVpcPeeringStatus !== SubscriptionStatus.error && subscriptionVpcPeeringStatus !== undefined) { 
+            await this.sleep(1);
+            subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
+            subscriptionVpcPeering = await subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
+            subscriptionVpcPeeringStatus = subscriptionVpcPeering['status'];
+        }
+    }
+
+    /**
      * Waiting for database status to change to a given status
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
@@ -607,6 +625,20 @@ export enum SubscriptionStatus {
     pending = 'pending',
     deleted = 404,
     error = 'error'
+}
+
+/**
+ * The available subscription vpc peering statuses
+ * @param active A subscription VPC peering status indicating the subscription VPC peering is active
+ * @param inactive A subscription VPC peering status indicating the subscription VPC peering is inactive
+ * @param pending A subscription VPC peering status indicating the subscription VPC peering is pending
+ * @param error A subscription VPC peering status indicating the subscription VPC peering is error
+ */
+export enum SubscriptionVpcPeeringStatus {
+    active = 'active',
+    inactive = 'inactive',
+    pending = 'pending-acceptance',
+    error = 'failed'
 }
 
 /**

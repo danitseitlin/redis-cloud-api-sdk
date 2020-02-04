@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus } from '../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus } from '../src/api';
 import { CreateSubscriptionParameters } from '../src/interfaces/subscription';
 import { TEST_CONFIG } from './config';
 const cloudAPISDKParameters: CloudAPISDKParameters = {
@@ -75,9 +75,10 @@ describe('Testing subscription', async function() {
             vpcCidr: TEST_CONFIG.VPC_PEERING_CIDR,
             vpcId: TEST_CONFIG.VPC_PEERING_ID
         });
+        vpcPeeringId = createResponse['resourceId'];
+        await cloudAPIClient.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, SubscriptionVpcPeeringStatus.active);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings['resource']['peerings'][0]).gt(0, 'Subscription vpc was not created');
-        vpcPeeringId = subscriptionVpcPeerings['resource']['peerings'][0]['id'];
     }); 
     it('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
