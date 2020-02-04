@@ -91,7 +91,7 @@ describe('Testing subscription', async function() {
             const databaseId: number = databases[i]['databaseId'];
             await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-            const database = cloudAPIClient.getDatabase(subscriptionId, databaseId);
+            const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
             expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
         }
         await cloudAPIClient.deleteSubscription(subscriptionId);
