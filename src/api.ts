@@ -286,7 +286,7 @@ export class CloudAPISDK {
     async getDatabases(subscriptionId: number): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases`);
-            return response['data'];
+            return response['data']['subscription'][0]['databases'];
         }
         catch(error) {
             return error;
