@@ -13,11 +13,11 @@ describe('Testing databases', async function() {
     this.timeout(1000 * 60 * 60);
     let subscriptionId: number = -1;
     let databaseId: number = -1;
-    const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
-    const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-    const paymentMethod: any = paymentMethods[0];
-    const cloudAccount: any = cloudAccounts.find((cloudAccount: any) => cloudAccount['id'] !== 1);
     it('createSubscription', async () => {
+        const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
+        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        const paymentMethod: any = paymentMethods[0];
+        const cloudAccount: any = cloudAccounts.find((cloudAccount: any) => cloudAccount['id'] !== 1);
         const createParameters: CreateSubscriptionParameters = {
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
@@ -25,7 +25,7 @@ describe('Testing databases', async function() {
                 regions: [{
                     region: 'us-east-1',
                     networking: {
-                        deploymentCIDR: '192.168.1.0'
+                        deploymentCIDR: '192.168.1.0/24'
                     }
                 }]
             }],
@@ -35,7 +35,7 @@ describe('Testing databases', async function() {
             }]
         };
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        expect(createResponse['error']).not.to.eql(undefined, `Error was found ${createResponse['error']}`);
+        expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
     });
