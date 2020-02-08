@@ -86,7 +86,7 @@ describe('Testing databases', async function() {
             importFromUri: ['ftp-import-url']
         };
         const response: any = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
-        expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
+        expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
     });
 });
