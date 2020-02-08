@@ -385,7 +385,7 @@ export class CloudAPISDK {
      */
     async importIntoDatabase(subscriptionId: number, databaseId: number, importParameters: DatabaseImportParameters): Promise<any> {
         try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`, importParameters);
+            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/import`, importParameters);
             const taskId: number = await response['data']['taskId'];
             const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
