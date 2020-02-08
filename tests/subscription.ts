@@ -109,7 +109,7 @@ describe('Testing subscription', async function() {
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
             const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
             if(TEST_CONFIG.DEBUG) console.log(database);
-            const error: string = database.find((status: string) => status !== undefined);  
+            const error: string = database.find((error: any) => error['status'] !== undefined);  
             if(TEST_CONFIG.DEBUG) console.log(error);
             expect(error['status']).to.eql('Not Found', 'Checking that the database was deleted');
         }
@@ -117,7 +117,7 @@ describe('Testing subscription', async function() {
         if(TEST_CONFIG.DEBUG) console.log(deleteSubscriptionResponse);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        const error: string = subscription.find((status: string) => status !== undefined);  
+        const error: string = subscription.find((error: any) => error['status'] !== undefined);  
         if(TEST_CONFIG.DEBUG) console.log(error);
         expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
     }); 
