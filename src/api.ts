@@ -204,7 +204,7 @@ export class CloudAPISDK {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = await response['data']['taskId'];
             const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
-            return taskResponse['response'];
+            return taskResponse['response']['resource'];
         }
         catch(error) {
             return error;
@@ -237,7 +237,7 @@ export class CloudAPISDK {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = await response['data']['taskId'];
             const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
-            return taskResponse['response'];
+            return taskResponse['response']['resource'];
         }
         catch(error) {
             return error;
