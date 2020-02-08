@@ -6,5 +6,6 @@ export const TEST_CONFIG = {
     VPC_PEERING_ID: 'your-vpc-peering-id',
     VPC_PEERING_CIDR: 'your-vpc-peering-cidr',
     VPC_PEERING_AWS_ACCOUNT_ID: 'your-vpc-peering-aws-account-id',
-    ENVIRONMENT: 'your-testing-environment-if-needed'
+    ENVIRONMENT: 'your-testing-environment-if-needed',
+    DEBUG: false
 }
