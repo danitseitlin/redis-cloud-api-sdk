@@ -45,24 +45,29 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['error']).not.to.eql(undefined, `Error was found ${subscription['error']}`);
+        expect(subscription['id']).to.eql(subscriptionId, `Error was found ${subscription['error']}`);
     }); 
     it('updateSubscription', async () => {
+        const subscriptionName: string = 'updated-subscription';
         const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {
-            name: 'updated-subscription'
+            name: subscriptionName
         });
-        expect(updateResponse['error']).to.eql(undefined, `Error was found ${updateResponse['error']}`);
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
+        expect(subscription['name']).to.eql(subscriptionName, `Subscription name was not updated: still ${subscription['name']}`);
     }); 
     it('getCidrWhitelistss', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
     it('updateCidrWhitelists', async () => {
+        const updatedCidrIps: string[] = ['192.168.20.0/24'];
         const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
-            cidrIps: ['192.168.20.0/24']
+            cidrIps: updatedCidrIps
         });
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        expect(updateResponse['error']).to.eql(undefined, `Error was found ${updateResponse['error']}`);
+        const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
+        expect(cidrWhitelists).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
@@ -78,13 +83,13 @@ describe('Testing subscription', async function() {
         vpcPeeringId = createResponse['resourceId'];
         await cloudAPIClient.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, SubscriptionVpcPeeringStatus.active);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        expect(subscriptionVpcPeerings['resource']['peerings'][0]).gt(0, 'Subscription vpc was not created');
+        expect(subscriptionVpcPeerings.length).gt(0, 'Subscription VPC Peering was not created!');
     }); 
     it('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         const subscriptionVpcPeering: any = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any) => vpcPeering['id'] === vpcPeeringId);
-        expect(subscriptionVpcPeering).to.eql(undefined, 'Subscription vpc peering was not removed');
+        expect(subscriptionVpcPeering['error']).to.eql(undefined, 'Subscription vpc peering was not removed');
     });
     it('deleteSubscription', async () => {
         const databases = await cloudAPIClient.getDatabases(subscriptionId);
