@@ -137,7 +137,7 @@ export class CloudAPISDK {
     async getSubscription(subscriptionId: number): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
-            return response['data']['subscription'];
+            return response['data'];
         }
         catch(error) {
             return error;
