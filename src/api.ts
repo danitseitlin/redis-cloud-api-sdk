@@ -92,7 +92,7 @@ export class CloudAPISDK {
      * Returning a lookup list of current account's plans
      * @param provider The cloud provider of the plan
      */
-    async getPlans(provider: SubscriptionCloudProviderTypes) {
+    async getPlans(provider: SubscriptionCloudProviderTypes): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/plans?provider=${provider}`);
             return response['data']['plans'];
@@ -106,7 +106,7 @@ export class CloudAPISDK {
      * Returning a lookup list of current account's regions
      * @param provider The cloud provider of the plan
      */
-    async getRegions(provider: SubscriptionCloudProviderTypes) {
+    async getRegions(provider: SubscriptionCloudProviderTypes): Promise<any> {
         try {
             const response: any = await this.httpClient.get(`/regions?provider=${provider}`);
             return response['data']['regions'];
@@ -116,7 +116,8 @@ export class CloudAPISDK {
         }
     }
 
-    //Subscription related requests
+    /* ------------------------------------------------------------------------------Subscription------------------------------------------------------------------------------*/
+
     /**
      * Returning a lookup list of current account's subscriptions
      */
@@ -129,21 +130,7 @@ export class CloudAPISDK {
             return error;
         }
     }
-
-    /**
-     * Returning a subscription
-     * @param subscriptionId The id of the subscription
-     */
-    async getSubscription(subscriptionId: number): Promise<any> {
-        try {
-            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
-            return response['data'];
-        }
-        catch(error) {
-            return error;
-        }
-    }
-
+    
     /**
      * Creating a subscription
      * @param createParameters The given parameters given for the subscription creation
@@ -160,6 +147,20 @@ export class CloudAPISDK {
             return error;
         }
         
+    }
+
+    /**
+     * Returning a subscription
+     * @param subscriptionId The id of the subscription
+     */
+    async getSubscription(subscriptionId: number): Promise<any> {
+        try {
+            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
+            return response['data'];
+        }
+        catch(error) {
+            return error;
+        }
     }
 
     /**
@@ -278,7 +279,8 @@ export class CloudAPISDK {
         }
     }
 
-    //Databases related requests
+    /* ---------------------------------------------------------------------------------Database---------------------------------------------------------------------------------*/
+
     /**
      * Returning a lookup list of databases owned by the account
      * @param subscriptionId The id of the subscription
@@ -367,7 +369,7 @@ export class CloudAPISDK {
      */
     async backupDatabase(subscriptionId: number, databaseId: number): Promise<any> {
         try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
+            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
             const taskId: number = await response['data']['taskId'];
             const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
@@ -395,7 +397,7 @@ export class CloudAPISDK {
         }
     }
 
-    //Cloud accounts related requests
+    /* ------------------------------------------------------------------------------Cloud-Account------------------------------------------------------------------------------*/
     /**
      * Returning a lookup list of cloud accounts owned by the account
      */
@@ -472,7 +474,7 @@ export class CloudAPISDK {
         }
     }
 
-    //Tasks related requests
+    /*------------------------------------------------------------------------------Task-------------------------------------------------------------------------------/*
     /**
      * Returning a lookup list of tasks owned by the account
      */
