@@ -18,4 +18,5 @@ const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 const accountInformation: { [string:key]: any } = await cloudAPIClient.getAccountInformation();
 ```
 
-All the API calls from the official Swagger documentation are covered in the SDK (https://api.redislabs.com/v1/swagger-ui.html).
+All the API calls from the official Swagger documentation are covered in the SDK
+(https://api.redislabs.com/v1/swagger-ui.html).
