@@ -1,9 +1,9 @@
 # rl-cloud-api-sdk
-###What is this module for?###
+### What is this module for? ###
 This module is an SDK for the RedisLabs Cloud API.
 Customers of the Cloud API can use this simple SDK for easier usage of the product.
 
-###How to initialize:###
+### How to initialize: ###
 ```
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: 'API access key',
@@ -12,7 +12,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 ```
 
-###An example for usage:###
+### An example for usage: ###
 ```
 //Getting account information
 const accountInformation: { [string:key]: any } = await cloudAPIClient.getAccountInformation();
