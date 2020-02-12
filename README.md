@@ -1,6 +1,6 @@
 # rl-cloud-api-sdk
 ### What is this module for? ###
-This module is an SDK for the RedisLabs Cloud API.
+This module is a SDK for the RedisLabs Cloud API.
 Customers of the Cloud API can use this simple SDK for easier usage of the product.
 
 ### How to initialize: ###
