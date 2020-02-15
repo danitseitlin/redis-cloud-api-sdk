@@ -1,7 +1,7 @@
 {
   "name": "rl-cloud-api-sdk",
   "version": "0.0.1",
-  "description": "This is a client for the Redislabs Cloud API ",
+  "description": "This module is a SDK for the RedisLabs Cloud API. Customers of the Cloud API can use this simple SDK for easier usage of the product.",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
