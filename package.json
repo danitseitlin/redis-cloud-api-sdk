@@ -11,6 +11,10 @@
     "test-database": "mocha -r ts-node/register tests/database.ts",
     "test-subscription": "mocha -r ts-node/register tests/subscription.ts"
   },
+  "keywords": [
+    "Cloud API",
+    "Redis"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/danitseitlin/rl-cloud-api-sdk.git"
