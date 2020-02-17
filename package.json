@@ -1,6 +1,6 @@
 {
   "name": "rl-cloud-api-sdk",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "This is a client for the Redislabs Cloud API ",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/danitseitlin/rl-cloud-api-sdk.git"
   },
   "author": "Dani Tseitlin",
-  "license": "ISC",
+  "license": "BSD",
   "bugs": {
     "url": "https://github.com/danitseitlin/rl-cloud-api-sdk/issues"
   },
