@@ -20,7 +20,7 @@
     "url": "git+https://github.com/danitseitlin/rl-cloud-api-sdk.git"
   },
   "author": "Dani Tseitlin",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/danitseitlin/rl-cloud-api-sdk/issues"
   },
