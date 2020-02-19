@@ -1,16 +1,19 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../src/api';
 import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account'
-import { TEST_CONFIG } from './config';
+import { loadArguments } from './helpers';
+
+const TEST_ARGUMENTS = loadArguments();
+
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: TEST_CONFIG.API_ACCESS_KEY,
-    secretKey: TEST_CONFIG.API_SECRET_KEY,
-    domain: TEST_CONFIG.ENVIRONMENT
+    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
+    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
+    domain: TEST_ARGUMENTS.ENVIRONMENT
 }
 const cloudAccountCredentials: CreateCloudAccountParameters = {
     name: 'My cloud account',
-    accessKeyId: TEST_CONFIG.AWS_ACCESS_ID,
-    accessSecretKey: TEST_CONFIG.AWS_SECRET_KEY,
+    accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
+    accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,
     consoleUsername: 'console-username',
     consolePassword: 'console-password',
     signInLoginUrl: 'sign-in-login-url'

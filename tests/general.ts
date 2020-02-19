@@ -1,17 +1,20 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../src/api';
-import { TEST_CONFIG } from './config';
+import { loadArguments } from './helpers';
+
+const TEST_ARGUMENTS = loadArguments();
+
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: TEST_CONFIG.API_ACCESS_KEY,
-    secretKey: TEST_CONFIG.API_SECRET_KEY,
-    domain: TEST_CONFIG.ENVIRONMENT
+    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
+    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
+    domain: TEST_ARGUMENTS.ENVIRONMENT
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {
     this.timeout(1000 * 60 * 60);
     it('getAccountInformation', async () => {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
-        expect(accountInformation).not.to.eql(undefined, 'Checking the account information json is not empty');
+        expect(Object.keys(accountInformation).length).gte(0, 'Checking the account information json is not empty');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
