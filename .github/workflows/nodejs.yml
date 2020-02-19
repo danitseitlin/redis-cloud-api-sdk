@@ -19,6 +19,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm install
     - run: npm run build --if-present
-    - run: npm test-general
+    - run: npm run test-general
       env:
         CI: true
