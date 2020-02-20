@@ -50,9 +50,14 @@ describe('Testing cloud account', async function() {
         expect(cloudAccount['error']).not.to.eql('Not Found', 'Checking if the cloud account exists');
     });
     it('deleteCloudAccount', async () => {
+        console.log(`=== Deleting cloud account (${cloudAccountId}) ===`);
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        console.log(`Waiting for cloud account to reach status deleted`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        console.log(`============ Cloud account ============`);
+        console.log(cloudAccount);
+        console.log('\n');
         expect(cloudAccount['error']).to.eql(undefined, 'Checking if the cloud account doesnt exist');
     });
   });
