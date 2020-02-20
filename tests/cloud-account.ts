@@ -44,7 +44,7 @@ describe('Testing cloud account', async function() {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.length).gt(0, 'Expecting to have more than 1 cloud account');
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        console.log(`==== console.log(`============ Cloud account ============`);
+        console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
         console.log('\n');
         expect(cloudAccount['error']).not.to.eql('Not Found', 'Checking if the cloud account exists');
