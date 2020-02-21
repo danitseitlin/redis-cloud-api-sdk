@@ -60,6 +60,6 @@ describe('Testing cloud account', async function() {
         //status: 404,
     //  statusText: 'Not Found',
         // console.log(JSON.parse(cloudAccount))
-        expect(cloudAccount.indexOf(`statusText: 'Not Found'`) !== -1).to.contain(true, 'Checking if the cloud account doesnt exist');
+        expect(cloudAccount.toString().indexOf(`statusText: 'Not Found'`) !== -1).to.contain(true, 'Checking if the cloud account doesnt exist');
     });
   });
