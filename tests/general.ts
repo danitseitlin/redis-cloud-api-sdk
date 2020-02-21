@@ -14,18 +14,30 @@ describe('Testing general functions', async function() {
     this.timeout(1000 * 60 * 60);
     it('getAccountInformation', async () => {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
+        console.log('============= Account Information =============');
+        console.log(accountInformation);
+        console.log('===============================================')
         expect(Object.keys(accountInformation).length).gte(0, 'Checking the account information json is not empty');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
+        console.log('============= Database modules =============');
+        console.log(databaseModules);
+        console.log('============================================');
         expect(databaseModules.length).gte(0, 'Checking if modules key exists');
     });
     it('getSystemLogs', async () => {
         const systemLogs: any = await cloudAPIClient.getSystemLogs(100, 0);
+        console.log('============= System logs =============');
+        console.log(systemLogs);
+        console.log('=======================================')
         expect(systemLogs.length).gte(0, 'Checking if enteries key exists');
     }); 
     it('getPaymentMethods', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
+        console.log('============= Payment methods =============');
+        console.log(paymentMethods);
+        console.log('===========================================')
         expect(paymentMethods.length).gte(0, 'Checking if paymentMethods key exists');
     });
     it('getPlans', async () => {
