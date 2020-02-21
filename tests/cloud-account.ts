@@ -32,7 +32,7 @@ describe('Testing cloud account', async function() {
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
         console.log(`============ Cloud account (${cloudAccountId}) ============`);
         console.log(cloudAccount);
-        console.log(`==========================================================\n`);
+        console.log(`===========================================================\n`);
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('getCloudAccounts', async () => {
@@ -43,7 +43,7 @@ describe('Testing cloud account', async function() {
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
         console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
-        console.log('\n');
+        console.log(`=======================================\n`);
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('deleteCloudAccount', async () => {
@@ -52,14 +52,9 @@ describe('Testing cloud account', async function() {
         console.log(`Waiting for cloud account to reach status deleted`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-
         console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
-        console.log('\n');
-
-        //status: 404,
-    //  statusText: 'Not Found',
-        // console.log(JSON.parse(cloudAccount))
-        expect(cloudAccount.toString().indexOf(`statusText: 'Not Found'`) !== -1).to.contain(true, 'Checking if the cloud account doesnt exist');
+        console.log(`=======================================\n`);
+        expect(cloudAccount['status']).to.eql(undefined, 'Cloud Account Status');
     });
   });
