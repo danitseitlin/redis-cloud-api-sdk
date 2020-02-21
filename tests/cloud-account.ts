@@ -37,6 +37,9 @@ describe('Testing cloud account', async function() {
     });
     it('getCloudAccounts', async () => {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        console.log(`============ Cloud accounts ============`);
+        console.log(cloudAccounts);
+        console.log(`========================================\n`);
         expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     })
     it('getCloudAccount', async () => {
