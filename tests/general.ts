@@ -29,11 +29,15 @@ describe('Testing general functions', async function() {
         expect(paymentMethods.length).gte(0, 'Checking if paymentMethods key exists');
     });
     it('getPlans', async () => {
-        const plans: any = await cloudAPIClient.getPlans('AWS');
-        expect(plans.length).gte(0, 'Checking if plans key exists');
+        const AWSPlans: any = await cloudAPIClient.getPlans('AWS');
+        expect(AWSPlans.length).gte(0, 'Checking if AWS Plans exist');
+        const GCPPlans: any = await cloudAPIClient.getPlans('GCP');
+        expect(GCPPlans.length).gte(0, 'Checking if GCP Plans exist');
     });
     it('getRegions', async () => {
-        const regions: any = await cloudAPIClient.getRegions('AWS');
-        expect(regions.length).gte(0, 'Checking if regions key exists');
+        const AWSRegions: any = await cloudAPIClient.getRegions('AWS');
+        expect(AWSRegions.length).gte(0, 'Checking if AWS regions exist');
+        const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
+        expect(GCPRegions.length).gte(0, 'Checking if GCP regions exist');
     });
   });
