@@ -27,7 +27,7 @@ describe('Testing general functions', async function() {
         expect(databaseModules.length).gte(4, 'Database modules count');
     });
     it('getSystemLogs', async () => {
-        const systemLogs: any = await cloudAPIClient.getSystemLogs(100, 0);
+        const systemLogs: any = await cloudAPIClient.getSystemLogs(2, 0);
         console.log('============= System logs =============');
         console.log(systemLogs);
         console.log('=======================================');
@@ -42,26 +42,14 @@ describe('Testing general functions', async function() {
     });
     it('getPlans', async () => {
         const AWSPlans: any = await cloudAPIClient.getPlans('AWS');
-        console.log('============= AWS plans =============');
-        console.log(AWSPlans);
-        console.log('=====================================');
         expect(AWSPlans.length).gte(0, 'AWS plans count');
         const GCPPlans: any = await cloudAPIClient.getPlans('GCP');
-        console.log('============= GCP plans =============');
-        console.log(GCPPlans);
-        console.log('=====================================');
         expect(GCPPlans.length).gte(0, 'GCP plans count');
     });
     it('getRegions', async () => {
         const AWSRegions: any = await cloudAPIClient.getRegions('AWS');
-        console.log('============= AWS regions =============');
-        console.log(AWSRegions);
-        console.log('=======================================');
         expect(AWSRegions.length).gte(0, 'AWS regions count');
         const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
-        console.log('============= GCP regions =============');
-        console.log(GCPRegions);
-        console.log('=======================================');
         expect(GCPRegions.length).gte(0, 'GCP regions count');
     });
   });
