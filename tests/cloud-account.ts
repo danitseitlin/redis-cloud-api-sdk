@@ -23,31 +23,28 @@ const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing cloud account', async function() {
     this.timeout(1000 * 60 * 60);
     let cloudAccountId: number = -1;
-    it('getCloudAccounts', async () => {
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-        expect(cloudAccounts.length).gt(0, 'Checking if the cloud accounts are greater than 0');
-    });
     it('createCloudAccount', async () => {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
-        console.log(`cloudAccountId: ${cloudAccountId}`);
-        expect(cloudAccountId).not.to.eql(undefined, 'Checking if the cloud account is created');
+        console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
+        expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        console.log(`============ Cloud account get after creation ============`);
+        console.log(`============ Cloud account (${cloudAccountId}) ============`);
         console.log(cloudAccount);
-        console.log('\n');
-        console.log(`Cloud Account Status: ${cloudAccount['status']}`);
-        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Checking the cloud account was created');
+        console.log(`==========================================================\n`);
+        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
-    it('getCloudAccount', async () => {
+    it('getCloudAccounts', async () => {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-        expect(cloudAccounts.length).gt(0, 'Expecting to have more than 1 cloud account');
+        expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
+    })
+    it('getCloudAccount', async () => {
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
         console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
         console.log('\n');
-        expect(cloudAccount['error']).not.to.eql('Not Found', 'Checking if the cloud account exists');
+        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('deleteCloudAccount', async () => {
         console.log(`=== Deleting cloud account (${cloudAccountId}) ===`);
@@ -58,6 +55,7 @@ describe('Testing cloud account', async function() {
         console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
         console.log('\n');
+        console.log(JSON.parse(cloudAccount))
         expect(cloudAccount['error']).to.eql(undefined, 'Checking if the cloud account doesnt exist');
     });
   });
