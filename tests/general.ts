@@ -16,40 +16,52 @@ describe('Testing general functions', async function() {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
         console.log('============= Account Information =============');
         console.log(accountInformation);
-        console.log('===============================================')
-        expect(Object.keys(accountInformation).length).gte(0, 'Checking the account information json is not empty');
+        console.log('===============================================');
+        expect(accountInformation['id']).not.to.eql(undefined, 'Account id');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
         console.log('============= Database modules =============');
         console.log(databaseModules);
         console.log('============================================');
-        expect(databaseModules.length).gte(0, 'Checking if modules key exists');
+        expect(databaseModules.length).gte(4, 'Database modules count');
     });
     it('getSystemLogs', async () => {
         const systemLogs: any = await cloudAPIClient.getSystemLogs(100, 0);
         console.log('============= System logs =============');
         console.log(systemLogs);
-        console.log('=======================================')
-        expect(systemLogs.length).gte(0, 'Checking if enteries key exists');
+        console.log('=======================================');
+        expect(systemLogs.length).gte(0, 'System logs count');
     }); 
     it('getPaymentMethods', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
         console.log('============= Payment methods =============');
         console.log(paymentMethods);
-        console.log('===========================================')
-        expect(paymentMethods.length).gte(0, 'Checking if paymentMethods key exists');
+        console.log('===========================================');
+        expect(paymentMethods.length).gte(0, 'Payment methods count');
     });
     it('getPlans', async () => {
         const AWSPlans: any = await cloudAPIClient.getPlans('AWS');
-        expect(AWSPlans.length).gte(0, 'Checking if AWS Plans exist');
+        console.log('============= AWS plans =============');
+        console.log(AWSPlans);
+        console.log('=====================================');
+        expect(AWSPlans.length).gte(0, 'AWS plans count');
         const GCPPlans: any = await cloudAPIClient.getPlans('GCP');
-        expect(GCPPlans.length).gte(0, 'Checking if GCP Plans exist');
+        console.log('============= GCP plans =============');
+        console.log(GCPPlans);
+        console.log('=====================================');
+        expect(GCPPlans.length).gte(0, 'GCP plans count');
     });
     it('getRegions', async () => {
         const AWSRegions: any = await cloudAPIClient.getRegions('AWS');
-        expect(AWSRegions.length).gte(0, 'Checking if AWS regions exist');
+        console.log('============= AWS regions =============');
+        console.log(AWSRegions);
+        console.log('=======================================');
+        expect(AWSRegions.length).gte(0, 'AWS regions count');
         const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
-        expect(GCPRegions.length).gte(0, 'Checking if GCP regions exist');
+        console.log('============= GCP regions =============');
+        console.log(GCPRegions);
+        console.log('=======================================');
+        expect(GCPRegions.length).gte(0, 'GCP regions count');
     });
   });
