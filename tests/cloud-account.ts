@@ -55,4 +55,4 @@ describe('Testing cloud account', async function() {
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
     });
-  });
+});

@@ -52,4 +52,4 @@ describe('Testing general functions', async function() {
         const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
         expect(GCPRegions.length).gte(0, 'GCP regions count');
     });
-  });
+});
