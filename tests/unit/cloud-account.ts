@@ -25,7 +25,7 @@ describe('Testing cloud account', async function() {
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
-        const error = response.toString().split('config')[0]
+        const error = (response.toString().split('config')[0]).toString()
         console.log(`============ createCloudAccount ============`);
         console.log(error);
         console.log(`===========================================================\n`);
