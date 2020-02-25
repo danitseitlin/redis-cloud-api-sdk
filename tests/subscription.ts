@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus } from '../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../src/api';
 import { CreateSubscriptionParameters } from '../src/interfaces/subscription';
 import { loadArguments } from './helpers';
+import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account';
 
 const TEST_ARGUMENTS = loadArguments();
 
@@ -10,14 +11,35 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
     domain: TEST_ARGUMENTS.ENVIRONMENT
 }
+const cloudAccountCredentials: CreateCloudAccountParameters = {
+    name: 'My cloud account',
+    accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
+    accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,
+    consoleUsername: 'console-username',
+    consolePassword: 'console-password',
+    signInLoginUrl: 'sign-in-login-url'
+}
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing subscription', async function() {
     this.timeout(1000 * 60 * 60);
     let subscriptionId: number = -1;
     let vpcPeeringId: number = -1;
+    let cloudAccountId: number = -1;
+    it('createCloudAccount', async () => {
+        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        cloudAccountId = response['resourceId'];
+        console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
+        expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        console.log(`============ Cloud account (${cloudAccountId}) ============`);
+        console.log(cloudAccount);
+        console.log(`===========================================================\n`);
+        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
+    });
     it('createSubscription', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        const cloudAccounts: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const paymentMethod: any = paymentMethods[0];
         const cloudAccount: any = cloudAccounts.find((cloudAccount: any) => cloudAccount['id'] !== 1);
         const createParameters: CreateSubscriptionParameters = {
@@ -123,5 +145,11 @@ describe('Testing subscription', async function() {
         const error: string = subscription.find((error: any) => error['status'] !== undefined);  
         if(TEST_ARGUMENTS.DEBUG) console.log(error);
         expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
-    }); 
+    });
+    it('deleteCloudAccount', async () => {
+        await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+    });
   });
