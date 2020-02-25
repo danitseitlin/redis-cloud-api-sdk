@@ -1,7 +1,6 @@
 name: Node.js CI
 
 on: 
-  push:
   schedule:
     - cron:  '0 2 * * *'
 
@@ -24,6 +23,6 @@ jobs:
     - run: npm run build --if-present
     - run: npm run test-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
     - run: npm run test-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-    - run: npm run test-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+    #- run: npm run test-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
       env:
         CI: true
