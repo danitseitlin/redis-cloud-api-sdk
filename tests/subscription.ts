@@ -39,9 +39,8 @@ describe('Testing subscription', async function() {
     });
     it('createSubscription', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const paymentMethod: any = paymentMethods[0];
-        const cloudAccount: any = cloudAccounts.find((cloudAccount: any) => cloudAccount['id'] !== 1);
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
