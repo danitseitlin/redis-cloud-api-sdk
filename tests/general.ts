@@ -14,6 +14,7 @@ describe('Testing general functions', async function() {
     this.timeout(1000 * 60 * 60);
     it('getAccountInformation', async () => {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
+        console.log(JSON.parse("{" + accountInformation.split('data')[1]))
         console.log('============= Account Information =============');
         console.log(accountInformation);
         console.log('===============================================');
