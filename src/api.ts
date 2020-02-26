@@ -39,10 +39,11 @@ export class CloudAPISDK {
      */
     async getAccountInformation(): Promise<any> {
         try {
-            const response: any = await this.httpClient.get('/');
+            const response: any = await this.httpClient.get('/y');
             return response['data']['account'];
         }
         catch(error) {
+            console.log(error)
             return error;
         }
     }
