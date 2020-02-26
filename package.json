@@ -10,8 +10,8 @@
     "test-integration-database": "mocha -r ts-node/register tests/database.ts",
     "test-integration-subscription": "mocha -r ts-node/register tests/subscription.ts",
     "test-cleanup": "mocha -r ts-node/register tests/cleanup.ts",
-    "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts",
-    "test-unit-general": "mocha -r ts-node/register tests/unit/general.ts"
+    "test-unit-general": "mocha -r ts-node/register tests/unit/general.ts",
+    "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts"
   },
   "keywords": [
     "Cloud API",
