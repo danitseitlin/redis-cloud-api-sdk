@@ -34,7 +34,7 @@ describe('Testing cloud account', async function() {
         console.log('======================================');
 
         console.log('======================================');
-        const error = (response.toString().split('config')[0]).toString()
+        const error = (response.toString().split('config')[1]).toString()
         console.log(`============ createCloudAccount ============`);
         console.log(error);
         console.log(`===========================================================\n`);
