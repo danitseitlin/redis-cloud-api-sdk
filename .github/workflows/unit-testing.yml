@@ -20,7 +20,7 @@ jobs:
     - run: npm install
     - run: npm run build --if-present
     - run: npm test
-    - run: npm run test-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} 
+    #- run: npm run test-unit-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} 
     - run: npm run test-unit-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} 
       env:
         CI: true

@@ -1,0 +1,29 @@
+name: Integration testings
+
+on: 
+  schedule:
+    - cron:  '0 2 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run build --if-present
+    - run: npm run test-integration-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+    - run: npm run test-integration-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+    #- run: npm run test-integration-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+    - run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      env:
+        CI: true
