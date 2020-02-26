@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../src/api';
-import { CreateSubscriptionParameters } from '../src/interfaces/subscription';
-import { loadArguments } from './helpers';
-import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
+import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
+import { loadArguments } from '../helpers';
+import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
 
 const TEST_ARGUMENTS = loadArguments();
 

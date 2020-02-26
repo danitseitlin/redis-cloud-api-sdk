@@ -1,9 +1,9 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, CloudAccountStatus } from '../src/api';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../src/interfaces/database';
-import { CreateSubscriptionParameters } from '../src/interfaces/subscription';
-import { loadArguments } from './helpers';
-import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, CloudAccountStatus } from '../../src/api';
+import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../../src/interfaces/database';
+import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
+import { loadArguments } from '../helpers';
+import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
 
 const TEST_ARGUMENTS = loadArguments();
 

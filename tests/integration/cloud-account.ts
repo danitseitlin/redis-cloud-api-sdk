@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../src/api';
-import { CreateCloudAccountParameters } from '../src/interfaces/cloud-account'
-import { loadArguments } from './helpers';
+import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../../src/api';
+import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account'
+import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
 
