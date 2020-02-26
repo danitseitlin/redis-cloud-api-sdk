@@ -22,7 +22,7 @@ describe('Testing general functions', async function() {
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
         console.log('============= Database modules =============');
-        console.log(databaseModules);
+        console.log(databaseModules.message);
         console.log('============================================');
         expect(databaseModules.message).not.to.eql('Request failed with status code 404', 'Error message');
     });
@@ -31,25 +31,25 @@ describe('Testing general functions', async function() {
         console.log('============= System logs =============');
         console.log(systemLogs);
         console.log('=======================================');
-        expect(systemLogs.length).gte(0, 'System logs count');
+        expect(systemLogs.message).not.to.eql('Request failed with status code 404', 'Error message');
     }); 
     it('getPaymentMethods', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
         console.log('============= Payment methods =============');
         console.log(paymentMethods);
         console.log('===========================================');
-        expect(paymentMethods.length).gte(0, 'Payment methods count');
+        expect(paymentMethods.message).not.to.eql('Request failed with status code 404', 'Error message');
     });
     it('getPlans', async () => {
         const AWSPlans: any = await cloudAPIClient.getPlans('AWS');
-        expect(AWSPlans.length).gte(0, 'AWS plans count');
+        expect(AWSPlans.message).not.to.eql('Request failed with status code 404', 'Error message');
         const GCPPlans: any = await cloudAPIClient.getPlans('GCP');
-        expect(GCPPlans.length).gte(0, 'GCP plans count');
+        expect(GCPPlans.message).not.to.eql('Request failed with status code 404', 'Error message');
     });
     it('getRegions', async () => {
         const AWSRegions: any = await cloudAPIClient.getRegions('AWS');
-        expect(AWSRegions.length).gte(0, 'AWS regions count');
+        expect(AWSRegions.message).not.to.eql('Request failed with status code 404', 'Error message');
         const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
-        expect(GCPRegions.length).gte(0, 'GCP regions count');
+        expect(GCPRegions.message).not.to.eql('Request failed with status code 404', 'Error message');
     });
 });
