@@ -25,48 +25,28 @@ describe('Testing cloud account', async function() {
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
-        console.log('======================================');
-        console.log(response.toString());
-        console.log('======================================');
-        console.log('======================================');
-        console.log((response.toString().split('config')[0]).toString());
-        console.log('======================================');
-        console.log('======================================');
-
-        console.log('======================================');
-        const error = (response.toString().split('config')[1]).toString()
-        console.log(`============ createCloudAccount ============`);
-        console.log(error);
-        console.log(`===========================================================\n`);
-        expect(error).not.to.eql('Error: Request failed with status code 404', `Error message`);
-        // cloudAccountId = response['resourceId'];
-        // console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
-        // expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
-        // await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
-        // const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        // console.log(`============ Cloud account (${cloudAccountId}) ============`);
-        // console.log(cloudAccount);
-        // console.log(`===========================================================\n`);
-        // expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
+        expect(response.message).to.eql(undefined, 'Error message existence');
+        expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
-    // it('getCloudAccounts', async () => {
-    //     const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-    //     console.log(`============ Cloud accounts ============`);
-    //     console.log(cloudAccounts);
-    //     console.log(`========================================\n`);
-    //     expect(cloudAccounts.length).to.eql(2, 'Cloud accounts count');
-    // })
-    // it('getCloudAccount', async () => {
-    //     const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-    //     console.log(`============ Cloud account ============`);
-    //     console.log(cloudAccount);
-    //     console.log(`=======================================\n`);
-    //     expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
-    // });
-    // it('deleteCloudAccount', async () => {
-    //     await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-    //     await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-    //     const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-    //     expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
-    // });
+    it('getCloudAccounts', async () => {
+        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        console.log(`============ Cloud accounts ============`);
+        console.log(cloudAccounts);
+        console.log(`========================================\n`);
+        expect(cloudAccounts.message).to.eql(undefined, 'Error message existence');
+        expect(cloudAccounts.message).not.to.eql('Request failed with status code 404', 'Error message type');
+    })
+    it('getCloudAccount', async () => {
+        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        console.log(`============ Cloud account ============`);
+        console.log(cloudAccount);
+        console.log(`=======================================\n`);
+        expect(cloudAccount.message).to.eql(undefined, 'Error message existence');
+        expect(cloudAccount.message).not.to.eql('Request failed with status code 404', 'Error message type');
+    });
+    it('deleteCloudAccount', async () => {
+        const response = await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        expect(response.message).to.eql(undefined, 'Error message existence');
+        expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
+    });
 });
