@@ -6,12 +6,13 @@
   "scripts": {
     "build": "tsc",
     "test-integration-general": "mocha -r ts-node/register tests/integration/general.ts",
-    "test-integration-cloud-account": "mocha -r ts-node/register tests/cloud-account.ts",
-    "test-integration-database": "mocha -r ts-node/register tests/database.ts",
-    "test-integration-subscription": "mocha -r ts-node/register tests/subscription.ts",
+    "test-integration-cloud-account": "mocha -r ts-node/register tests/integration/cloud-account.ts",
+    "test-integration-database": "mocha -r ts-node/register tests/integration/database.ts",
+    "test-integration-subscription": "mocha -r ts-node/register tests/integration/subscription.ts",
     "test-cleanup": "mocha -r ts-node/register tests/cleanup.ts",
     "test-unit-general": "mocha -r ts-node/register tests/unit/general.ts",
-    "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts"
+    "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts",
+    "test-unit-subscription": "mocha -r ts-node/register tests/unit/subscription.ts"
   },
   "keywords": [
     "Cloud API",
