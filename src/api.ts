@@ -43,7 +43,6 @@ export class CloudAPISDK {
             return response['data']['account'];
         }
         catch(error) {
-            console.log(JSON.stringify(error))
             return error;
         }
     }

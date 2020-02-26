@@ -17,7 +17,7 @@ describe('Testing general functions', async function() {
         console.log('============= Account Information =============');
         console.log(accountInformation);
         console.log('===============================================');
-        expect(accountInformation['id']).not.to.eql(undefined, 'Account id');
+        expect(accountInformation.message).not.to.eql('Request failed with status code 404', 'Account id');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
