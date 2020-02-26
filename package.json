@@ -5,11 +5,10 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "test-all": "mocha -r ts-node/register tests/*.ts",
-    "test-general": "mocha -r ts-node/register tests/general.ts",
-    "test-cloud-account": "mocha -r ts-node/register tests/cloud-account.ts",
-    "test-database": "mocha -r ts-node/register tests/database.ts",
-    "test-subscription": "mocha -r ts-node/register tests/subscription.ts",
+    "test-integration-general": "mocha -r ts-node/register tests/integration/general.ts",
+    "test-integration-cloud-account": "mocha -r ts-node/register tests/cloud-account.ts",
+    "test-integration-database": "mocha -r ts-node/register tests/database.ts",
+    "test-integration-subscription": "mocha -r ts-node/register tests/subscription.ts",
     "test-cleanup": "mocha -r ts-node/register tests/cleanup.ts",
     "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts"
   },
