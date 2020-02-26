@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionStatus, CloudAccountStatus } from '../src/api';
-import { loadArguments } from './helpers';
+import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionStatus, CloudAccountStatus } from '../../src/api';
+import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
 
