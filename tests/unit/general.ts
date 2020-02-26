@@ -17,14 +17,14 @@ describe('Testing general functions', async function() {
         console.log('============= Account Information =============');
         console.log(accountInformation.message);
         console.log('===============================================');
-        expect(accountInformation.message).not.to.eql('Request failed with status code 404', 'Account id');
+        expect(accountInformation.message).not.to.eql('Request failed with status code 404', 'Error message');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules: any = await cloudAPIClient.getDatabaseModules();
         console.log('============= Database modules =============');
         console.log(databaseModules);
         console.log('============================================');
-        expect(databaseModules.length).gte(4, 'Database modules count');
+        expect(databaseModules.message).not.to.eql('Request failed with status code 404', 'Error message');
     });
     it('getSystemLogs', async () => {
         const systemLogs: any = await cloudAPIClient.getSystemLogs(2, 0);
