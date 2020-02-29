@@ -38,12 +38,14 @@ describe('Cleanup', async function() {
         let cloudAccounts = await cloudAPIClient.getCloudAccounts();
         for(let i = 0; i < cloudAccounts.length; i++) {
             const cloudAccountId = cloudAccounts[i]['id'];
-            await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-            await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-            const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-            expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+            if(cloudAccountId !== 1) {
+                await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+                await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
+                const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
+                expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+            }
         }
         cloudAccounts = await cloudAPIClient.getCloudAccounts();
-        expect(cloudAccounts.length).to.eql(0, 'Cloud accounts count');
+        expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     });
 });
