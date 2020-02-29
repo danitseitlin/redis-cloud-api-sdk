@@ -81,7 +81,7 @@ describe('Testing databases', async function() {
         const createDatabase: any = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
         console.log(createDatabase)
         // const createdDatabaseId: number = createDatabase['resourceId'];
-        expect(createDatabase.message).to.eql(`Subscription ${subscriptionId} not found`, 'Error message type');
+        expect(createDatabase.error.description).to.eql('Subscription was not found', 'Error message type');
         // expect(createdDatabaseId).gt(0, 'Checking if the the database id is greater than 0');
         // databaseId = createdDatabaseId;
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
@@ -89,7 +89,7 @@ describe('Testing databases', async function() {
     it('getDatabase', async () => {
         const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         console.log(database);
-        expect(database.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
+        expect(database.response.data.message).to.eql(`Subscription ${subscriptionId} database ${databaseId} not found`, 'Error message type');
         // expect(database['error']).not.to.eql('Not Found', 'Checking if the database exists');
     });
     it('updateDatabase', async () => {
@@ -98,7 +98,7 @@ describe('Testing databases', async function() {
         };
         const updateDatabase: any = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
         console.log(updateDatabase);
-        expect(updateDatabase.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
+        expect(updateDatabase.error.description).to.eql('Database was not found', 'Error message type');
         // expect(updateDatabase['error']).to.eql(undefined, 'Checking if there is an error');
         // const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         // expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
@@ -108,7 +108,7 @@ describe('Testing databases', async function() {
         const deleteDatabaseResponse = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
         console.log(deleteDatabaseResponse)
-        expect(deleteDatabaseResponse.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
+        expect(deleteDatabaseResponse.error.description).to.eql('Database was not found', 'Error message type');
         // const database: any = cloudAPIClient.getDatabase(subscriptionId, databaseId);
 
         // expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
@@ -117,7 +117,7 @@ describe('Testing databases', async function() {
     it('backupDatabase', async () => {
         const response: any = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
         console.log(response);
-        expect(response.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
+        expect(response.error.description).to.eql('Database was not found', 'Error message type');
 
         // expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
@@ -129,7 +129,7 @@ describe('Testing databases', async function() {
         };
         const response: any = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
         console.log(response);
-        expect(response.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
+        expect(response.error.description).to.eql('Database was not found', 'Error message type');
         // expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
     });
