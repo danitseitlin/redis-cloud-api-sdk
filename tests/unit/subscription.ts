@@ -57,9 +57,6 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log('===================================================');
-        console.log(subscription);
-        console.log('===================================================');
         expect(subscription.message).not.to.eql('Subscription -1 not found', 'Error message type');
     }); 
     it('updateSubscription', async () => {
@@ -70,10 +67,9 @@ describe('Testing subscription', async function() {
         expect(updateResponse.message).to.eql(undefined, 'Error message existence');
         expect(updateResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
-    it('getCidrWhitelistss', async () => {
+    it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        expect(cidrWhitelists.message).to.eql(undefined, 'Error message existence');
-        // expect(cidrWhitelists.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        expect(cidrWhitelists.message).to.eql(undefined, 'The CIDR whitelist existence');
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
@@ -85,8 +81,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        expect(subscriptionVpcPeerings.message).to.eql(undefined, 'Error message existence');
-        // expect(subscriptionVpcPeerings.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        expect(subscriptionVpcPeerings).to.eql(undefined, 'The VPC peering existence');
     }); 
     it('createSubscriptionVpcPeering', async () => {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
