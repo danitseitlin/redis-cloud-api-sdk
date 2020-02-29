@@ -35,6 +35,7 @@ describe('Cleanup', async function() {
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
+        console.log(subscriptions);
         expect(subscriptions.length).to.eql(0, 'Subscriptions count');
 
         let cloudAccounts = await cloudAPIClient.getCloudAccounts();
