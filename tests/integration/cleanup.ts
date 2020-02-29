@@ -28,6 +28,7 @@ describe('Cleanup', async function() {
                 console.log(`=== Finished cleanup for database ${databaseId} ===`);
             }
             databases = await cloudAPIClient.getDatabases(subscriptionId);
+            console.log(databases);
             expect(databases.length).to.eql(0, `Databases count for subsription ${subscriptionId}`);
             await cloudAPIClient.deleteSubscription(subscriptionId);
             await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
