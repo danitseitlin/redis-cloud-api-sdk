@@ -18,17 +18,20 @@ describe('Cleanup', async function() {
         let subscriptions = await cloudAPIClient.getSubscriptions();
         for(let i = 0; i < subscriptions.length; i++) {
             const subscriptionId: number = subscriptions[i]['id'];
+            console.log(`=== Starting cleanup for subscription ${subscriptionId} ===`);
             let databases = await cloudAPIClient.getDatabases(subscriptionId);
             for(let j = 0; j < databases.length; j++) {
                 const databaseId: number = databases[j]['databaseId'];
+                console.log(`=== Starting cleanup for database ${databaseId} ===`);
                 await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
                 await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
+                console.log(`=== Finished cleanup for database ${databaseId} ===`);
             }
             databases = await cloudAPIClient.getDatabases(subscriptionId);
             expect(subscriptions.length).to.eql(0, `Databases count for subsription ${subscriptionId}`);
             await cloudAPIClient.deleteSubscription(subscriptionId);
             await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
-
+            console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
         expect(subscriptions.length).to.eql(0, 'Subscriptions count');
