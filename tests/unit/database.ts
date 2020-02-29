@@ -68,8 +68,9 @@ describe('Testing databases', async function() {
     // });
     it('getDatabases', async () => {
         const databases: any = await cloudAPIClient.getDatabases(subscriptionId);
+        //'Subscription -1: no databases found
         console.log(databases);
-        expect(databases.message).to.eql(`Subscription ${subscriptionId} not found`, 'Error message type');
+        expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, 'Error message type');
         // expect(databases['error']).not.to.eql('Not Found', 'Checking if there was no error');
     });
     it('createDatabase', async () => {
@@ -78,6 +79,7 @@ describe('Testing databases', async function() {
             memoryLimitInGb: 10.0
         };
         const createDatabase: any = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
+        console.log(createDatabase)
         // const createdDatabaseId: number = createDatabase['resourceId'];
         expect(createDatabase.message).to.eql(`Subscription ${subscriptionId} not found`, 'Error message type');
         // expect(createdDatabaseId).gt(0, 'Checking if the the database id is greater than 0');
@@ -86,6 +88,7 @@ describe('Testing databases', async function() {
     });
     it('getDatabase', async () => {
         const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        console.log(database);
         expect(database.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
         // expect(database['error']).not.to.eql('Not Found', 'Checking if the database exists');
     });
@@ -94,6 +97,7 @@ describe('Testing databases', async function() {
             name: 'test-updated-databases'
         };
         const updateDatabase: any = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
+        console.log(updateDatabase);
         expect(updateDatabase.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
         // expect(updateDatabase['error']).to.eql(undefined, 'Checking if there is an error');
         // const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
@@ -103,6 +107,7 @@ describe('Testing databases', async function() {
     it('deleteDatabase', async () => {
         const deleteDatabaseResponse = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
+        console.log(deleteDatabaseResponse)
         expect(deleteDatabaseResponse.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
         // const database: any = cloudAPIClient.getDatabase(subscriptionId, databaseId);
 
@@ -111,6 +116,7 @@ describe('Testing databases', async function() {
     });
     it('backupDatabase', async () => {
         const response: any = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
+        console.log(response);
         expect(response.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
 
         // expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
@@ -122,6 +128,7 @@ describe('Testing databases', async function() {
             importFromUri: ['ftp-import-url']
         };
         const response: any = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
+        console.log(response);
         expect(response.message).to.eql(`Database ${databaseId} not found`, 'Error message type');
         // expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
         // await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
