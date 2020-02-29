@@ -83,7 +83,7 @@ describe('Testing subscription', async function() {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['name']).to.eql(subscriptionName, `Subscription name was not updated: still ${subscription['name']}`);
     }); 
-    it('getCidrWhitelistss', async () => {
+    it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         if(TEST_ARGUMENTS.DEBUG) console.log(cidrWhitelists);
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
