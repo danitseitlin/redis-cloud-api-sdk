@@ -131,19 +131,24 @@ describe('Testing subscription', async function() {
         const databases = await cloudAPIClient.getDatabases(subscriptionId);
         for(let i = 0; i < databases.length; i++) {
             const databaseId: number = databases[i]['databaseId'];
+            await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
+            expect(databases[i]['status']).eql(DatabaseStatus.active);
             const deleteDatabaseResponse: any = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
             if(TEST_ARGUMENTS.DEBUG) console.log(deleteDatabaseResponse);
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-            const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-            if(TEST_ARGUMENTS.DEBUG) console.log(database);
-            const error: any = database.find((error: any) => error['status'] !== undefined);  
-            if(TEST_ARGUMENTS.DEBUG) console.log(error);
-            expect(error['status']).to.eql('Not Found', 'Checking that the database was deleted');
+            // const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+            // if(TEST_ARGUMENTS.DEBUG) console.log(database);
+            // const error: any = database.find((error: any) => error['status'] !== undefined);  
+            // if(TEST_ARGUMENTS.DEBUG) console.log(error);
+            // expect(error['status']).to.eql('Not Found', 'Checking that the database was deleted');
         }
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        let subscription = await cloudAPIClient.getSubscription(subscriptionId);
+        expect(subscription['status']).eql(SubscriptionStatus.active);
         const deleteSubscriptionResponse: any = await cloudAPIClient.deleteSubscription(subscriptionId);
         if(TEST_ARGUMENTS.DEBUG) console.log(deleteSubscriptionResponse);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
-        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
+        subscription = await cloudAPIClient.getSubscription(subscriptionId);
         const error: any = subscription.find((error: any) => error['status'] !== undefined);  
         if(TEST_ARGUMENTS.DEBUG) console.log(error);
         expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
