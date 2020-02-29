@@ -24,7 +24,7 @@ jobs:
     - run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
     - run: npm run test-integration-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
     - run: npm run test-integration-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-    #- run: npm run test-integration-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+    - run: npm run test-integration-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
     - run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
       env:
         CI: true
