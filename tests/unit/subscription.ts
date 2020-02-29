@@ -69,7 +69,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        expect(cidrWhitelists.message).to.eql(undefined, 'The CIDR whitelist existence');
+        expect(cidrWhitelists).to.eql(undefined, 'The CIDR whitelist existence');
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
