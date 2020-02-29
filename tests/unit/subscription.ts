@@ -52,16 +52,16 @@ describe('Testing subscription', async function() {
     });
     it('getSubscriptions', async () => {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
-        //expect(subscriptions.message).to.eql(undefined, 'Error message existence');
-        expect(subscriptions.data.message).not.to.eql('Subscription -1 not found', 'Error message type');
+        expect(subscriptions.message).to.eql(undefined, 'Error message existence');
+        expect(subscriptions.data.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
         console.log('===================================================');
         console.log(subscription);
         console.log('===================================================');
-        expect(subscription.message).to.eql(undefined, 'Error message existence');
-        expect(subscription.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        //expect(subscription.message).to.eql(undefined, 'Error message existence');
+        expect(subscription.message).not.to.eql('Subscription -1 not found', 'Error message type');
     }); 
     it('updateSubscription', async () => {
         const subscriptionName: string = 'updated-subscription';
