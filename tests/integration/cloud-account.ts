@@ -53,8 +53,6 @@ describe('Testing cloud account', async function() {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        console.log(cloudAccount);
-        expect(cloudAccount.error.status).eql(CloudAccountStatus.deleted, 'Cloud account status')
-        expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+        expect(cloudAccount.response.data.status).eql(CloudAccountStatus.deleted, 'Cloud account status')
     });
 });
