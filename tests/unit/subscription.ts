@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
 import { loadArguments } from '../helpers';
-import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
 
 const TEST_ARGUMENTS = loadArguments();
 
@@ -11,14 +10,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
     domain: TEST_ARGUMENTS.ENVIRONMENT
 }
-const cloudAccountCredentials: CreateCloudAccountParameters = {
-    name: 'My cloud account',
-    accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
-    accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,
-    consoleUsername: 'console-username',
-    consolePassword: 'console-password',
-    signInLoginUrl: 'sign-in-login-url'
-}
+
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing subscription', async function() {
     this.timeout(1000 * 60 * 60);

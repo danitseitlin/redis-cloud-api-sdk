@@ -30,17 +30,11 @@ describe('Testing cloud account', async function() {
     });
     it('getCloudAccounts', async () => {
         const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
-        console.log(`============ Cloud accounts ============`);
-        console.log(cloudAccounts);
-        console.log(`========================================\n`);
         expect(cloudAccounts.message).to.eql(undefined, 'Error message existence');
         expect(cloudAccounts.message).not.to.eql('Request failed with status code 404', 'Error message type');
     })
     it('getCloudAccount', async () => {
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(1);
-        console.log(`============ Cloud account ============`);
-        console.log(cloudAccount);
-        console.log(`=======================================\n`);
         expect(cloudAccount.message).to.eql(undefined, 'Error message existence');
         expect(cloudAccount.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
