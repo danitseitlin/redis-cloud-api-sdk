@@ -58,11 +58,14 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        if(TEST_ARGUMENTS.DEBUG) console.log(createResponse);
+        // if(TEST_ARGUMENTS.DEBUG) console.log(createResponse);
         expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
-        if(TEST_ARGUMENTS.DEBUG) console.log(`Created subscription with id: ${subscriptionId}`);
+        console.log(`=== ${subscriptionId} ===`);
+        // if(TEST_ARGUMENTS.DEBUG) console.log(`Created subscription with id: ${subscriptionId}`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        const subscription = await cloudAPIClient.getSubscription(subscriptionId);
+        expect(subscription['status']).eql(SubscriptionStatus.active, `Expected status ${SubscriptionStatus.active} but got ${subscription['status']}`);
     });
     it('getSubscriptions', async () => {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
@@ -149,6 +152,6 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+        expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
     });
   });
