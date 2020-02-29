@@ -35,20 +35,25 @@ describe('Cleanup', async function() {
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
         expect(subscriptions.length).to.eql(0, 'Subscriptions count');
-    });
 
-    it('Cloud account cleanup', async () => {
         let cloudAccounts = await cloudAPIClient.getCloudAccounts();
         for(let i = 0; i < cloudAccounts.length; i++) {
             const cloudAccountId = cloudAccounts[i]['id'];
             if(cloudAccountId !== 1) {
+                console.log(`=== Starting cleanup for cloud account ${cloudAccountId} ===`);
                 await cloudAPIClient.deleteCloudAccount(cloudAccountId);
                 await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
                 const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
                 expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
+                console.log(`=== Finished cleanup for cloud account ${cloudAccountId} ===`);
             }
+            
         }
         cloudAccounts = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     });
+
+    // it('Cloud account cleanup', async () => {
+        
+    // });
 });
