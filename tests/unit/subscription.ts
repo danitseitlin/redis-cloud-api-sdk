@@ -57,7 +57,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription.message).not.to.eql('Subscription -1 not found', 'Error message type');
+        expect(subscription.message).not.to.eql(`Subscription ${subscriptionId} not found`, 'Error message type');
     }); 
     it('updateSubscription', async () => {
         const subscriptionName: string = 'updated-subscription';
