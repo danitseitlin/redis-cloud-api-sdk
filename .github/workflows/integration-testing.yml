@@ -1,4 +1,4 @@
-name: Integration testings
+name: Integration testing
 
 on: 
   #push:
