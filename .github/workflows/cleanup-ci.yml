@@ -1,0 +1,38 @@
+name: Cleanup CI
+
+on:  
+    schedule:
+    - cron:  '0 2 * * *'
+    - cron:  '0 4 * * *'
+    - cron:  '0 6 * * *'
+    - cron:  '0 8 * * *'
+    - cron:  '0 10 * * *'
+    - cron:  '0 12 * * *'
+    - cron:  '0 14 * * *'
+    - cron:  '0 16 * * *'
+    - cron:  '0 18 * * *'
+    - cron:  '0 20 * * *'
+    - cron:  '0 22 * * *'
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: 'Installing node modules'
+      run: npm install
+    - name: 'Running a cleanup'
+      run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      env:
+        CI: true
