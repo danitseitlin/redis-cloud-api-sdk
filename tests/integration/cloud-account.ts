@@ -21,7 +21,7 @@ const cloudAccountCredentials: CreateCloudAccountParameters = {
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 
 describe('Testing cloud account', async function() {
-    this.timeout(10 * 60);
+    this.timeout(10 * 60 * 60);
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
