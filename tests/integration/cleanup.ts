@@ -12,7 +12,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
 
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Cleanup', async function() {
-    this.timeout(1000 * 60 * 60);
+    this.timeout(10 * 60);
     
     it('Resources cleanup', async () => {
         let subscriptions = await cloudAPIClient.getSubscriptions();

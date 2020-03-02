@@ -24,7 +24,7 @@ const cloudAccountCredentials: CreateCloudAccountParameters = {
 
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing databases', async function() {
-    this.timeout(1000 * 60 * 60);
+    this.timeout(1 * 60 * 60);
     let subscriptionId: number = -1;
     let databaseId: number = -1;
     let cloudAccountId: number = -1;

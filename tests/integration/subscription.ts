@@ -21,7 +21,7 @@ const cloudAccountCredentials: CreateCloudAccountParameters = {
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing subscription', async function() {
-    this.timeout(1000 * 60 * 60);
+    this.timeout(1 * 60 * 60);
     let subscriptionId: number = -1;
     let vpcPeeringId: number = -1;
     let cloudAccountId: number = -1;
@@ -39,7 +39,6 @@ describe('Testing subscription', async function() {
     });
     it('createSubscription', async () => {
         const paymentMethod: any = (await cloudAPIClient.getPaymentMethods())[0];
-        // const paymentMethod: any = paymentMethods[0];
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
             paymentMethodId: paymentMethod['id'],
@@ -72,8 +71,6 @@ describe('Testing subscription', async function() {
     it('getSubscriptions', async () => {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
         expect(subscriptions.length).eql(1, 'The subscriptions count');
-        // const subscription: any = subscriptions.find((subscription: any) => subscription['id'] === subscriptionId);
-        // expect(subscription['id']).to.eql(subscriptionId, `Error was found ${subscription['error']}`);
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
@@ -87,7 +84,6 @@ describe('Testing subscription', async function() {
         console.log('===============================');
         console.log(updateResponse)
         console.log('===============================');
-        // if(TEST_ARGUMENTS.DEBUG) console.log(updateResponse);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['name']).to.eql(subscriptionName, `Subscription name was not updated: still ${subscription['name']}`);
@@ -151,21 +147,27 @@ describe('Testing subscription', async function() {
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
             expect(databases[i]['status']).eql(DatabaseStatus.active);
             const deleteDatabaseResponse: any = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-            if(TEST_ARGUMENTS.DEBUG) console.log(deleteDatabaseResponse);
+            console.log('===============================');
+            console.log(deleteDatabaseResponse)
+            console.log('===============================');
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-            // const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-            // if(TEST_ARGUMENTS.DEBUG) console.log(database);
-            // const error: any = database.find((error: any) => error['status'] !== undefined);  
-            // if(TEST_ARGUMENTS.DEBUG) console.log(error);
-            // expect(error['status']).to.eql('Not Found', 'Checking that the database was deleted');
+            const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+            console.log('===============================');
+            console.log(database)
+            console.log('===============================');
         }
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         let subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['status']).eql(SubscriptionStatus.active);
         const deleteSubscriptionResponse: any = await cloudAPIClient.deleteSubscription(subscriptionId);
-        if(TEST_ARGUMENTS.DEBUG) console.log(deleteSubscriptionResponse);
+        console.log('===============================');
+        console.log(deleteSubscriptionResponse)
+        console.log('===============================');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
         subscription = await cloudAPIClient.getSubscription(subscriptionId);
+        console.log('===============================');
+        console.log(subscription)
+        console.log('===============================');
         const error: any = subscription.find((error: any) => error['status'] !== undefined);  
         if(TEST_ARGUMENTS.DEBUG) console.log(error);
         expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
