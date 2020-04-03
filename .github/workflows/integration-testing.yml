@@ -1,43 +1,43 @@
-name: Integration testing
+# name: Integration testing
 
-on: 
-  push:
-  schedule:
-    - cron:  '0 2 * * *'
+# on: 
+#   push:
+#   schedule:
+#     - cron:  '0 2 * * *'
 
-jobs:
-  build:
+# jobs:
+#   build:
 
-    runs-on: ubuntu-latest
+#     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [10.x]
+#     strategy:
+#       matrix:
+#         node-version: [10.x]
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: 'Installing the npm modules'
-      run: npm install
-    - name: 'Running a cleanup'
-      run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
-      if: always()
-    - name: 'Running the general tests'
-      run: npm run test-integration-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
-      if: success() || failure()
-    - name: 'Running the cloud account tests'
-      run: npm run test-integration-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-      if: success() || failure()
-    - name: 'Running the subscription tests' 
-      run: npm run test-integration-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-      if: success() || failure()
-  # - name: 'Running the database tests'
-  #   run: npm run test-integration-database -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
-    - name: 'Running a cleanup'
-      run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
-      if: always()
-      env:
-        CI: true
+#     steps:
+#     - uses: actions/checkout@v2
+#     - name: Use Node.js ${{ matrix.node-version }}
+#       uses: actions/setup-node@v1
+#       with:
+#         node-version: ${{ matrix.node-version }}
+#     - name: 'Installing the npm modules'
+#       run: npm install
+#     - name: 'Running a cleanup'
+#       run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+#       if: always()
+#     - name: 'Running the general tests'
+#       run: npm run test-integration-general -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+#       if: success() || failure()
+#     - name: 'Running the cloud account tests'
+#       run: npm run test-integration-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+#       if: success() || failure()
+#     - name: 'Running the subscription tests' 
+#       run: npm run test-integration-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+#       if: success() || failure()
+#   # - name: 'Running the database tests'
+#   #   run: npm run test-integration-database -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+#     - name: 'Running a cleanup'
+#       run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+#       if: always()
+#       env:
+#         CI: true
