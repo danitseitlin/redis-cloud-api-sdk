@@ -5,9 +5,10 @@ import { loadArguments } from '../helpers';
 const TEST_ARGUMENTS = loadArguments();
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
-    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
-    domain: TEST_ARGUMENTS.ENVIRONMENT
+    accessKey: '123',
+    secretKey: '123',
+    domain: 'localhost:3000',
+    protocol: 'http'
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {
