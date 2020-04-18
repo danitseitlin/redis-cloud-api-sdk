@@ -2,27 +2,128 @@ import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
 import { loadArguments } from '../helpers';
+import { MockServer } from 'dmock-server';
 
 const TEST_ARGUMENTS = loadArguments();
+const server = new MockServer({
+    hostname: TEST_ARGUMENTS.ENVIRONMENT,
+    port: parseInt(TEST_ARGUMENTS.PORT),
+    routes: [{
+        path: '/v1/payment-methods',
+        method: 'get',
+        response: {
+            paymentMethods: [{
+                id: 1
+            }]
+        }
+    },{
+        path: '/v1/subscriptions',
+        method: 'post',
+        response: [{
+            taskId: 1
+        }]
+    },{
+        path: '/v1/subscriptions',
+        method: 'get',
+        response: {
+            subscriptions: [{
+                id: 1
+            }]
+        }
+    },{
+        path: '/v1/subscriptions/1',
+        method: 'get',
+        response: {
+            subscriptions: [{
+                id: 1
+            }]
+        }
+    },{
+        path: '/v1/subscriptions/1',
+        method: 'put',
+        response: {
+            subscriptions: [{
+                id: 1
+            }]
+        }
+    },{
+        path: '/v1/subscriptions/1/cidr',
+        method: 'get',
+        response: {
+            taskId: 1
+        }
+    },{
+        path: '/v1/subscriptions/1/cidr',
+        method: 'put',
+        response: {
+            taskId: 1
+        }
+    },{
+        path: '/v1/subscriptions/1/peerings',
+        method: 'get',
+        response: {
+            taskId: 1
+        }
+    },{
+        path: '/v1/subscriptions/1/peerings',
+        method: 'post',
+        response: {
+            taskId: 1
+        }
+    },{
+        path: '/v1/subscriptions/1/peerings/1',
+        method: 'delete',
+        response: {
+            taskId: 1
+        }
+    },{
+        path: '/v1/cloud-accounts/1',
+        method: 'get',
+        response: {
+            id: 1,
+            name: 'My cloud account'
+        }
+    },{
+        path: '/v1/tasks/1',
+        method: 'get',
+        response: {
+            response: {
+                status: 'processing-completed',
+                resource: {
+                    cidrIps: []
+                }
+            }
+        }
+    }]
+});
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
+    protocol: 'http',
+    domain: `${TEST_ARGUMENTS.ENVIRONMENT}:${TEST_ARGUMENTS.PORT}`,
     accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
-    domain: TEST_ARGUMENTS.ENVIRONMENT
 }
 
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing subscription', async function() {
     this.timeout(10 * 60 * 60);
-    let subscriptionId: number = -1;
-    let vpcPeeringId: number = -1;
-    let cloudAccountId: number = -1;
+    let subscriptionId: number = 1;
+    let vpcPeeringId: number = 1;
+    let cloudAccountId: number = 1;
+    before(async () => {
+        server.start();
+    });
+
+    after(async () => {
+        server.stop();
+    });
+
     it('createSubscription', async () => {
         const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
         const paymentMethod: any = paymentMethods[0];
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
-            dryRun: true,
+            dryRun: false,
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
                 cloudAccountId: cloudAccount['id'],
@@ -61,7 +162,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        expect(cidrWhitelists).to.eql(undefined, 'The CIDR whitelist existence');
+        expect(cidrWhitelists).to.eql({cidrIps: []}, 'The CIDR whitelist existence');
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
@@ -73,7 +174,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        expect(subscriptionVpcPeerings).to.eql(undefined, 'The VPC peering existence');
+        expect(subscriptionVpcPeerings).to.not.eql(undefined, 'The VPC peering existence');
     }); 
     it('createSubscriptionVpcPeering', async () => {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
