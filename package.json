@@ -39,7 +39,7 @@
     "@types/mocha": "^7.0.1",
     "@types/node": "^13.1.1",
     "chai": "^4.2.0",
-    "dmock-server": "^1.0.5",
+    "dmock-server": "^1.0.7",
     "mocha": "^7.0.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.4"
