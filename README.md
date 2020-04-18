@@ -15,7 +15,7 @@ const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 ### An example for usage: ###
 ```
 //Getting account information
-const accountInformation: { [string:key]: any } = await cloudAPIClient.getAccountInformation();
+const accountInformation = await cloudAPIClient.getAccountInformation();
 ```
 
 All the API calls from the official Swagger documentation are covered in the SDK
