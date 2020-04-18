@@ -21,10 +21,10 @@ jobs:
     - name: 'Running unit tests on general requests'
       run: npm run test-unit-general -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
     - name: 'Running unit tests on cloud account requests'
-      run: npm run test-unit-cloud-account -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      run: npm run test-unit-cloud-account -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
     - name: 'Running unit tests on subscription requests'
-      run: npm run test-unit-subscription -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      run: npm run test-unit-subscription -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
     - name: 'Running unit tests on database requests'
-      run: npm run test-unit-database -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      run: npm run test-unit-database -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
       env:
         CI: true
