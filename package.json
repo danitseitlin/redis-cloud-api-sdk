@@ -10,6 +10,7 @@
     "test-integration-database": "mocha -r ts-node/register tests/integration/database.ts",
     "test-integration-subscription": "mocha -r ts-node/register tests/integration/subscription.ts",
     "test-integration-cleanup": "mocha -r ts-node/register tests/integration/cleanup.ts",
+    "test-unit-cycle": "mocha -r ts-node/register tests/unit/*",
     "test-unit-general": "mocha -r ts-node/register tests/unit/general.ts",
     "test-unit-cloud-account": "mocha -r ts-node/register tests/unit/cloud-account.ts",
     "test-unit-subscription": "mocha -r ts-node/register tests/unit/subscription.ts",
@@ -35,12 +36,12 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/chai": "^4.2.7",
-    "@types/node": "^13.1.1",
     "@types/mocha": "^7.0.1",
+    "@types/node": "^13.1.1",
     "chai": "^4.2.0",
+    "dmock-server": "^1.0.5",
     "mocha": "^7.0.1",
     "ts-node": "^8.5.4",
-    "typescript": "^3.7.4",
-    "dmock-server": "0.0.5"
+    "typescript": "^3.7.4"
   }
 }
