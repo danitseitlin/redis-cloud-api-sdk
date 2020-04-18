@@ -59,8 +59,8 @@ const server = new MockServer({
 })
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
-    domain: `${TEST_ARGUMENTS.ENVIRONMENT}:${TEST_ARGUMENTS.PORT}`,
     protocol: 'http',
+    domain: `${TEST_ARGUMENTS.ENVIRONMENT}:${TEST_ARGUMENTS.PORT}`,
     accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
 }
