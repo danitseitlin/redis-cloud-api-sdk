@@ -39,5 +39,5 @@ jobs:
   #   - name: 'Running a cleanup'
   #     run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
   #     if: always()
-  #     env:
-  #       CI: true
+      env:
+        CI: true
