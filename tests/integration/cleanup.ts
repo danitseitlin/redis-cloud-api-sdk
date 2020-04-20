@@ -3,7 +3,6 @@ import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionStatus,
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
-console.log(TEST_ARGUMENTS);
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
