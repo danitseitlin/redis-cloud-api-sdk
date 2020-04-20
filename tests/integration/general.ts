@@ -11,7 +11,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {
-    this.timeout(10 * 60 * 60);
+    this.timeout(10 * 60 * 1000);
     it('getAccountInformation', async () => {
         const accountInformation: any = await cloudAPIClient.getAccountInformation();
         console.log('============= Account Information =============');

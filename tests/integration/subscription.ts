@@ -66,11 +66,12 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         console.log(`Created subscription with id: ${subscriptionId}`);
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['status']).eql(SubscriptionStatus.active, 'The subscription status');
+        console.log(subscription)
+        expect(subscription['status']).to.eql(SubscriptionStatus.active, 'The subscription status');
     });
     it('getSubscriptions', async () => {
         const subscriptions: any = await cloudAPIClient.getSubscriptions();
-        expect(subscriptions.length).eql(1, 'The subscriptions count');
+        expect(subscriptions.length).to.eql(1, 'The subscriptions count');
     }); 
     it('getSubscription', async () => {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
@@ -147,7 +148,7 @@ describe('Testing subscription', async function() {
             const databaseId: number = databases[i]['databaseId'];
             console.log(`Deleting ${databaseId}...`)
             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-            expect(databases[i]['status']).eql(DatabaseStatus.active);
+            expect(databases[i]['status']).to.eql(DatabaseStatus.active);
             const deleteDatabaseResponse: any = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
             // console.log('===============================');
             // console.log(deleteDatabaseResponse)
@@ -161,7 +162,7 @@ describe('Testing subscription', async function() {
         }
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         let subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['status']).eql(SubscriptionStatus.active);
+        expect(subscription['status']).to.eql(SubscriptionStatus.active);
         const deleteSubscriptionResponse: any = await cloudAPIClient.deleteSubscription(subscriptionId);
         // console.log('===============================');
         // console.log(deleteSubscriptionResponse)
@@ -180,6 +181,6 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
+        expect(cloudAccount['response']['data']['status']).to.eql(CloudAccountStatus.deleted, 'Cloud account status')
     });
   });
