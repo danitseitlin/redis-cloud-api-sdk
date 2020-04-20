@@ -62,7 +62,7 @@ describe('Testing subscription', async function() {
         // console.log('===============================');
         expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
-        console.log(`=== ${subscriptionId} ===`);
+        console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         console.log(`Created subscription with id: ${subscriptionId}`);
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);

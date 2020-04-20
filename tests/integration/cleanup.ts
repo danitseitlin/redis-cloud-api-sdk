@@ -28,14 +28,13 @@ describe('Cleanup', async function() {
                 console.log(`=== Finished cleanup for database ${databaseId} ===`);
             }
             databases = await cloudAPIClient.getDatabases(subscriptionId);
-            console.log(databases);
+            console.log(`error message: ${databases.response.data.message}`);
             expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             await cloudAPIClient.deleteSubscription(subscriptionId);
             await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
-        console.log(subscriptions);
         expect(subscriptions.length).to.eql(0, 'Subscriptions count');
     });
 
