@@ -523,6 +523,7 @@ export class CloudAPISDK {
             subscription = await this.getSubscription(subscriptionId);
             subscriptionStatus = await subscription['status'];
         }
+        if(subscriptionStatus == SubscriptionStatus.error) console.log(subscription)
     }
 
     /**
