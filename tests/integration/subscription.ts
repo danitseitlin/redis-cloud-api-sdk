@@ -32,9 +32,6 @@ describe('Testing subscription', async function() {
         expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
         const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        console.log(`============ Cloud account (${cloudAccountId}) ============`);
-        console.log(cloudAccount);
-        console.log(`===========================================================\n`);
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('createSubscription', async () => {
@@ -61,9 +58,7 @@ describe('Testing subscription', async function() {
         subscriptionId = createResponse['resourceId'];
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        console.log(`Created subscription with id: ${subscriptionId}`);
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription)
         expect(subscription['status']).to.eql(SubscriptionStatus.active, 'The subscription status');
     });
     it('getSubscriptions', async () => {
@@ -85,7 +80,6 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        console.log(cidrWhitelists)
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
     it('updateCidrWhitelists', async () => {
@@ -101,8 +95,7 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log(subscriptionVpcPeerings)
-        expect(subscriptionVpcPeerings['error']).to.eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
+        expect(subscriptionVpcPeerings.peerings).to.eql([], `Peerings list`);
     }); 
     it.skip('createSubscriptionVpcPeering', async () => {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
@@ -123,30 +116,4 @@ describe('Testing subscription', async function() {
         const subscriptionVpcPeering: any = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any) => vpcPeering['id'] === vpcPeeringId);
         expect(subscriptionVpcPeering['error']).to.eql(undefined, 'Subscription vpc peering was not removed');
     });
-    // it('deleteSubscription', async () => {
-    //     let subscription = await cloudAPIClient.getSubscription(subscriptionId);
-    //     const databases = await cloudAPIClient.getDatabases(subscriptionId);
-    //     console.log(`Database count: ${databases.length}`)
-    //     if(subscription['status'] !== SubscriptionStatus.error) {
-    //         for(let i = 0; i < databases.length; i++) {
-    //             const databaseId: number = databases[i]['databaseId'];
-    //             console.log(`Deleting ${databaseId}...`)
-    //             await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-    //             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-    //             await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-    //         }
-    //     }
-    //     await cloudAPIClient.deleteSubscription(subscriptionId);
-    //     await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
-    //     subscription = await cloudAPIClient.getSubscription(subscriptionId);
-    //     console.log(subscription)
-    //     // const error: any = subscription.find((error: any) => error['status'] !== undefined);  
-    //     // expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
-    // });
-    // it('deleteCloudAccount', async () => {
-    //     await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-    //     await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-    //     const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-    //     expect(cloudAccount['response']['data']['status']).to.eql(CloudAccountStatus.deleted, 'Cloud account status')
-    // });
   });
