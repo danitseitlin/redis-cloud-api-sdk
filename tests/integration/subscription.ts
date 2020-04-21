@@ -89,12 +89,13 @@ describe('Testing subscription', async function() {
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
     it('updateCidrWhitelists', async () => {
-        const updatedCidrIps: string[] = ['192.168.20.0/24'];
+        const updatedCidrIps: string[] = ['192.168.1.2/24'];
         await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
+        console.log(cidrWhitelists)
         expect(cidrWhitelists).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {
@@ -102,7 +103,7 @@ describe('Testing subscription', async function() {
         console.log(subscriptionVpcPeerings)
         expect(subscriptionVpcPeerings['error']).to.eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
     }); 
-    it('createSubscriptionVpcPeering', async () => {
+    it.skip('createSubscriptionVpcPeering', async () => {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
             awsAccountId: TEST_ARGUMENTS.VPC_PEERING_AWS_ACCOUNT_ID,
@@ -115,7 +116,7 @@ describe('Testing subscription', async function() {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings.length).gt(0, 'Subscription VPC Peering was not created!');
     }); 
-    it('deleteSubscriptionVpcPeering', async () => {
+    it.skip('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         const subscriptionVpcPeering: any = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any) => vpcPeering['id'] === vpcPeeringId);
