@@ -29,14 +29,14 @@ describe('Testing subscription', async function() {
         const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
-        expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
+        expect(cloudAccountId).not.to.eql(undefined, `Cloud account Id`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('createSubscription', async () => {
-        const paymentMethod: any = (await cloudAPIClient.getPaymentMethods())[0];
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
+        const paymentMethod = (await cloudAPIClient.getPaymentMethods())[0];
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
@@ -54,19 +54,19 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
+        expect(subscriptionId).not.to.eql(undefined, `Subscription Id`);
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['status']).to.eql(SubscriptionStatus.active, 'The subscription status');
+        expect(subscription['status']).to.eql(SubscriptionStatus.active, 'Subscription status');
     });
     it('getSubscriptions', async () => {
-        const subscriptions: any = await cloudAPIClient.getSubscriptions();
+        const subscriptions = await cloudAPIClient.getSubscriptions();
         expect(subscriptions.length).to.eql(1, 'The subscriptions count');
     }); 
     it('getSubscription', async () => {
-        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
+        const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['id']).to.eql(subscriptionId, 'The subscription id');
     }); 
     it('updateSubscription', async () => {
@@ -83,7 +83,7 @@ describe('Testing subscription', async function() {
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
     it('updateCidrWhitelists', async () => {
-        const updatedCidrIps: string[] = ['192.168.1.2/24'];
+        const updatedCidrIps: string[] = ['192.168.1.0/24', '192.168.1.2/24'];
         const response = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
@@ -91,7 +91,7 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         console.log(cidrWhitelists)
-        expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
+        expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `Subscription CIDR Whitelists`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);

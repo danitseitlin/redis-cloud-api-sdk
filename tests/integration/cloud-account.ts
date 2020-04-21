@@ -24,26 +24,26 @@ describe('Testing cloud account', async function() {
     this.timeout(10 * 60 * 1000);
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
-        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
         expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         console.log(`============ Cloud account (${cloudAccountId}) ============`);
         console.log(cloudAccount);
         console.log(`===========================================================\n`);
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('getCloudAccounts', async () => {
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        const cloudAccounts  = await cloudAPIClient.getCloudAccounts();
         console.log(`============ Cloud accounts ============`);
         console.log(cloudAccounts);
         console.log(`========================================\n`);
         expect(cloudAccounts.length).to.eql(2, 'Cloud accounts count');
     })
     it('getCloudAccount', async () => {
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         console.log(`============ Cloud account ============`);
         console.log(cloudAccount);
         console.log(`=======================================\n`);
@@ -52,7 +52,7 @@ describe('Testing cloud account', async function() {
     it('deleteCloudAccount', async () => {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
     });
 });

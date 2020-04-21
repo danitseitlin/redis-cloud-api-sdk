@@ -423,12 +423,6 @@ export class CloudAPISDK {
             return taskResponse['response'];
         }
         catch(error) {
-            console.log(error)
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
             return error;
         }
     }
@@ -523,7 +517,6 @@ export class CloudAPISDK {
             subscription = await this.getSubscription(subscriptionId);
             subscriptionStatus = await subscription['status'];
         }
-        if(subscriptionStatus == SubscriptionStatus.error) console.log(subscription)
     }
 
     /**
