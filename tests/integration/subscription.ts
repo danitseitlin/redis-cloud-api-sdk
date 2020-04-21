@@ -90,9 +90,10 @@ describe('Testing subscription', async function() {
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.1.2/24'];
-        await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
+        const response = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
+        console.log(response);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         console.log(cidrWhitelists)
