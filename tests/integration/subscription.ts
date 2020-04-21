@@ -95,7 +95,7 @@ describe('Testing subscription', async function() {
         });
         console.log(response);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
+        const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         console.log(cidrWhitelists)
         expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
     }); 
