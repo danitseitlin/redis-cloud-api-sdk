@@ -57,9 +57,6 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        // console.log('===============================');
-        // console.log(createResponse)
-        // console.log('===============================');
         expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
         subscriptionId = createResponse['resourceId'];
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
@@ -77,46 +74,35 @@ describe('Testing subscription', async function() {
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['id']).to.eql(subscriptionId, 'The subscription id');
     }); 
-    it.skip('updateSubscription', async () => {
+    it('updateSubscription', async () => {
         const subscriptionName: string = 'updated-subscription';
-        const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {
+        await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
         });
-        console.log('===============================');
-        console.log(updateResponse)
-        console.log('===============================');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['name']).to.eql(subscriptionName, `Subscription name was not updated: still ${subscription['name']}`);
     }); 
-    it.skip('getCidrWhitelists', async () => {
+    it('getCidrWhitelists', async () => {
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        if(TEST_ARGUMENTS.DEBUG) console.log(cidrWhitelists);
+        console.log(cidrWhitelists)
         expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
     }); 
-    it.skip('updateCidrWhitelists', async () => {
+    it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
-        const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
+        await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
-        console.log('===============================');
-        console.log(updateResponse)
-        console.log('===============================');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        console.log('===============================');
-        console.log(cidrWhitelists)
-        console.log('===============================');
         expect(cidrWhitelists).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
     }); 
-    it.skip('getSubscriptionVpcPeerings', async () => {
+    it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log('===============================');
         console.log(subscriptionVpcPeerings)
-        console.log('===============================');
         expect(subscriptionVpcPeerings['error']).to.eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
     }); 
-    it.skip('createSubscriptionVpcPeering', async () => {
+    it('createSubscriptionVpcPeering', async () => {
         const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
             awsAccountId: TEST_ARGUMENTS.VPC_PEERING_AWS_ACCOUNT_ID,
@@ -127,44 +113,38 @@ describe('Testing subscription', async function() {
         console.log(`=== vpcPeeringId: ${vpcPeeringId} ===`)
         await cloudAPIClient.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, SubscriptionVpcPeeringStatus.active);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log('===============================');
-        console.log(subscriptionVpcPeerings)
-        console.log('===============================');
         expect(subscriptionVpcPeerings.length).gt(0, 'Subscription VPC Peering was not created!');
     }); 
-    it.skip('deleteSubscriptionVpcPeering', async () => {
+    it('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         const subscriptionVpcPeering: any = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any) => vpcPeering['id'] === vpcPeeringId);
-        console.log('===============================');
-        console.log(subscriptionVpcPeering)
-        console.log('===============================');
         expect(subscriptionVpcPeering['error']).to.eql(undefined, 'Subscription vpc peering was not removed');
     });
-    it('deleteSubscription', async () => {
-        let subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        const databases = await cloudAPIClient.getDatabases(subscriptionId);
-        console.log(`Database count: ${databases.length}`)
-        if(subscription['status'] !== SubscriptionStatus.error) {
-            for(let i = 0; i < databases.length; i++) {
-                const databaseId: number = databases[i]['databaseId'];
-                console.log(`Deleting ${databaseId}...`)
-                await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-                await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-                await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-            }
-        }
-        await cloudAPIClient.deleteSubscription(subscriptionId);
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
-        subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription)
-        // const error: any = subscription.find((error: any) => error['status'] !== undefined);  
-        // expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
-    });
-    it('deleteCloudAccount', async () => {
-        await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['response']['data']['status']).to.eql(CloudAccountStatus.deleted, 'Cloud account status')
-    });
+    // it('deleteSubscription', async () => {
+    //     let subscription = await cloudAPIClient.getSubscription(subscriptionId);
+    //     const databases = await cloudAPIClient.getDatabases(subscriptionId);
+    //     console.log(`Database count: ${databases.length}`)
+    //     if(subscription['status'] !== SubscriptionStatus.error) {
+    //         for(let i = 0; i < databases.length; i++) {
+    //             const databaseId: number = databases[i]['databaseId'];
+    //             console.log(`Deleting ${databaseId}...`)
+    //             await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
+    //             await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
+    //             await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+    //         }
+    //     }
+    //     await cloudAPIClient.deleteSubscription(subscriptionId);
+    //     await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
+    //     subscription = await cloudAPIClient.getSubscription(subscriptionId);
+    //     console.log(subscription)
+    //     // const error: any = subscription.find((error: any) => error['status'] !== undefined);  
+    //     // expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
+    // });
+    // it('deleteCloudAccount', async () => {
+    //     await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+    //     await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
+    //     const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+    //     expect(cloudAccount['response']['data']['status']).to.eql(CloudAccountStatus.deleted, 'Cloud account status')
+    // });
   });
