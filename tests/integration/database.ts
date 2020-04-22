@@ -67,56 +67,57 @@ describe('Testing databases', async function() {
     //     await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
     // });
     it('getSubscription', async () => {
-        console.log(await cloudAPIClient.getSubscriptions());
+        subscriptionId = (await cloudAPIClient.getSubscriptions())[0].id;
     });
-    // it('getDatabases', async () => {
-    //     const databases = await cloudAPIClient.getDatabases(subscriptionId);
-    //     expect(databases['error']).not.to.eql('Not Found', 'Checking if there was no error');
-    // });
-    // it('createDatabase', async () => {
-    //     const createParameters: CreateDatabaseParameters = {
-    //         name: 'test-database',
-    //         memoryLimitInGb: 10.0
-    //     };
-    //     const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
-    //     const createdDatabaseId: number = createDatabase['resourceId'];
-    //     expect(createdDatabaseId).gt(0, 'Checking if the the database id is greater than 0');
-    //     databaseId = createdDatabaseId;
-    //     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-    // });
-    // it('getDatabase', async () => {
-    //     const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-    //     expect(database['error']).not.to.eql('Not Found', 'Checking if the database exists');
-    // });
-    // it('updateDatabase', async () => {
-    //     const updateParameters: UpdateDatabaseParameters = {
-    //         name: 'test-updated-databases'
-    //     };
-    //     const updateDatabase = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
-    //     expect(updateDatabase['error']).to.eql(undefined, 'Checking if there is an error');
-    //     const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-    //     expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
-    //     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-    // });
-    // it('deleteDatabase', async () => {
-    //     await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-    //     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-    //     const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-    //     expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
-        
-    // });
-    // it('backupDatabase', async () => {
-    //     const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
-    //     expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
-    //     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-    // });
-    // it('importIntoDatabase', async () => {
-    //     const importParameters: DatabaseImportParameters = {
-    //         sourceType: 'ftp',
-    //         importFromUri: ['ftp-import-url']
-    //     };
-    //     const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
-    //     expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
-    //     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-    // });
+    it('getDatabases', async () => {
+        const databases = await cloudAPIClient.getDatabases(subscriptionId);
+        expect(databases.length).to.eql(1, 'Database list length');
+    });
+    it('createDatabase', async () => {
+        const createParameters: CreateDatabaseParameters = {
+            name: 'test-database',
+            memoryLimitInGb: 10.0
+        };
+        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
+        const createdDatabaseId: number = createDatabase['resourceId'];
+        expect(createdDatabaseId).not.to.eql(undefined, 'Database id');
+        databaseId = createdDatabaseId;
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
+    });
+    it('getDatabase', async () => {
+        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        expect(database.databaseId).to.eql(databaseId, 'Database Id');
+    });
+    it('updateDatabase', async () => {
+        const updateParameters: UpdateDatabaseParameters = {
+            name: 'test-updated-databases'
+        };
+        const updateDatabase = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
+        expect(updateDatabase['error']).to.eql(undefined, 'error');
+        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
+    });
+    it('deleteDatabase', async () => {
+        await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
+        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
+    });
+    it('backupDatabase', async () => {
+        const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
+        console.log(response)
+        expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
+    });
+    it('importIntoDatabase', async () => {
+        const importParameters: DatabaseImportParameters = {
+            sourceType: 'ftp',
+            importFromUri: ['ftp-import-url']
+        };
+        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
+        console.log(response)
+        expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
+    });
 });
