@@ -3,7 +3,7 @@ import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubsc
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
 import { SubscriptionCloudProviderTypes } from './types/subscription';
-import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan } from './types/general';
+import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/general';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -107,7 +107,7 @@ export class CloudAPISDK {
      * Returning a lookup list of current account's regions
      * @param provider The cloud provider of the plan
      */
-    async getRegions(provider: SubscriptionCloudProviderTypes): Promise<{[key: string]: any}> {
+    async getRegions(provider: SubscriptionCloudProviderTypes): Promise<Region[]> {
         try {
             const response: any = await this.httpClient.get(`/regions?provider=${provider}`);
             return response['data']['regions'];

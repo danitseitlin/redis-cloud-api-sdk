@@ -69,6 +69,12 @@ export type Plan = {
     [key: string]: any
 }
 
+export type Region = {
+    name: string,
+    provider: string,
+    [key: string]: any
+}
+
 /**
  * { id: 209,
     name: '1,000GB',
