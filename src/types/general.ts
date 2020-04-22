@@ -27,28 +27,60 @@ export type DatabaseModule = {
         description?: string,
         type?: string,
         defaultValue?: number,
-        required?: boolean
-    }[]
+        required?: boolean,
+        [key: string]: any
+    }[],
+    [key: string]: any
+}
+
+export type SystemLog = {
+    id: number,
+    time: string,
+    originator: string,
+    apiKeyName: string,
+    type: string,
+    description: string,
+    [key: string]: any
+}
+
+export type PaymentMethod = {
+    id: number,
+    type: string,
+    creditCardEndsWith: number,
+    nameOnCard: string,
+    expirationMonth: number,
+    expirationYear: number
+}
+
+export type Plan = {
+    id: number,
+    name: string,
+    provider: string,
+    region: string,
+    price: number,
+    priceCurrency: string,
+    pricePeriod: string,
+    supportsRedisOnFlash: boolean,
+    supportsMultipleAvailabilityZones: boolean,
+    maximumNumberOfDatabases: number,
+    memorySizeInMb: number,
+    throughputOperationsPerSecond: number,
+    planType: string,
+    [key: string]: any
 }
 
 /**
- * type: 'integer',
-    defaultValue: 1,
-    required: false
- */
-
-/**
- * [ { name: 'RedisBloom',
-    description: 'Bloom Filter Module for Redis',
-    parameters: [] },
-  { name: 'RedisGraph',
-    description:
-     'A graph database on top of Redis which supports Open-Cypher query language',
-    parameters: [ [Object] ] },
-  { name: 'RedisJSON',
-    description: 'Native JSON Data Type for Redis',
-    parameters: [] },
-  { name: 'RediSearch',
-    description: 'High performance search index on top of Redis',
-    parameters: [ [Object] ] } ]
+ * { id: 209,
+    name: '1,000GB',
+    provider: 'AWS',
+    region: 'ap-northeast-1',
+    price: 5330.88,
+    priceCurrency: 'USD',
+    pricePeriod: 'hour',
+    supportsRedisOnFlash: true,
+    supportsMultipleAvailabilityZones: true,
+    maximumNumberOfDatabases: 10,
+    memorySizeInMb: 1024000,
+    throughputOperationsPerSecond: 50000,
+    planType: 'Flash' }
  */

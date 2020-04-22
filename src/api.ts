@@ -3,7 +3,7 @@ import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubsc
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
 import { SubscriptionCloudProviderTypes } from './types/subscription';
-import { AccountInformation, DatabaseModule } from './types/general';
+import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan } from './types/general';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -66,7 +66,7 @@ export class CloudAPISDK {
      * @param limit Maximum number of items to return
      * @param offset Number of items to skip
      */
-    async getSystemLogs(limit: number, offset: number): Promise<{[key: string]: any}> {
+    async getSystemLogs(limit: number, offset: number): Promise<SystemLog[]> {
         try {
             const response: any = await this.httpClient.get(`/logs?limit=${limit}&offset=${offset}`);
             return response['data']['entries'];
@@ -79,7 +79,7 @@ export class CloudAPISDK {
     /**
      * Returning a lookup list of current account’s payment methods
      */
-    async getPaymentMethods(): Promise<{[key: string]: any}> {
+    async getPaymentMethods(): Promise<PaymentMethod[]> {
         try {
             const response: any = await this.httpClient.get('/payment-methods');
             return response['data']['paymentMethods'];
@@ -93,7 +93,7 @@ export class CloudAPISDK {
      * Returning a lookup list of current account's plans
      * @param provider The cloud provider of the plan
      */
-    async getPlans(provider: SubscriptionCloudProviderTypes): Promise<{[key: string]: any}> {
+    async getPlans(provider: SubscriptionCloudProviderTypes): Promise<Plan[]> {
         try {
             const response: any = await this.httpClient.get(`/plans?provider=${provider}`);
             return response['data']['plans'];
