@@ -105,13 +105,13 @@ describe('Testing databases', async function() {
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
     });
-    it('backupDatabase', async () => {
+    it.skip('backupDatabase', async () => {
         const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
         console.log(response)
         expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
     });
-    it('importIntoDatabase', async () => {
+    it.skip('importIntoDatabase', async () => {
         const importParameters: DatabaseImportParameters = {
             sourceType: 'ftp',
             importFromUri: ['ftp-import-url']
