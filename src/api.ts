@@ -3,7 +3,7 @@ import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubsc
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
 import { SubscriptionCloudProviderTypes } from './types/subscription';
-import { AccountInformation } from './types/general';
+import { AccountInformation, DatabaseModule } from './types/general';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -51,7 +51,7 @@ export class CloudAPISDK {
     /**
      * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
-    async getDatabaseModules(): Promise<{[key: string]: any}> {
+    async getDatabaseModules(): Promise<DatabaseModule[]> {
         try {
             const response: any = await this.httpClient.get('/database-modules');
             return response['data']['modules'];

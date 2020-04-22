@@ -22,8 +22,20 @@ export type AccountInformation = {
 export type DatabaseModule = {
     name: string,
     description: string,
-    parameters: []
+    parameters: {
+        name?: string,
+        description?: string,
+        type?: string,
+        defaultValue?: number,
+        required?: boolean
+    }[]
 }
+
+/**
+ * type: 'integer',
+    defaultValue: 1,
+    required: false
+ */
 
 /**
  * [ { name: 'RedisBloom',
