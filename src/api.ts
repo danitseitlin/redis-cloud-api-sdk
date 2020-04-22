@@ -423,12 +423,6 @@ export class CloudAPISDK {
             return taskResponse['response'];
         }
         catch(error) {
-            console.log(error)
-            if (error.response) {
-                console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-            }
             return error;
         }
     }
@@ -519,7 +513,7 @@ export class CloudAPISDK {
         let subscription: any = await this.getSubscription(subscriptionId);
         let subscriptionStatus: SubscriptionStatus = subscription['status'];
         while (subscriptionStatus !== expectedStatus && subscriptionStatus !== SubscriptionStatus.error && subscriptionStatus !== undefined) { 
-            await this.sleep(1);
+            await this.sleep(10);
             subscription = await this.getSubscription(subscriptionId);
             subscriptionStatus = await subscription['status'];
         }
