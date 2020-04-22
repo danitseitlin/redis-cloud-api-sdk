@@ -1,7 +1,6 @@
 name: Integration testing
 
 on: 
-  push:
   schedule:
     - cron:  '0 3 * * *'
 
