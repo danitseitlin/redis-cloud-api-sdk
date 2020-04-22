@@ -82,6 +82,7 @@ describe('Testing databases', async function() {
         const createdDatabaseId: number = createDatabase['resourceId'];
         expect(createdDatabaseId).not.to.eql(undefined, 'Database id');
         databaseId = createdDatabaseId;
+        console.log(`Database id: ${databaseId}`);
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
     });
     it('getDatabase', async () => {
@@ -98,7 +99,7 @@ describe('Testing databases', async function() {
         expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
     });
-    it('deleteDatabase', async () => {
+    it.skip('deleteDatabase', async () => {
         await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
