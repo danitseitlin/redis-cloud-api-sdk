@@ -27,45 +27,6 @@ describe('Testing databases', async function() {
     this.timeout(60 * 60 * 1000);
     let subscriptionId: number = -1;
     let databaseId: number = -1;
-    let cloudAccountId: number = -1;
-    // it('createCloudAccount', async () => {
-    //     const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
-    //     cloudAccountId = response['resourceId'];
-    //     console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
-    //     expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
-    //     await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
-    //     const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-    //     console.log(`============ Cloud account (${cloudAccountId}) ============`);
-    //     console.log(cloudAccount);
-    //     console.log(`===========================================================\n`);
-    //     expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
-    // });
-    // it('createSubscription', async () => {
-    //     const paymentMethods = await cloudAPIClient.getPaymentMethods();
-    //     const cloudAccounts = await cloudAPIClient.getCloudAccounts();
-    //     const paymentMethod = paymentMethods[0];
-    //     const cloudAccount = cloudAccounts.find((cloudAccount: {[key: string]: any}) => cloudAccount['id'] !== 1);
-    //     const createParameters: CreateSubscriptionParameters = {
-    //         paymentMethodId: paymentMethod['id'],
-    //         cloudProviders: [{
-    //             cloudAccountId: cloudAccount['id'],
-    //             regions: [{
-    //                 region: 'us-east-1',
-    //                 networking: {
-    //                     deploymentCIDR: '192.168.1.0/24'
-    //                 }
-    //             }]
-    //         }],
-    //         databases: [{
-    //             name: 'database',
-    //             memoryLimitInGb: 5
-    //         }]
-    //     };
-    //     const createResponse = await cloudAPIClient.createSubscription(createParameters);
-    //     expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
-    //     subscriptionId = createResponse['resourceId'];
-    //     await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-    // });
     it('getSubscription', async () => {
         subscriptionId = (await cloudAPIClient.getSubscriptions())[0].id;
     });
