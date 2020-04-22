@@ -3,6 +3,7 @@ import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubsc
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
 import { SubscriptionCloudProviderTypes } from './types/subscription';
+import { AccountInformation } from './types/general';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -37,7 +38,7 @@ export class CloudAPISDK {
     /**
      * Returning current account and related information
      */
-    async getAccountInformation(): Promise<{[key: string]: any}> {
+    async getAccountInformation(): Promise<AccountInformation> {
         try {
             const response: any = await this.httpClient.get('/');
             return response['data']['account'];

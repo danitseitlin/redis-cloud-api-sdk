@@ -14,15 +14,12 @@ describe('Testing general functions', async function() {
     this.timeout(10 * 60 * 1000);
     it('getAccountInformation', async () => {
         const accountInformation = await cloudAPIClient.getAccountInformation();
-        console.log('============= Account Information =============');
-        console.log(accountInformation);
-        console.log('===============================================');
         expect(accountInformation['id']).not.to.eql(undefined, 'Account id');
     }); 
     it('getDatabaseModules', async () => {
         const databaseModules = await cloudAPIClient.getDatabaseModules();
         console.log('============= Database modules =============');
-        console.log(databaseModules);
+        console.log(databaseModules[1].parameters);
         console.log('============================================');
         expect(databaseModules.length).gte(4, 'Database modules count');
     });
@@ -42,12 +39,14 @@ describe('Testing general functions', async function() {
     });
     it('getPlans', async () => {
         const AWSPlans = await cloudAPIClient.getPlans('AWS');
+        console.log(AWSPlans);
         expect(AWSPlans.length).gte(0, 'AWS plans count');
         const GCPPlans = await cloudAPIClient.getPlans('GCP');
         expect(GCPPlans.length).gte(0, 'GCP plans count');
     });
     it('getRegions', async () => {
         const AWSRegions = await cloudAPIClient.getRegions('AWS');
+        console.log(AWSRegions);
         expect(AWSRegions.length).gte(0, 'AWS regions count');
         const GCPRegions = await cloudAPIClient.getRegions('GCP');
         expect(GCPRegions.length).gte(0, 'GCP regions count');
