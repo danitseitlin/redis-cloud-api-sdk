@@ -12,7 +12,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     domain: TEST_ARGUMENTS.ENVIRONMENT
 }
 const cloudAccountCredentials: CreateCloudAccountParameters = {
-    name: 'My cloud account',
+    name: 'Cloud account',
     accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
     accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,
     consoleUsername: 'console-username',
@@ -21,25 +21,22 @@ const cloudAccountCredentials: CreateCloudAccountParameters = {
 }
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing subscription', async function() {
-    this.timeout(60 * 60 * 60);
+    this.timeout(60 * 60 * 1000);
     let subscriptionId: number = -1;
     let vpcPeeringId: number = -1;
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
-        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
-        expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
+        expect(cloudAccountId).not.to.eql(undefined, `The cloud account id`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        console.log(`============ Cloud account (${cloudAccountId}) ============`);
-        console.log(cloudAccount);
-        console.log(`===========================================================\n`);
-        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'The cloud account status');
     });
     it('createSubscription', async () => {
-        const paymentMethod: any = (await cloudAPIClient.getPaymentMethods())[0];
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
+        const paymentMethod = (await cloudAPIClient.getPaymentMethods())[0];
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
             paymentMethodId: paymentMethod['id'],
             cloudProviders: [{
@@ -56,67 +53,50 @@ describe('Testing subscription', async function() {
                 memoryLimitInGb: 5
             }]
         };
-        const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
-        console.log('===============================');
-        console.log(createResponse)
-        console.log('===============================');
-        expect(createResponse['error']).to.eql(undefined, `Error was found ${createResponse['error']}`);
+        const createResponse = await cloudAPIClient.createSubscription(createParameters);
         subscriptionId = createResponse['resourceId'];
-        console.log(`=== ${subscriptionId} ===`);
-        console.log(`Created subscription with id: ${subscriptionId}`);
+        expect(subscriptionId).not.to.eql(undefined, `The subscription id`);
+        console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['status']).eql(SubscriptionStatus.active, 'The subscription status');
+        expect(subscription['status']).to.eql(SubscriptionStatus.active, 'The subscription status');
     });
     it('getSubscriptions', async () => {
-        const subscriptions: any = await cloudAPIClient.getSubscriptions();
-        expect(subscriptions.length).eql(1, 'The subscriptions count');
+        const subscriptions = await cloudAPIClient.getSubscriptions();
+        expect(subscriptions.length).to.eql(1, 'The subscriptions count');
     }); 
     it('getSubscription', async () => {
-        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
+        const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription['id']).to.eql(subscriptionId, 'The subscription id');
     }); 
     it('updateSubscription', async () => {
         const subscriptionName: string = 'updated-subscription';
-        const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {
+        await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
         });
-        console.log('===============================');
-        console.log(updateResponse)
-        console.log('===============================');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['name']).to.eql(subscriptionName, `Subscription name was not updated: still ${subscription['name']}`);
+        const subscription = await cloudAPIClient.getSubscription(subscriptionId);
+        expect(subscription['name']).to.eql(subscriptionName, `The subscription name`);
     }); 
     it('getCidrWhitelists', async () => {
-        const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        if(TEST_ARGUMENTS.DEBUG) console.log(cidrWhitelists);
-        expect(cidrWhitelists['error']).to.eql(undefined, `Error was found ${cidrWhitelists['error']}`);
+        const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
+        expect(cidrWhitelists.cidr_ips).to.eql([], `The subscription cidr`);
     }); 
-    it('updateCidrWhitelists', async () => {
-        const updatedCidrIps: string[] = ['192.168.20.0/24'];
-        const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
+    it.skip('updateCidrWhitelists', async () => {
+        const updatedCidrIps: string[] = ['192.168.1.2/24'];
+        await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
-        console.log('===============================');
-        console.log(updateResponse)
-        console.log('===============================');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        console.log('===============================');
-        console.log(cidrWhitelists)
-        console.log('===============================');
-        expect(cidrWhitelists).to.eql(updatedCidrIps, `Subscription CIDR Whitelists we're not updated: still ${cidrWhitelists}`);
+        const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
+        expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `The subscription cidr`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {
-        const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log('===============================');
-        console.log(subscriptionVpcPeerings)
-        console.log('===============================');
-        expect(subscriptionVpcPeerings['error']).to.eql(undefined, `Error was found ${subscriptionVpcPeerings['error']}`);
+        const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
+        expect(subscriptionVpcPeerings.peerings).to.eql([], `The subscription peerings list`);
     }); 
-    it('createSubscriptionVpcPeering', async () => {
-        const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
+    it.skip('createSubscriptionVpcPeering', async () => {
+        const createResponse = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
             awsAccountId: TEST_ARGUMENTS.VPC_PEERING_AWS_ACCOUNT_ID,
             vpcCidr: TEST_ARGUMENTS.VPC_PEERING_CIDR,
@@ -125,57 +105,13 @@ describe('Testing subscription', async function() {
         vpcPeeringId = createResponse['resourceId'];
         console.log(`=== vpcPeeringId: ${vpcPeeringId} ===`)
         await cloudAPIClient.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, SubscriptionVpcPeeringStatus.active);
-        const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log('===============================');
-        console.log(subscriptionVpcPeerings)
-        console.log('===============================');
-        expect(subscriptionVpcPeerings.length).gt(0, 'Subscription VPC Peering was not created!');
+        const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
+        expect(subscriptionVpcPeerings.length).gt(0, 'The subscription peerings list count');
     }); 
-    it('deleteSubscriptionVpcPeering', async () => {
+    it.skip('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
-        const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        const subscriptionVpcPeering: any = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any) => vpcPeering['id'] === vpcPeeringId);
-        console.log('===============================');
-        console.log(subscriptionVpcPeering)
-        console.log('===============================');
-        expect(subscriptionVpcPeering['error']).to.eql(undefined, 'Subscription vpc peering was not removed');
-    });
-    it('deleteSubscription', async () => {
-        const databases = await cloudAPIClient.getDatabases(subscriptionId);
-        for(let i = 0; i < databases.length; i++) {
-            const databaseId: number = databases[i]['databaseId'];
-            await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.active);
-            expect(databases[i]['status']).eql(DatabaseStatus.active);
-            const deleteDatabaseResponse: any = await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-            console.log('===============================');
-            console.log(deleteDatabaseResponse)
-            console.log('===============================');
-            await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-            const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-            console.log('===============================');
-            console.log(database)
-            console.log('===============================');
-        }
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
-        let subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription['status']).eql(SubscriptionStatus.active);
-        const deleteSubscriptionResponse: any = await cloudAPIClient.deleteSubscription(subscriptionId);
-        console.log('===============================');
-        console.log(deleteSubscriptionResponse)
-        console.log('===============================');
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
-        subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log('===============================');
-        console.log(subscription)
-        console.log('===============================');
-        const error: any = subscription.find((error: any) => error['status'] !== undefined);  
-        if(TEST_ARGUMENTS.DEBUG) console.log(error);
-        expect(error['status']).to.eql('Not Found', 'Subscription was not removed');
-    });
-    it('deleteCloudAccount', async () => {
-        await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
+        const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
+        const subscriptionVpcPeering = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: {[key: string]: any}) => vpcPeering['id'] === vpcPeeringId);
+        expect(subscriptionVpcPeering).not.to.eql(undefined, 'The subscription peering existence');
     });
   });
