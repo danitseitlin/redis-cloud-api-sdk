@@ -470,6 +470,7 @@ export class CloudAPISDK {
             const response: {[key: string]: any } = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
             const taskId: number = await response['data']['taskId'];
             const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            console.log(taskResponse)
             return taskResponse['response'];
         }
         catch(error) {
