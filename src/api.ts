@@ -4,6 +4,8 @@ import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParam
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
 import { SubscriptionCloudProviderTypes } from './types/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/general';
+import { CloudAccount } from './types/cloud-account';
+import { Task } from './types/task';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -138,9 +140,9 @@ export class CloudAPISDK {
      */
     async createSubscription(createParameters: CreateSubscriptionParameters): Promise<{[key: string]: any}> {
         try {
-            const response: any = await this.httpClient.post('/subscriptions', createParameters);
+            const response = await this.httpClient.post('/subscriptions', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         
@@ -402,7 +404,7 @@ export class CloudAPISDK {
     /**
      * Returning a lookup list of cloud accounts owned by the account
      */
-    async getCloudAccounts(): Promise<{[key: string]: any}> {
+    async getCloudAccounts(): Promise<CloudAccount[]> {
         try {
             const response: any = await this.httpClient.get('/cloud-accounts');
             return response['data']['cloudAccounts'];
@@ -418,9 +420,9 @@ export class CloudAPISDK {
      */
     async createCloudAccount(createParameters: CreateCloudAccountParameters): Promise<{[key: string]: any}> {
         try {
-            const response: any = await this.httpClient.post('/cloud-accounts', createParameters);
+            const response = await this.httpClient.post('/cloud-accounts', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -432,7 +434,7 @@ export class CloudAPISDK {
      * Returning a cloud account
      * @param cloudAccountId The id of the cloud account
      */
-    async getCloudAccount(cloudAccountId: number): Promise<{[key: string]: any}> {
+    async getCloudAccount(cloudAccountId: number): Promise<CloudAccount> {
         try {
             const response: any = await this.httpClient.get(`/cloud-accounts/${cloudAccountId}`);
             return response['data'];
@@ -465,9 +467,9 @@ export class CloudAPISDK {
      */
     async deleteCloudAccount(cloudAccountId: number): Promise<{[key: string]: any}> {
         try {
-            const response: any = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
+            const response: {[key: string]: any } = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
             return taskResponse['response'];
         }
         catch(error) {
@@ -574,7 +576,7 @@ export class CloudAPISDK {
      * @param taskId The id of the task
      * @param expectedStatus The expected status
      */
-    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<{[key: string]: any}> {
+    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<Task> {
         let task: any = await this.getTask(taskId);
         let taskStatus: TaskStatus = task['status'];
         while (taskStatus !== expectedStatus && taskStatus !== TaskStatus.error && taskStatus !== undefined) { 
