@@ -138,7 +138,7 @@ export class CloudAPISDK {
      * Creating a subscription
      * @param createParameters The given parameters given for the subscription creation
      */
-    async createSubscription(createParameters: CreateSubscriptionParameters): Promise<{[key: string]: any}> {
+    async createSubscription(createParameters: CreateSubscriptionParameters): Promise<TaskResponse> {
         try {
             const response = await this.httpClient.post('/subscriptions', createParameters);
             const taskId: number = await response['data']['taskId'];
