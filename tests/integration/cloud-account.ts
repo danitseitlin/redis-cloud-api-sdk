@@ -25,6 +25,7 @@ describe('Testing cloud account', async function() {
     let cloudAccountId: number = -1;
     it('createCloudAccount', async () => {
         const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        console.log(response)
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
         expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
@@ -50,7 +51,7 @@ describe('Testing cloud account', async function() {
         expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
     });
     it('deleteCloudAccount', async () => {
-        await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        console.log(await cloudAPIClient.deleteCloudAccount(cloudAccountId));
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
