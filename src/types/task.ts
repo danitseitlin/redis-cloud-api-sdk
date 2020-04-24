@@ -8,7 +8,7 @@ export type Task = {
 }
 
 export type TaskResponse = {
-    resourceId?: number, 
+    resourceId: number, 
     [key: string]: any
 }
 
