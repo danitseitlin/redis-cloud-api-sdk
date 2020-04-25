@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
 import { loadArguments } from '../helpers';
 import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
@@ -54,14 +54,13 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse = await cloudAPIClient.createSubscription(createParameters);
-        console.log(createResponse)
         subscriptionId = createResponse['resourceId'];
         expect(subscriptionId).not.to.eql(undefined, `The subscription id`);
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription);
-        expect(subscription['status']).to.eql(SubscriptionStatus.active, 'The subscription status');
+        console.log(subscription.cloudDetails[0].regions);
+        expect(subscription['status']).to.eql('active', 'The subscription status');
     });
     it('getSubscriptions', async () => {
         const subscriptions = await cloudAPIClient.getSubscriptions();
@@ -78,7 +77,7 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
         });
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         console.log(subscription);
         expect(subscription['name']).to.eql(subscriptionName, `The subscription name`);
@@ -93,7 +92,7 @@ describe('Testing subscription', async function() {
         await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
-        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.active);
+        await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
         console.log(cidrWhitelists)
         expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `The subscription cidr`);
@@ -114,12 +113,12 @@ describe('Testing subscription', async function() {
         console.log(`=== vpcPeeringId: ${vpcPeeringId} ===`)
         await cloudAPIClient.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, SubscriptionVpcPeeringStatus.active);
         const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        expect(subscriptionVpcPeerings.length).gt(0, 'The subscription peerings list count');
+        expect(subscriptionVpcPeerings.peerings.length).gt(0, 'The subscription peerings list count');
     }); 
     it.skip('deleteSubscriptionVpcPeering', async () => {
         await cloudAPIClient.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        const subscriptionVpcPeering = subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: {[key: string]: any}) => vpcPeering['id'] === vpcPeeringId);
+        const subscriptionVpcPeering = subscriptionVpcPeerings.peerings.find((vpcPeering: {[key: string]: any}) => vpcPeering['id'] === vpcPeeringId);
         expect(subscriptionVpcPeering).not.to.eql(undefined, 'The subscription peering existence');
     });
   });

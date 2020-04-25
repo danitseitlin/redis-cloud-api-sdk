@@ -2,10 +2,10 @@ import Axios, { AxiosInstance } from 'axios';
 import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubscriptionCidrWhitelistParameters, CreateSubscriptionVpcPeeringParameters } from './interfaces/subscription';
 import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './interfaces/database';
 import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './interfaces/cloud-account';
-import { SubscriptionCloudProviderTypes } from './types/subscription';
+import { SubscriptionCloudProviderTypes, Subscription, SubscriptionCidrWhitelist, SubscriptionPeering, SubscriptionStatus } from './types/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/general';
 import { CloudAccount } from './types/cloud-account';
-import { Task, TaskResponse } from './types/task';
+import { Task, TaskResponse, TaskStatus } from './types/task';
 
 export class CloudAPISDK {
     private protocol: string = 'https';
@@ -124,9 +124,9 @@ export class CloudAPISDK {
     /**
      * Returning a lookup list of current account's subscriptions
      */
-    async getSubscriptions(): Promise<{[key: string]: any}> {
+    async getSubscriptions(): Promise<Subscription[]> {
         try {
-            const response: any = await this.httpClient.get('/subscriptions');
+            const response = await this.httpClient.get('/subscriptions');
             return response['data']['subscriptions'];
         }
         catch(error) {
@@ -142,23 +142,21 @@ export class CloudAPISDK {
         try {
             const response = await this.httpClient.post('/subscriptions', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
-        
         catch(error) {
             return error;
         }
-        
     }
 
     /**
      * Returning a subscription
      * @param subscriptionId The id of the subscription
      */
-    async getSubscription(subscriptionId: number): Promise<{[key: string]: any}> {
+    async getSubscription(subscriptionId: number): Promise<Subscription> {
         try {
-            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
+            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
             return response['data'];
         }
         catch(error) {
@@ -171,11 +169,11 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The given update parameters to update the subscription with
      */
-    async updateSubscription(subscriptionId: number, updateParameters: UpdateSubscriptionParameters): Promise<{[key: string]: any}> {
+    async updateSubscription(subscriptionId: number, updateParameters: UpdateSubscriptionParameters): Promise<TaskResponse> {
         try {
-            const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
+            const response = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -187,11 +185,11 @@ export class CloudAPISDK {
      * Deleting a subscription
      * @param subscriptionId The id of the subscription
      */
-    async deleteSubscription(subscriptionId: number): Promise<{[key: string]: any}> {
+    async deleteSubscription(subscriptionId: number): Promise<TaskResponse> {
         try {
-            const response:any = await this.httpClient.delete(`/subscriptions/${subscriptionId}`);
+            const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -203,11 +201,11 @@ export class CloudAPISDK {
      * Returning a lookup list of a subscription CIDR whitelists
      * @param subscriptionId The id of the subscription
      */
-    async getSubscriptionCidrWhitelists(subscriptionId: number): Promise<{[key: string]: any}> {
+    async getSubscriptionCidrWhitelists(subscriptionId: number): Promise<SubscriptionCidrWhitelist> {
         try {
-            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
+            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response']['resource'];
         }
         catch(error) {
@@ -220,11 +218,11 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The parameters to update the subscription with
      */
-    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: UpdateSubscriptionCidrWhitelistParameters): Promise<{[key: string]: any}> {
+    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: UpdateSubscriptionCidrWhitelistParameters): Promise<TaskResponse> {
         try {
-            const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
+            const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -236,11 +234,11 @@ export class CloudAPISDK {
      * Returning a lookup list of the subscription VPC Peerings
      * @param subscriptionId The id of the subscription
      */
-    async getSubscriptionVpcPeerings(subscriptionId: number): Promise<{[key: string]: any}> {
+    async getSubscriptionVpcPeerings(subscriptionId: number): Promise<SubscriptionPeering> {
         try {
-            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
+            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response']['resource'];
         }
         catch(error) {
@@ -253,11 +251,11 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
      */
-    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: CreateSubscriptionVpcPeeringParameters): Promise<{[key: string]: any}> {
+    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: CreateSubscriptionVpcPeeringParameters): Promise<TaskResponse> {
         try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
+            const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -270,11 +268,11 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the VPC peering
      */
-    async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<{[key: string]: any}> {
+    async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<TaskResponse> {
         try {
-            const response: any = await this.httpClient.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
+            const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -307,7 +305,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -340,7 +338,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -357,7 +355,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -374,7 +372,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -392,7 +390,7 @@ export class CloudAPISDK {
         try {
             const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/import`, importParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse: any = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse: any = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -422,7 +420,7 @@ export class CloudAPISDK {
         try {
             const response = await this.httpClient.post('/cloud-accounts', createParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -436,7 +434,7 @@ export class CloudAPISDK {
      */
     async getCloudAccount(cloudAccountId: number): Promise<CloudAccount> {
         try {
-            const response: any = await this.httpClient.get(`/cloud-accounts/${cloudAccountId}`);
+            const response = await this.httpClient.get(`/cloud-accounts/${cloudAccountId}`);
             return response['data'];
         }
         catch(error) {
@@ -451,9 +449,9 @@ export class CloudAPISDK {
      */
     async updateCloudAccount(cloudAccountId: number, updateParameters: UpdateCloudAccountParameters): Promise<TaskResponse> {
         try {
-            const response: {[key: string]: any} = await this.httpClient.put(`/cloud-accounts/${cloudAccountId}`, updateParameters);
+            const response = await this.httpClient.put(`/cloud-accounts/${cloudAccountId}`, updateParameters);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -467,9 +465,9 @@ export class CloudAPISDK {
      */
     async deleteCloudAccount(cloudAccountId: number): Promise<TaskResponse> {
         try {
-            const response: {[key: string]: any } = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
+            const response = await this.httpClient.delete(`/cloud-accounts/${cloudAccountId}`);
             const taskId: number = await response['data']['taskId'];
-            const taskResponse = await this.waitForTaskStatus(taskId, TaskStatus.completed);
+            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse['response'];
         }
         catch(error) {
@@ -513,12 +511,14 @@ export class CloudAPISDK {
      * @param expectedStatus The expected status
      */
     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus): Promise<void> { 
-        let subscription: any = await this.getSubscription(subscriptionId);
-        let subscriptionStatus: SubscriptionStatus = subscription['status'];
-        while (subscriptionStatus !== expectedStatus && subscriptionStatus !== SubscriptionStatus.error && subscriptionStatus !== undefined) { 
+        if(expectedStatus === 'deleted') expectedStatus = 404;
+        let subscription = await this.getSubscription(subscriptionId);
+        let subscriptionStatus = subscription.status;
+        while (subscriptionStatus !== expectedStatus && subscriptionStatus !== 'error' && subscriptionStatus !== undefined) { 
             await this.sleep(10);
             subscription = await this.getSubscription(subscriptionId);
-            subscriptionStatus = await subscription['status'];
+            console.log(subscription)
+            subscriptionStatus = subscription['status'];
         }
     }
 
@@ -528,14 +528,14 @@ export class CloudAPISDK {
      * @param vpcPeeringId The id of the subscription VPC peering
      * @param expectedStatus The expected status
      */
-    async waitForSubscriptionVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: string) {
+    async waitForSubscriptionVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: string): Promise<void> {
         let subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
-        let subscriptionVpcPeering = await subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
+        let subscriptionVpcPeering = await subscriptionVpcPeerings['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
         let subscriptionVpcPeeringStatus = subscriptionVpcPeering['status'];
-        while (subscriptionVpcPeeringStatus !== expectedStatus && subscriptionVpcPeeringStatus !== SubscriptionStatus.error && subscriptionVpcPeeringStatus !== undefined) { 
+        while (subscriptionVpcPeeringStatus !== expectedStatus && subscriptionVpcPeeringStatus !== SubscriptionVpcPeeringStatus.error && subscriptionVpcPeeringStatus !== undefined) { 
             await this.sleep(1);
             subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
-            subscriptionVpcPeering = await subscriptionVpcPeerings['resource']['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
+            subscriptionVpcPeering = await subscriptionVpcPeerings['peerings'].find((vpcPeering: any)=> vpcPeering['id'] === vpcPeeringId)
             subscriptionVpcPeeringStatus = subscriptionVpcPeering['status'];
         }
     }
@@ -577,17 +577,17 @@ export class CloudAPISDK {
      * @param expectedStatus The expected status
      */
     async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<Task> {
-        let task: any = await this.getTask(taskId);
-        let taskStatus: TaskStatus = task['status'];
-        while (taskStatus !== expectedStatus && taskStatus !== TaskStatus.error && taskStatus !== undefined) { 
+        let task = await this.getTask(taskId);
+        let taskStatus = task.status;
+        while (taskStatus !== expectedStatus && taskStatus !== 'processing-error' && taskStatus !== undefined) { 
             await this.sleep(1);
             task = await this.getTask(taskId);
-            taskStatus = await task['status'];
+            taskStatus = task.status;
         }
-        if (taskStatus === TaskStatus.error) { 
-            const errorType: string = task['response']['error']['type'];
-            const errorStatus: string = task['response']['error']['status'];
-            const errorDescription: string = task['response']['error']['description'];
+        if (taskStatus === 'processing-error' && task.response.error !== undefined) { 
+            const errorType = task.response.error.type;
+            const errorStatus = task.response.error.status;
+            const errorDescription = task.response.error.description;
             console.log(`Task ${taskId} ended up in error: type: ${errorType}, status: ${errorStatus}, description: ${errorDescription}`);
         }
         return task;
@@ -625,12 +625,7 @@ export interface CloudAPISDKParameters {
  * @param deleted A subscription status indicating the subscription is deleted
  * @param error A subscription status indicating the subscription ended up with error
  */
-export enum SubscriptionStatus {
-    active = 'active',
-    pending = 'pending',
-    deleted = 404,
-    error = 'error'
-}
+
 
 /**
  * The available subscription vpc peering statuses
@@ -683,7 +678,4 @@ export enum CloudAccountStatus {
  * @param completed A task status indicating the task is completed
  * @param error A task status indicating the task ended up with error
  */
-export enum TaskStatus {
-    completed = 'processing-completed',
-    error = 'processing-error'
-}
+

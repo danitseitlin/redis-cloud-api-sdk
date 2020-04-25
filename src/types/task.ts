@@ -1,6 +1,6 @@
 export type Task = {
     taskId: string,
-    status: string,
+    status: TaskStatus,
     description: string,
     timestamp: string,
     response: TaskResponse,
@@ -8,6 +8,14 @@ export type Task = {
 }
 
 export type TaskResponse = {
-    resourceId: number, 
+    resourceId: number,
+    error?: ErrorResponse,
     [key: string]: any
 }
+
+export type ErrorResponse = {
+    type: string,
+    status: string,
+    description: string
+}
+export type TaskStatus = 'processing-completed' | 'processing-error';

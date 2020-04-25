@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionStatus, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, CloudAccountStatus } from '../../src/api';
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
@@ -31,7 +31,7 @@ describe('Cleanup', async function() {
             console.log(`error message: ${databases.response.data.message}`);
             expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             await cloudAPIClient.deleteSubscription(subscriptionId);
-            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
+            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'deleted');
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
