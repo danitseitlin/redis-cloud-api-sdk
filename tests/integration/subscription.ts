@@ -54,6 +54,7 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse = await cloudAPIClient.createSubscription(createParameters);
+        console.log(createResponse)
         subscriptionId = createResponse['resourceId'];
         expect(subscriptionId).not.to.eql(undefined, `The subscription id`);
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
