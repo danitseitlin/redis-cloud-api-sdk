@@ -38,9 +38,9 @@ describe('Testing subscription', async function() {
         const paymentMethod = (await cloudAPIClient.getPaymentMethods())[0];
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
-            paymentMethodId: paymentMethod['id'],
+            paymentMethodId: paymentMethod.id,
             cloudProviders: [{
-                cloudAccountId: cloudAccount['id'],
+                cloudAccountId: cloudAccount.id,
                 regions: [{
                     region: 'us-east-1',
                     networking: {
@@ -54,7 +54,8 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse = await cloudAPIClient.createSubscription(createParameters);
-        subscriptionId = createResponse['resourceId'];
+        console.log(createResponse);
+        subscriptionId = createResponse.resourceId;
         expect(subscriptionId).not.to.eql(undefined, `The subscription id`);
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
