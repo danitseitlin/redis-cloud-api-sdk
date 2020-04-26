@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account'
 import { loadArguments } from '../helpers';
 
@@ -28,9 +28,9 @@ describe('Testing cloud account', async function() {
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
         expect(cloudAccountId).not.to.eql(undefined, `Cloud account id is ${cloudAccountId}`);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, 'active');
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
+        expect(cloudAccount.status).to.eql('active', 'Cloud Account status');
     });
     it('getCloudAccounts', async () => {
         const cloudAccounts  = await cloudAPIClient.getCloudAccounts();
@@ -38,12 +38,12 @@ describe('Testing cloud account', async function() {
     })
     it('getCloudAccount', async () => {
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'Cloud Account status');
+        expect(cloudAccount.status).to.eql('active', 'Cloud Account status');
     });
     it('deleteCloudAccount', async () => {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, '404');
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['response']['data']['status']).eql(CloudAccountStatus.deleted, 'Cloud account status')
+        expect(cloudAccount['response']['data']['status']).eql('404', 'Cloud account status')
     });
 });

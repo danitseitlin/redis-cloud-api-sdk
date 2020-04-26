@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';

@@ -47,4 +47,11 @@ export type SubscriptionPeering = {
     peerings: any[]
 }
 
-export type SubscriptionStatus = 'active' | 'pending' | 'deleted' | 'error' | 404;
+/**
+ * The availiable subscription status
+ * @param active Active status
+ * @param pending Pending status
+ * @param error Error status
+ * @param 404 Delete status
+ */
+export type SubscriptionStatus = 'active' | 'pending' | 'error' | '404';

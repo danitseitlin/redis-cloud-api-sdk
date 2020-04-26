@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters, SubscriptionVpcPeeringStatus } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
 import { loadArguments } from '../helpers';
 import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
@@ -30,9 +30,9 @@ describe('Testing subscription', async function() {
         cloudAccountId = response['resourceId'];
         console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
         expect(cloudAccountId).not.to.eql(undefined, `The cloud account id`);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.active);
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, 'active');
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['status']).to.eql(CloudAccountStatus.active, 'The cloud account status');
+        expect(cloudAccount['status']).to.eql('active', 'The cloud account status');
     });
     it('createSubscription', async () => {
         const paymentMethod = (await cloudAPIClient.getPaymentMethods())[0];

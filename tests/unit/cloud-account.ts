@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account'
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
@@ -73,12 +73,12 @@ describe('Testing cloud account', async function() {
         server.stop();
     });
     it('createCloudAccount', async () => {
-        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         expect(response.message).to.eql(undefined, 'Error message existence');
         expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getCloudAccounts', async () => {
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        const cloudAccounts = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.message).to.eql(undefined, 'Error message existence');
         expect(cloudAccounts.message).not.to.eql('Request failed with status code 404', 'Error message type');
     })
