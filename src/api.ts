@@ -667,3 +667,30 @@ export enum SubscriptionVpcPeeringStatus {
  * @param error A task status indicating the task ended up with error
  */
 
+
+type Error = {
+    config: {
+        url: string,
+        method: string,
+        headers: {[key: string]: any},
+        baseURL: string,
+        [key: string]: any
+    },
+    request: {[key: string]: any},
+    response: {
+        status: string | number,
+        statusText: string,
+        headers: {[key: string]: any},
+        config: {
+            url: string,
+            method: string,
+            headers: {[key: string]: any},
+            baseURL: string,
+            [key: string]: any
+        },
+        request: {[key: string]: any},
+        data: string,
+        [key: string]: any
+    },
+    [key: string]: any
+}
