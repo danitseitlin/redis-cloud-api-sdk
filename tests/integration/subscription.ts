@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
+import { CreateSubscriptionParameters } from '../../src/types/parameters/subscription';
 import { loadArguments } from '../helpers';
-import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account';
-import { SubscriptionVpcPeering } from '../../src/types/subscription';
+import { CreateCloudAccountParameters } from '../../src/types/parameters/cloud-account';
+import { SubscriptionVpcPeering } from '../../src/types/responses/subscription';
 
 const TEST_ARGUMENTS = loadArguments();
 

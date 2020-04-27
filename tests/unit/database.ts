@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../../src/interfaces/database';
+import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
