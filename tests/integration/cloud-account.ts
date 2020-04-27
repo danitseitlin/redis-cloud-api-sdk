@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account'
+import { CreateCloudAccountParameters } from '../../src/types/parameters/cloud-account'
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();

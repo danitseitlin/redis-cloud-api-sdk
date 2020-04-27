@@ -1,20 +1,10 @@
-import { Region } from "./general";
-
-/**
- * The subscription memory storage types
- */
-export type SubscriptionMemoryStorageTypes = 'ram' | 'ram-and-flash';
-
-/**
- * The subscription cloud provider types
- */
-export type SubscriptionCloudProviderTypes = 'AWS' | 'GCP';
+import { Region } from './general';
 
 export type Subscription = {
     id: number,
     status: SubscriptionStatus,
     paymentMethodId: number,
-    memoryStorage: SubscriptionMemoryStorageTypes,
+    memoryStorage: SubscriptionMemoryStorage,
     storageEncryption: boolean,
     numberOfDatabases: number,
     subscriptionPricing: SubscriptionPricing[],
@@ -30,7 +20,7 @@ export type SubscriptionPricing = {
 }
 
 export type SubscriptionCloudDetails = {
-    provider: SubscriptionCloudProviderTypes,
+    provider: SubscriptionCloudProvider,
     cloudAccountId: number,
     totalSizeInGb: number,
     regions: Region[],
@@ -43,8 +33,9 @@ export type SubscriptionCidrWhitelist = {
     errors: any[]
 }
 
-export type SubscriptionPeering = {
-    peerings: any[]
+export type SubscriptionVpcPeering = {
+    id?: number,
+    status?: SubscriptionVpcPeeringStatus
 }
 
 /**
@@ -55,3 +46,22 @@ export type SubscriptionPeering = {
  * @param 404 Delete status
  */
 export type SubscriptionStatus = 'active' | 'pending' | 'error' | '404';
+
+/**
+ * The availiable subscription vpc peering status
+ * @param active Active status
+ * @param inactive Inactive status
+ * @param pending-acceptance Pending status
+ * @param failed Error status
+ */
+export type SubscriptionVpcPeeringStatus = 'active' | 'inactive' | 'pending-acceptance' | 'failed';
+
+/**
+ * The subscription memory storage types
+ */
+export type SubscriptionMemoryStorage = 'ram' | 'ram-and-flash';
+
+/**
+ * The subscription cloud provider types
+ */
+export type SubscriptionCloudProvider = 'AWS' | 'GCP';

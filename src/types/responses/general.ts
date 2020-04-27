@@ -74,19 +74,3 @@ export type Region = {
     provider: string,
     [key: string]: any
 }
-
-/**
- * { id: 209,
-    name: '1,000GB',
-    provider: 'AWS',
-    region: 'ap-northeast-1',
-    price: 5330.88,
-    priceCurrency: 'USD',
-    pricePeriod: 'hour',
-    supportsRedisOnFlash: true,
-    supportsMultipleAvailabilityZones: true,
-    maximumNumberOfDatabases: 10,
-    memorySizeInMb: 1024000,
-    throughputOperationsPerSecond: 50000,
-    planType: 'Flash' }
- */

@@ -11,7 +11,7 @@ export type CloudAccount = {
     [key: string]: any
 };
  
-export type CloudAccountProviderTypes = 'AWS' | 'GCP';
+export type CloudAccountProvider = 'AWS' | 'GCP';
 
 /**
  * The available cloud account status

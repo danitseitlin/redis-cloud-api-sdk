@@ -1,5 +1,5 @@
-import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseThroughputMeasurementByTypes } from "../types/database";
-import { SubscriptionMemoryStorageTypes, SubscriptionCloudProviderTypes } from "../types/subscription";
+import { SubscriptionMemoryStorage, SubscriptionCloudProvider } from '../responses/subscription'
+import { DatabaseProtocol, DatabaseDataPersistence, DatabaseThroughputMeasurement } from '../responses/database'
 
 /**
  * The parameters needed to create a subscription
@@ -31,40 +31,14 @@ import { SubscriptionMemoryStorageTypes, SubscriptionCloudProviderTypes } from "
  * @param databases.quantity Optional. Number of databases (of this type) that will be created. Default: 1
  * @param databases.averageItemSizeInBytes Optional. Relevant only to ram-and-flash clusters. Estimated average size (measured in bytes) of the items stored in the database. Default: 1000
  */
-export interface CreateSubscriptionParameters {
+export type CreateSubscriptionParameters = {
     name?: string,
     dryRun?: boolean,
     paymentMethodId: number,
-    memoryStorage?: SubscriptionMemoryStorageTypes,
+    memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
-    cloudProviders: Array<{
-        provider?: SubscriptionCloudProviderTypes,
-        cloudAccountId?: number,
-        regions: Array<{
-            region: string,
-            multipleAvailabilityZones?: boolean,
-            preferredAvailabilityZones?: string[],
-            networking: {
-                deploymentCIDR: string,
-                vpcId?: string
-            }
-        }>
-    }>,
-    databases: Array<{
-        name: string,
-        protocol?: DatabaseProtocolTypes,
-        memoryLimitInGb: number,
-        supportOSSClusterApi?: boolean,
-        dataPersistence?: DatabaseDataPersistenceTypes,
-        replication?: boolean,
-        throughputMeasurement?: {
-            by: DatabaseThroughputMeasurementByTypes,
-            value: number
-        },
-        modules?: string[],
-        quantity?: number,
-        averageItemSizeInBytes?: number
-    }>
+    cloudProviders: CloudProvider[],
+    databases: Database[]
 }
 
 /**
@@ -72,7 +46,7 @@ export interface CreateSubscriptionParameters {
  * @param name Subscription name
  * @param paymentMethodId Payment method Id
  */
-export interface UpdateSubscriptionParameters {
+export type UpdateSubscriptionParameters = {
     name?: string,
     paymentMethodId?: number
 }
@@ -82,7 +56,7 @@ export interface UpdateSubscriptionParameters {
  * @param cidrIps CIDR values in an array format (example: [‘10.1.1.0/32’])
  * @param securityGroupIds AWS Security group identifier
  */
-export interface UpdateSubscriptionCidrWhitelistParameters {
+export type UpdateSubscriptionCidrWhitelistParameters = {
     cidrIps?: string[],
     securityGroupIds?: string[]
 }
@@ -94,10 +68,41 @@ export interface UpdateSubscriptionCidrWhitelistParameters {
  * @param vpcId VPC uid
  * @param vpcCidr VPC cidr
  */
-export interface CreateSubscriptionVpcPeeringParameters {
+export type CreateSubscriptionVpcPeeringParameters = {
     region: string,
     awsAccountId: string,
     vpcId: string,
     vpcCidr: string
 }
 
+export type CloudProvider = {
+    provider?: SubscriptionCloudProvider,
+    cloudAccountId?: number,
+    regions: CloudProviderRegion[]
+}
+
+export type CloudProviderRegion = {
+    region: string,
+    multipleAvailabilityZones?: boolean,
+    preferredAvailabilityZones?: string[],
+    networking: {
+        deploymentCIDR: string,
+        vpcId?: string
+    }
+}
+
+export type Database = {
+    name: string,
+    protocol?: DatabaseProtocol,
+    memoryLimitInGb: number,
+    supportOSSClusterApi?: boolean,
+    dataPersistence?: DatabaseDataPersistence,
+    replication?: boolean,
+    throughputMeasurement?: {
+        by: DatabaseThroughputMeasurement,
+        value: number
+    },
+    modules?: string[],
+    quantity?: number,
+    averageItemSizeInBytes?: number
+}
