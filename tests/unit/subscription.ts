@@ -169,6 +169,7 @@ describe('Testing subscription', async function() {
         const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
+        console.log(updateResponse)
         expect(updateResponse.message).to.eql(undefined, 'Error message existence');
         expect(updateResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 

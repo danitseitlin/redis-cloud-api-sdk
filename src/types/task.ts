@@ -1,3 +1,11 @@
+/**
+ * Task object
+ * @param taskId The id of the task
+ * @param status The status of the task
+ * @param description The description of the task
+ * @param timestamp The timestamp of the task
+ * @param response The response of the task
+ */
 export type Task = {
     taskId: string,
     status: TaskStatus,
@@ -7,12 +15,23 @@ export type Task = {
     [key: string]: any
 }
 
+/**
+ * Task response object
+ * @param resourceId The resource id
+ * @param error The error of the task
+ */
 export type TaskResponse = {
     resourceId: number,
     error?: ErrorResponse,
     [key: string]: any
 }
 
+/**
+ * Task error response
+ * @param type The type of the error
+ * @param status The status of the error
+ * @param description The description of the error
+ */
 export type ErrorResponse = {
     type?: string,
     status?: string,

@@ -1,7 +1,7 @@
 import Axios, { AxiosInstance } from 'axios';
-import { CreateSubscriptionParameters, UpdateSubscriptionParameters, UpdateSubscriptionCidrWhitelistParameters, CreateSubscriptionVpcPeeringParameters } from './types/parameters/subscription';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from './types/parameters/database';
-import { CreateCloudAccountParameters, UpdateCloudAccountParameters } from './types/parameters/cloud-account';
+import { CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters } from './types/parameters/subscription';
+import { DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters } from './types/parameters/database';
+import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
 import { SubscriptionCloudProvider, Subscription, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
@@ -170,7 +170,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The given update parameters to update the subscription with
      */
-    async updateSubscription(subscriptionId: number, updateParameters: UpdateSubscriptionParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async updateSubscription(subscriptionId: number, updateParameters: SubscriptionUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
             const taskId: number = response.data.taskId;
@@ -219,7 +219,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param updateParameters The parameters to update the subscription with
      */
-    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: UpdateSubscriptionCidrWhitelistParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             const taskId: number = response.data.taskId;
@@ -252,7 +252,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
      */
-    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: CreateSubscriptionVpcPeeringParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async createSubscriptionVpcPeering(subscriptionId: number, createParameters: VpcPeeringCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             const taskId: number = response.data.taskId;
@@ -302,7 +302,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the database 
      */
-    async createDatabase(subscriptionId: number, createParameters: CreateDatabaseParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async createDatabase(subscriptionId: number, createParameters: DatabaseCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
             const taskId: number = response.data.taskId;
@@ -335,7 +335,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      * @param updateParameters The update parameters to update the database
      */
-    async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: UpdateDatabaseParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
             const taskId: number = response.data.taskId;
@@ -417,7 +417,7 @@ export class CloudAPISDK {
      * Creating a cloud account
      * @param createParameters The create parameters to create a cloud account
      */
-    async createCloudAccount(createParameters: CreateCloudAccountParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async createCloudAccount(createParameters: CloudAccountCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.post('/cloud-accounts', createParameters);
             const taskId: number = response.data.taskId;
@@ -448,7 +448,7 @@ export class CloudAPISDK {
      * @param cloudAccountId The id of the cloud account
      * @param updateParameters The update parameters to update a cloud account
      */
-    async updateCloudAccount(cloudAccountId: number, updateParameters: UpdateCloudAccountParameters): Promise<TaskResponse & {[key: string]: any}> {
+    async updateCloudAccount(cloudAccountId: number, updateParameters: CloudAccountUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/cloud-accounts/${cloudAccountId}`, updateParameters);
             const taskId: number = response.data.taskId;
@@ -538,7 +538,6 @@ export class CloudAPISDK {
                 subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
                 subscriptionVpcPeering = subscriptionVpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
                 if(subscriptionVpcPeering !== undefined) status = subscriptionVpcPeering.status;
-                else status = undefined;
             }
         }
     }

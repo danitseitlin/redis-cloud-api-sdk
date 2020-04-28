@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateCloudAccountParameters } from '../../src/types/parameters/cloud-account'
+import { CloudAccountCreationParameters } from '../../src/types/parameters/cloud-account'
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
@@ -10,7 +10,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
     domain: TEST_ARGUMENTS.ENVIRONMENT
 }
-const cloudAccountCredentials: CreateCloudAccountParameters = {
+const cloudAccountCredentials: CloudAccountCreationParameters = {
     name: 'My cloud account',
     accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
     accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,

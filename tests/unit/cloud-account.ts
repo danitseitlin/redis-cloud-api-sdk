@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateCloudAccountParameters } from '../../src/types/parameters/cloud-account'
+import { CloudAccountCreationParameters } from '../../src/types/parameters/cloud-account'
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -52,7 +52,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
 }
-const cloudAccountCredentials: CreateCloudAccountParameters = {
+const cloudAccountCredentials: CloudAccountCreationParameters = {
     name: 'My cloud account',
     accessKeyId: 'fake-creds',
     accessSecretKey: 'fake-creds',

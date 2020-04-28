@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { CreateSubscriptionParameters } from '../../src/types/parameters/subscription';
 import { loadArguments } from '../helpers';
-import { CreateCloudAccountParameters } from '../../src/types/parameters/cloud-account';
+import { CloudAccountCreationParameters } from '../../src/types/parameters/cloud-account';
 import { SubscriptionVpcPeering } from '../../src/types/responses/subscription';
 
 const TEST_ARGUMENTS = loadArguments();
@@ -12,7 +12,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
     domain: TEST_ARGUMENTS.ENVIRONMENT
 }
-const cloudAccountCredentials: CreateCloudAccountParameters = {
+const cloudAccountCredentials: CloudAccountCreationParameters = {
     name: 'Cloud account',
     accessKeyId: TEST_ARGUMENTS.AWS_ACCESS_ID,
     accessSecretKey: TEST_ARGUMENTS.AWS_SECRET_KEY,

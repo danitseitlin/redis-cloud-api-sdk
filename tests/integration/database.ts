@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
+import { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
@@ -25,7 +25,7 @@ describe('Testing databases', async function() {
         expect(databases.length).to.eql(1, 'Database list length');
     });
     it('createDatabase', async () => {
-        const createParameters: CreateDatabaseParameters = {
+        const createParameters: DatabaseCreationParameters = {
             name: 'test-database',
             memoryLimitInGb: 10.0
         };
@@ -42,7 +42,7 @@ describe('Testing databases', async function() {
         expect(database.databaseId).to.eql(databaseId, 'Database Id');
     });
     it('updateDatabase', async () => {
-        const updateParameters: UpdateDatabaseParameters = {
+        const updateParameters: DatabaseUpdateParameters = {
             name: 'test-updated-databases'
         };
         const updateDatabase = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);

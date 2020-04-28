@@ -1,5 +1,16 @@
 import { Region } from './general';
 
+/**
+ * Subscription object
+ * @param id The id of the subscription
+ * @param status The status of the subscription
+ * @param paymentMethodId The payment method id of the subscription
+ * @param memoryStorage The memory storage of the subscription
+ * @param storageEncryption The storage encryption of the subscription
+ * @param numberOfDatabases The databases count of the subscription
+ * @param subscriptionPricing The pricing of the subscription
+ * @param cloudDetails The cloud details of the subscription
+ */
 export type Subscription = {
     id: number,
     status: SubscriptionStatus,
@@ -12,6 +23,12 @@ export type Subscription = {
     [key: string]: any
 }
 
+/**
+ * Subscription pricing object
+ * @param type The type of the subscription pricing
+ * @param quantity The quantity of the subscription pricing
+ * @param quantityMeasurement The quantity measurement of the subscription pricing
+ */
 export type SubscriptionPricing = {
     type: string,
     quantity: number,
@@ -19,6 +36,13 @@ export type SubscriptionPricing = {
     [key: string]: any
 }
 
+/**
+ * Subscription cloud details object
+ * @param provider The provider of the cloud details
+ * @param cloudAccountId The cloud account id of the cloud details
+ * @param totalSizeInGb The total size in GB of the cloud details
+ * @param regions The regions of the cloud details
+ */
 export type SubscriptionCloudDetails = {
     provider: SubscriptionCloudProvider,
     cloudAccountId: number,
@@ -27,15 +51,26 @@ export type SubscriptionCloudDetails = {
     [key: string]: any
 }
 
+/**
+ * Subscription CIDR whitelists
+ * @param cidr_ips The list of the cidr ips
+ * @param security_group_ids The list of the security groups
+ * @param the list of the errors
+ */
 export type SubscriptionCidrWhitelist = {
     cidr_ips: any[],
     security_group_ids: any[],
     errors: any[]
 }
 
+/**
+ * Subscription VPC Peering
+ * @param id The id of the vpc peering
+ * @param status The status of the vpc peering
+ */
 export type SubscriptionVpcPeering = {
-    id?: number,
-    status?: SubscriptionVpcPeeringStatus
+    id: number,
+    status: SubscriptionVpcPeeringStatus
 }
 
 /**
@@ -58,10 +93,14 @@ export type SubscriptionVpcPeeringStatus = 'active' | 'inactive' | 'pending-acce
 
 /**
  * The subscription memory storage types
+ * @param ram Redis on RAM memory storage
+ * @param ram-and-flash Redis on Flash memory storage
  */
 export type SubscriptionMemoryStorage = 'ram' | 'ram-and-flash';
 
 /**
  * The subscription cloud provider types
+ * @param AWS Amazon Web Service cloud provider
+ * @param GCP Google Cloud Platform cloud provider
  */
 export type SubscriptionCloudProvider = 'AWS' | 'GCP';

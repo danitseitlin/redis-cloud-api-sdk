@@ -22,10 +22,8 @@ import { DatabaseProtocol, DatabaseDataPersistence, DatabaseDataEvictionPolicy, 
  * @param alerts Optional. Redis Labs database alerts
  * @param averageItemSizeInBytes Optional. Relevant only to ram-and-flash subscriptions. Estimated average size (measured in bytes) of the items stored in the database, Default: 1000
  * @param modules Optional. Redis Labs modules to be provisioned in the database
- * @param modules.name Required. Redis Labs module Id
- * @param modules.parametersOptional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
- */
-export type CreateDatabaseParameters = {
+  */
+export type DatabaseCreationParameters = {
     dryRun?: boolean,
     name: string,
     protocol?: DatabaseProtocol,
@@ -70,7 +68,7 @@ export type CreateDatabaseParameters = {
  * @param alerts Optional. Redis Labs database alerts
  * @param regexRules Optional. Shard regex rules. Relevant only for a sharded database
  */
-export type UpdateDatabaseParameters = { 
+export type DatabaseUpdateParameters = { 
     dryRun?: boolean,
     name?: string,
     memoryLimitInGb?: number,
@@ -92,15 +90,6 @@ export type UpdateDatabaseParameters = {
     regexRules?: string[]
 }
 
-/**
- * The parameters needed to import a database file into an existing database
- * @param sourceType Required. Type of storage source from which to import the database file (RDB files) or data (Redis connection)
- * @param importFromUri Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1’, ‘http://mydomain.com/redis-backup-file2’])
- */
-export type DatabaseImportParameters = {
-    sourceType: DatabaseImportSource,
-    importFromUri: string[]
-}
 
 /**
  * The database alert
@@ -114,10 +103,20 @@ export type Alert = {
 
 /**
  * The database module
- * @param name The name of the module
- * @param value The paramters of the module
+ * @param name Required. Redis Labs module Id
+ * @param parameters Optional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
  */
 export type Module = {
     name: string,
     parameters: {[key: string]: any}
+}
+
+/**
+ * The parameters needed to import a database file into an existing database
+ * @param sourceType Required. Type of storage source from which to import the database file (RDB files) or data (Redis connection)
+ * @param importFromUri Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1’, ‘http://mydomain.com/redis-backup-file2’])
+ */
+export type DatabaseImportParameters = {
+    sourceType: DatabaseImportSource,
+    importFromUri: string[]
 }
