@@ -27,7 +27,7 @@ const server = new MockServer({
         path: '/v1/logs',
         method: 'get',
         response: {
-            enteries: [{
+            entries: [{
                 id: 1,
                 time: '22.05.2022',
                 originator: 'name',

@@ -72,8 +72,7 @@ export class CloudAPISDK {
     async getSystemLogs(limit: number, offset: number): Promise<SystemLog[] & {[key: string]: any}> {
         try {
             const response = await this.httpClient.get(`/logs?limit=${limit}&offset=${offset}`);
-            console.log(response.data);
-            return response.data.enteries;
+            return response.data.entries;
         }
         catch(error) {
             return error;
