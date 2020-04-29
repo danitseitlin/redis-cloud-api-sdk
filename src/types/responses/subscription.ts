@@ -13,6 +13,7 @@ import { Region } from './general';
  */
 export type Subscription = {
     id: number,
+    name: string,
     status: SubscriptionStatus,
     paymentMethodId: number,
     memoryStorage: SubscriptionMemoryStorage,
