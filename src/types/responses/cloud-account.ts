@@ -1,5 +1,5 @@
 /**
- * The types of cloud account providers
+ * Cloud account object
  * @param id The id of the cloud account
  * @param name The name of the cloud account
  * @param provider The provider of the cloud account
@@ -24,7 +24,7 @@ export type CloudAccount = {
 export type CloudAccountProvider = 'AWS' | 'GCP';
 
 /**
- * The available cloud account status
+ * The cloud account status
  * @param active Active status
  * @param draft Pending status
  * @param change-draft Pending change status

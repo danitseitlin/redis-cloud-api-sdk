@@ -40,7 +40,7 @@ export type ErrorResponse = {
 }
 
 /**
- * The available task status
+ * The task status
  * @param processing-completed Completed status
  * @param processing-error Error status
  */

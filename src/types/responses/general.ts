@@ -43,23 +43,28 @@ export type AccountInformation = {
  * @param name The name of the module
  * @param description The description of the module
  * @param parameters The parameters of the module
- * @param parameters.name The name of the module parameter
- * @param parameters.description The description of the module parameter
- * @param parameters.type The type of the module parameter
- * @param parameters.defaultValue The default value of the module parameter
- * @param parameters.required Is the parameter of the module required
  */
 export type DatabaseModule = {
     name: string,
     description: string,
-    parameters: {
-        name?: string,
-        description?: string,
-        type?: string,
-        defaultValue?: number,
-        required?: boolean,
-        [key: string]: any
-    }[],
+    parameters: DatabaseModuleParameter[],
+    [key: string]: any
+}
+
+/**
+ * Database module parameter object
+ * @param name The name of the module parameter
+ * @param description The description of the module parameter
+ * @param type The type of the module parameter
+ * @param defaultValue The default value of the module parameter
+ * @param required Is the parameter of the module required
+ */
+export type DatabaseModuleParameter = {
+    name?: string,
+    description?: string,
+    type?: string,
+    defaultValue?: number,
+    required?: boolean,
     [key: string]: any
 }
 
@@ -83,7 +88,7 @@ export type SystemLog = {
 }
 
 /**
- * The payment method
+ * Payment method object
  * @param id The id of the payment method
  * @param type The type of the payment method
  * @param creditCardEndsWith The last digits of the credit card

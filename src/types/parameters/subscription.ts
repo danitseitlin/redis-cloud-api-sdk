@@ -83,9 +83,9 @@ export type Database = {
 }
 
 /**
- * The parameters needed to update a database
- * @param name Subscription name
- * @param paymentMethodId Payment method Id
+ * The parameters needed to update a subscription
+ * @param name Optional. Subscription name
+ * @param paymentMethodId Optional. Payment method Id
  */
 export type SubscriptionUpdateParameters = {
     name?: string,
@@ -94,8 +94,8 @@ export type SubscriptionUpdateParameters = {
 
 /**
  * The parameters needed to update the database CIDR whitelist
- * @param cidrIps CIDR values in an array format (example: [‘10.1.1.0/32’])
- * @param securityGroupIds AWS Security group identifier
+ * @param cidrIps Optional. CIDR values in an array format (example: [‘10.1.1.0/32’])
+ * @param securityGroupIds Optional. AWS Security group identifier
  */
 export type CidrUpdateParameters = {
     cidrIps?: string[],
@@ -104,11 +104,10 @@ export type CidrUpdateParameters = {
 
 /**
  * The parameters needed to create a VPC peering for a database
- * @param region Deployment region as defined by cloud provider
- * @param awsAccountId AWS Account uid
- * @param vpcId VPC uid
- * @param vpcCidr VPC cidr
- */
+ * @param region Required. Deployment region as defined by cloud provider
+ * @param awsAccountId Required. The AWS Account id of the VPC peering
+ * @param vpcId Required. The id of the VPC peering
+ * @param vpcCidr Required. The CIDR of the VPC peering */
 export type VpcPeeringCreationParameters = {
     region: string,
     awsAccountId: string,
