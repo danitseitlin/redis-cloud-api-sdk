@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, SubscriptionVpcPeeringStatus, CloudAccountStatus } from '../../src/api';
-import { CreateSubscriptionParameters } from '../../src/interfaces/subscription';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
+import { CreateSubscriptionParameters } from '../../src/types/parameters/subscription';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -90,7 +90,8 @@ const server = new MockServer({
             response: {
                 status: 'processing-completed',
                 resource: {
-                    cidrIps: []
+                    cidr_ips: [],
+                    peerings: []
                 }
             }
         }
@@ -119,9 +120,9 @@ describe('Testing subscription', async function() {
     });
 
     it('createSubscription', async () => {
-        const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
-        const paymentMethod: any = paymentMethods[0];
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId)
+        const paymentMethods = await cloudAPIClient.getPaymentMethods();
+        const paymentMethod = paymentMethods[0];
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId)
         const createParameters: CreateSubscriptionParameters = {
             dryRun: false,
             paymentMethodId: paymentMethod['id'],
@@ -139,45 +140,45 @@ describe('Testing subscription', async function() {
                 memoryLimitInGb: 5
             }]
         };
-        const createResponse: any = await cloudAPIClient.createSubscription(createParameters);
+        const createResponse = await cloudAPIClient.createSubscription(createParameters);
         expect(createResponse.message).to.eql(undefined, 'Error message existence');
         expect(createResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getSubscriptions', async () => {
-        const subscriptions: any = await cloudAPIClient.getSubscriptions();
+        const subscriptions = await cloudAPIClient.getSubscriptions();
         expect(subscriptions.message).to.eql(undefined, 'Error message existence');
         expect(subscriptions.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getSubscription', async () => {
-        const subscription: any = await cloudAPIClient.getSubscription(subscriptionId);
+        const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription.message).not.to.eql(`Subscription ${subscriptionId} not found`, 'Error message type');
     }); 
     it('updateSubscription', async () => {
         const subscriptionName: string = 'updated-subscription';
-        const updateResponse: any = await cloudAPIClient.updateSubscription(subscriptionId, {
+        const updateResponse = await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
         });
         expect(updateResponse.message).to.eql(undefined, 'Error message existence');
         expect(updateResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getCidrWhitelists', async () => {
-        const cidrWhitelists: any = await cloudAPIClient.getSubscriptionCidrWhitelists(subscriptionId);
-        expect(cidrWhitelists).to.eql({cidrIps: []}, 'The CIDR whitelist existence');
+        const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
+        expect(cidrWhitelists.cidr_ips).to.eql([], 'The CIDR whitelist existence');
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
-        const updateResponse: any = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
+        const updateResponse = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
         expect(updateResponse.message).to.eql(undefined, 'Error message existence');
         expect(updateResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getSubscriptionVpcPeerings', async () => {
-        const subscriptionVpcPeerings: any = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
+        const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings).to.not.eql(undefined, 'The VPC peering existence');
     }); 
     it('createSubscriptionVpcPeering', async () => {
-        const createResponse: any = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
+        const createResponse = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
             awsAccountId: TEST_ARGUMENTS.VPC_PEERING_AWS_ACCOUNT_ID,
             vpcCidr: TEST_ARGUMENTS.VPC_PEERING_CIDR,

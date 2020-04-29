@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, DatabaseStatus, SubscriptionStatus, CloudAccountStatus } from '../../src/api';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { loadArguments } from '../helpers';
 
 const TEST_ARGUMENTS = loadArguments();
@@ -16,22 +16,23 @@ describe('Cleanup', async function() {
     
     it('Resources cleanup', async () => {
         let subscriptions = await cloudAPIClient.getSubscriptions();
-        for(let i = 0; i < subscriptions.length; i++) {
-            const subscriptionId: number = subscriptions[i]['id'];
+        for(const subscription of subscriptions) {
+            const subscriptionId: number = subscription.id;
             console.log(`=== Starting cleanup for subscription ${subscriptionId} ===`);
             let databases = await cloudAPIClient.getDatabases(subscriptionId);
-            for(let j = 0; j < databases.length; j++) {
-                const databaseId: number = databases[j]['databaseId'];
-                console.log(`=== Starting cleanup for database ${databaseId} ===`);
-                await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-                await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, DatabaseStatus.deleted);
-                console.log(`=== Finished cleanup for database ${databaseId} ===`);
+            if(subscription.status !== 'error') {
+                for(const database of databases) {
+                    const databaseId: number = database.databaseId;
+                    console.log(`=== Starting cleanup for database ${databaseId} ===`);
+                    await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
+                    await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 404);
+                    console.log(`=== Finished cleanup for database ${databaseId} ===`);
+                }
+                databases = await cloudAPIClient.getDatabases(subscriptionId);
+                expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             }
-            databases = await cloudAPIClient.getDatabases(subscriptionId);
-            console.log(`error message: ${databases.response.data.message}`);
-            expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
-            await cloudAPIClient.deleteSubscription(subscriptionId);
-            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, SubscriptionStatus.deleted);
+            console.log(await cloudAPIClient.deleteSubscription(subscriptionId));
+            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 404);
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
@@ -39,23 +40,19 @@ describe('Cleanup', async function() {
     });
 
     it('Cloud account cleanup', async () => {
-        const subscriptions = await cloudAPIClient.getSubscriptions();
-        if(subscriptions.length === 0) {
-            let cloudAccounts = await cloudAPIClient.getCloudAccounts();
-            for(let i = 0; i < cloudAccounts.length; i++) {
-                const cloudAccountId = cloudAccounts[i]['id'];
-                if(cloudAccountId !== 1) {
-                    console.log(`=== Starting cleanup for cloud account ${cloudAccountId} ===`);
-                    await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-                    await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, CloudAccountStatus.deleted);
-                    const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-                    expect(cloudAccount['status']).to.not.eql(CloudAccountStatus.active, 'Cloud Account Status');
-                    console.log(`=== Finished cleanup for cloud account ${cloudAccountId} ===`);
-                }
-                
+        let cloudAccounts = await cloudAPIClient.getCloudAccounts();
+        for(const cloudAccount of cloudAccounts) {
+            const id = cloudAccount.id;
+            if(id !== 1) {
+                console.log(`=== Starting cleanup for cloud account ${id} ===`);
+                await cloudAPIClient.deleteCloudAccount(id);
+                await cloudAPIClient.waitForCloudAccountStatus(id, 404);
+                const cloudAccount = await cloudAPIClient.getCloudAccount(id);
+                expect(cloudAccount.status).to.not.eql('active', 'Cloud account status');
+                console.log(`=== Finished cleanup for cloud account ${id} ===`);
             }
-            cloudAccounts = await cloudAPIClient.getCloudAccounts();
-            expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
         }
+        cloudAccounts = await cloudAPIClient.getCloudAccounts();
+        expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     });
 });

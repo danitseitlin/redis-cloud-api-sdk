@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, CloudAccountStatus } from '../../src/api';
-import { CreateCloudAccountParameters } from '../../src/interfaces/cloud-account'
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
+import { CloudAccountCreationParameters } from '../../src/types/parameters/cloud-account'
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -52,7 +52,7 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
     accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
     secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
 }
-const cloudAccountCredentials: CreateCloudAccountParameters = {
+const cloudAccountCredentials: CloudAccountCreationParameters = {
     name: 'My cloud account',
     accessKeyId: 'fake-creds',
     accessSecretKey: 'fake-creds',
@@ -73,17 +73,17 @@ describe('Testing cloud account', async function() {
         server.stop();
     });
     it('createCloudAccount', async () => {
-        const response: any = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
+        const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
         expect(response.message).to.eql(undefined, 'Error message existence');
         expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getCloudAccounts', async () => {
-        const cloudAccounts: any = await cloudAPIClient.getCloudAccounts();
+        const cloudAccounts = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.message).to.eql(undefined, 'Error message existence');
         expect(cloudAccounts.message).not.to.eql('Request failed with status code 404', 'Error message type');
     })
     it('getCloudAccount', async () => {
-        const cloudAccount: any = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount.message).to.eql(undefined, 'Error message existence');
         expect(cloudAccount.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });

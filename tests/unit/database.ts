@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters, SubscriptionStatus, DatabaseStatus, CloudAccountStatus } from '../../src/api';
-import { CreateDatabaseParameters, UpdateDatabaseParameters, DatabaseImportParameters } from '../../src/interfaces/database';
+import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
+import { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -77,26 +77,26 @@ describe('Testing databases', async function() {
     });
 
     it('getDatabases', async () => {
-        const databases: any = await cloudAPIClient.getDatabases(subscriptionId);
+        const databases = await cloudAPIClient.getDatabases(subscriptionId);
         expect(databases[0]).to.eql({ id: 1 }, 'Error message type');
     });
     it('createDatabase', async () => {
-        const createParameters: CreateDatabaseParameters = {
+        const createParameters: DatabaseCreationParameters = {
             name: 'test-database',
             memoryLimitInGb: 10.0
         };
-        const createDatabase: any = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
+        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
         expect(createDatabase).to.not.eql(undefined, 'Error message type');
     });
     it('getDatabase', async () => {
-        const database: any = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(database).to.not.eql(undefined, 'Error message type');
     });
     it('updateDatabase', async () => {
-        const updateParameters: UpdateDatabaseParameters = {
+        const updateParameters: DatabaseUpdateParameters = {
             name: 'test-updated-databases'
         };
-        const updateDatabase: any = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
+        const updateDatabase = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
         expect(updateDatabase).to.not.eql(undefined, 'Error message type');
     });
     it('deleteDatabase', async () => {
@@ -104,7 +104,7 @@ describe('Testing databases', async function() {
         expect(deleteDatabaseResponse).to.not.eql(undefined, 'Error message type');
     });
     it('backupDatabase', async () => {
-        const response: any = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
+        const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
         expect(response).to.not.eql(undefined, 'Error message type');
     });
     it('importIntoDatabase', async () => {
@@ -112,7 +112,7 @@ describe('Testing databases', async function() {
             sourceType: 'ftp',
             importFromUri: ['ftp-import-url']
         };
-        const response: any = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
+        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
         expect(response).to.not.eql(undefined, 'Error message type');
     });
 });

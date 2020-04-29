@@ -1,4 +1,4 @@
-import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseDataEvictionPolicyTypes, DatabaseThroughputMeasurementByTypes, DatabaseImportSourceTypes } from "../types/database";
+import { DatabaseProtocol, DatabaseDataPersistence, DatabaseDataEvictionPolicy, DatabaseThroughputMeasurement, DatabaseImportSource } from '../responses/database';
 
 /**
  * The parameters used to create a database
@@ -22,21 +22,19 @@ import { DatabaseProtocolTypes, DatabaseDataPersistenceTypes, DatabaseDataEvicti
  * @param alerts Optional. Redis Labs database alerts
  * @param averageItemSizeInBytes Optional. Relevant only to ram-and-flash subscriptions. Estimated average size (measured in bytes) of the items stored in the database, Default: 1000
  * @param modules Optional. Redis Labs modules to be provisioned in the database
- * @param modules.name Required. Redis Labs module Id
- * @param modules.parametersOptional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
- */
-export interface CreateDatabaseParameters {
+  */
+export type DatabaseCreationParameters = {
     dryRun?: boolean,
     name: string,
-    protocol?: DatabaseProtocolTypes,
+    protocol?: DatabaseProtocol,
     memoryLimitInGb: number,
     supportOSSClusterApi?: boolean,
     useExternalEndpointForOSSClusterApi?: boolean,
-    dataPersistence?: DatabaseDataPersistenceTypes,
-    dataEvictionPolicy?: DatabaseDataEvictionPolicyTypes,
+    dataPersistence?: DatabaseDataPersistence,
+    dataEvictionPolicy?: DatabaseDataEvictionPolicy,
     replication?: boolean,
     throughputMeasurement?: {
-        by: DatabaseThroughputMeasurementByTypes,
+        by: DatabaseThroughputMeasurement,
         value: number
     },
     averageItemSizeInBytes?: number,
@@ -45,14 +43,8 @@ export interface CreateDatabaseParameters {
     sourceIp?: string[],
     clientSslCertificate?: string,
     password?: string,
-    alerts?: Array<{
-        name: string,
-        value: string
-    }>,
-    modules?: Array<{
-        name: string,
-        parameters: any
-    }>
+    alerts?: Alert[],
+    modules?: Module[]
 }
 
 /**
@@ -76,17 +68,17 @@ export interface CreateDatabaseParameters {
  * @param alerts Optional. Redis Labs database alerts
  * @param regexRules Optional. Shard regex rules. Relevant only for a sharded database
  */
-export interface UpdateDatabaseParameters { 
+export type DatabaseUpdateParameters = { 
     dryRun?: boolean,
     name?: string,
     memoryLimitInGb?: number,
     supportOSSClusterApi?: boolean,
     useExternalEndpointForOSSClusterApi?: boolean,
-    dataPersistence?: DatabaseDataPersistenceTypes,
-    dataEvictionPolicy?: DatabaseDataEvictionPolicyTypes,
+    dataPersistence?: DatabaseDataPersistence,
+    dataEvictionPolicy?: DatabaseDataEvictionPolicy,
     replication?: boolean,
     throughputMeasurement?: {
-        by: DatabaseThroughputMeasurementByTypes,
+        by: DatabaseThroughputMeasurement,
         value: number
     },
     replicaOf?: string[],
@@ -94,11 +86,29 @@ export interface UpdateDatabaseParameters {
     sourceIp?: string[],
     clientSslCertificate?: string,
     password?: string,
-    alerts?: Array<{
-        name: string,
-        value: string
-    }>,
+    alerts?: Alert[],
     regexRules?: string[]
+}
+
+
+/**
+ * The database alert
+ * @param name The name of the alert
+ * @param value The value of the alert
+ */
+export type Alert = {
+    name: string,
+    value: string
+}
+
+/**
+ * The database module
+ * @param name Required. Redis Labs module Id
+ * @param parameters Optional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
+ */
+export type Module = {
+    name: string,
+    parameters: {[key: string]: any}
 }
 
 /**
@@ -106,7 +116,7 @@ export interface UpdateDatabaseParameters {
  * @param sourceType Required. Type of storage source from which to import the database file (RDB files) or data (Redis connection)
  * @param importFromUri Required. One or more URIs to source data files or Redis databases, as appropriate to specified source type (example: ['http://mydomain.com/redis-backup-file1’, ‘http://mydomain.com/redis-backup-file2’])
  */
-export interface DatabaseImportParameters {
-    sourceType: DatabaseImportSourceTypes,
+export type DatabaseImportParameters = {
+    sourceType: DatabaseImportSource,
     importFromUri: string[]
 }

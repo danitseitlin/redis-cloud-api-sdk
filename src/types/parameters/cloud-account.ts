@@ -1,4 +1,4 @@
-import { CloudAccountProviderTypes } from "../types/cloud-account";
+import { CloudAccountProvider } from '../responses/cloud-account';
 
 /**
  * The parameters needed to create a cloud account
@@ -10,13 +10,13 @@ import { CloudAccountProviderTypes } from "../types/cloud-account";
  * @param provider Optional. Cloud provider. Default: ‘AWS’
  * @param signInLoginUrl Required. Cloud provider management console login URL
  */
-export interface CreateCloudAccountParameters {
+export type CloudAccountCreationParameters = {
     accessKeyId: string,
     accessSecretKey: string,
     consolePassword: string,
     consoleUsername: string,
     name: string,
-    provider?: CloudAccountProviderTypes,
+    provider?: CloudAccountProvider,
     signInLoginUrl: string
 }
 
@@ -29,7 +29,7 @@ export interface CreateCloudAccountParameters {
  * @param name Optional. Cloud account display name
  * @param signInLoginUrl Optional. Cloud provider management console login URL
  */
-export interface UpdateCloudAccountParameters {
+export type CloudAccountUpdateParameters = {
     accessKeyId: string,
     accessSecretKey: string,
     consolePassword: string,
