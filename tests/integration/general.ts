@@ -22,7 +22,6 @@ describe('Testing general functions', async function() {
     });
     it('getSystemLogs', async () => {
         const systemLogs = await cloudAPIClient.getSystemLogs(2, 0);
-        console.log(systemLogs)
         expect(systemLogs.length).gte(0, 'System logs count');
     }); 
     it('getPaymentMethods', async () => {

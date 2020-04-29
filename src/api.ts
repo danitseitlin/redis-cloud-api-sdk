@@ -517,7 +517,6 @@ export class CloudAPISDK {
         while (subscriptionStatus !== expectedStatus && subscriptionStatus !== 'error' && subscriptionStatus !== undefined) { 
             await this.sleep(10);
             subscription = await this.getSubscription(subscriptionId);
-            console.log(subscription)
             subscriptionStatus = subscription.status;
         }
     }
