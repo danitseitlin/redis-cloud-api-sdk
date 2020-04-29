@@ -619,51 +619,6 @@ export interface CloudAPISDKParameters {
     version?: string,
 }
 
-/**
- * The available subscription statuses
- * @param active A subscription status indicating the subscription is active
- * @param pending A subscription status indicating the subscription is pending
- * @param deleted A subscription status indicating the subscription is deleted
- * @param error A subscription status indicating the subscription ended up with error
- */
-
-
-/**
- * The available subscription vpc peering statuses
- * @param active A subscription VPC peering status indicating the subscription VPC peering is active
- * @param inactive A subscription VPC peering status indicating the subscription VPC peering is inactive
- * @param pending A subscription VPC peering status indicating the subscription VPC peering is pending
- * @param error A subscription VPC peering status indicating the subscription VPC peering is error
- */
-
-
-/**
- * The available database statuses
- * @param active A database status indicating the database is active
- * @param pending A database status indicating the database is pending
- * @param pendingChange A database status indicating the database is pending a change
- * @param deleted A database status indicating the database is deleted
- * @param error A database status indicating the database ended up with error
- */
-
-
-/**
- * The available cloud account statuses
- * @param active A cloud account status indicating the cloud account is active
- * @param pending A cloud account status indicating the cloud account is pending
- * @param pendingChange A cloud account status indicating the cloud account is pending a change
- * @param deleted A cloud account status indicating the cloud account is deleted
- * @param error A cloud account status indicating the cloud account ended up with error
- */
-
-
-/**
- * The available task statuses
- * @param completed A task status indicating the task is completed
- * @param error A task status indicating the task ended up with error
- */
-
-
 type Error = {
     config: {
         url: string,
