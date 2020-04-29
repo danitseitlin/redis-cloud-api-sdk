@@ -54,22 +54,5 @@ describe('Cleanup', async function() {
         }
         cloudAccounts = await cloudAPIClient.getCloudAccounts();
         expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
-        // const subscriptions = await cloudAPIClient.getSubscriptions();
-        // if(subscriptions.length === 0) {
-        //     let cloudAccounts = await cloudAPIClient.getCloudAccounts();
-        //     for(let i = 0; i < cloudAccounts.length; i++) {
-        //         const cloudAccountId = cloudAccounts[i]['id'];
-        //         if(cloudAccountId !== 1) {
-        //             console.log(`=== Starting cleanup for cloud account ${cloudAccountId} ===`);
-        //             await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        //             await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, '404');
-        //             const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        //             expect(cloudAccount.status).to.not.eql('active', 'Cloud Account Status');
-        //             console.log(`=== Finished cleanup for cloud account ${cloudAccountId} ===`);
-        //         }
-        //     }
-        //     cloudAccounts = await cloudAPIClient.getCloudAccounts();
-        //     expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
-        // }
     });
 });
