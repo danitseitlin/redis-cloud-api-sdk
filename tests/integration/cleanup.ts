@@ -28,9 +28,9 @@ describe('Cleanup', async function() {
                     await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, '404');
                     console.log(`=== Finished cleanup for database ${databaseId} ===`);
                 }
+                databases = await cloudAPIClient.getDatabases(subscriptionId);
+                expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             }
-            databases = await cloudAPIClient.getDatabases(subscriptionId);
-            expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             await cloudAPIClient.deleteSubscription(subscriptionId);
             await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, '404');
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
