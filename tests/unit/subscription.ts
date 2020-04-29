@@ -4,10 +4,10 @@ import { CreateSubscriptionParameters } from '../../src/types/parameters/subscri
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
-const TEST_ARGUMENTS = loadArguments();
+const testArguments = loadArguments();
 const server = new MockServer({
-    hostname: TEST_ARGUMENTS.ENVIRONMENT,
-    port: parseInt(TEST_ARGUMENTS.PORT),
+    hostname: testArguments.ENVIRONMENT,
+    port: parseInt(testArguments.PORT),
     routes: [{
         path: '/v1/payment-methods',
         method: 'get',
@@ -100,9 +100,9 @@ const server = new MockServer({
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     protocol: 'http',
-    domain: `${TEST_ARGUMENTS.ENVIRONMENT}:${TEST_ARGUMENTS.PORT}`,
-    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
-    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
+    domain: `${testArguments.ENVIRONMENT}:${testArguments.PORT}`,
+    accessKey: testArguments.API_ACCESS_KEY,
+    secretKey: testArguments.API_SECRET_KEY,
 }
 
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
@@ -180,9 +180,9 @@ describe('Testing subscription', async function() {
     it('createSubscriptionVpcPeering', async () => {
         const createResponse = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
-            awsAccountId: TEST_ARGUMENTS.VPC_PEERING_AWS_ACCOUNT_ID,
-            vpcCidr: TEST_ARGUMENTS.VPC_PEERING_CIDR,
-            vpcId: TEST_ARGUMENTS.VPC_PEERING_ID
+            awsAccountId: testArguments.VPC_PEERING_AWS_ACCOUNT_ID,
+            vpcCidr: testArguments.VPC_PEERING_CIDR,
+            vpcId: testArguments.VPC_PEERING_ID
         });
         expect(createResponse.message).to.eql(undefined, 'Error message existence');
         expect(createResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');

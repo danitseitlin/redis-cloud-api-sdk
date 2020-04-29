@@ -4,10 +4,10 @@ import { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportPar
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
-const TEST_ARGUMENTS = loadArguments();
+const testArguments = loadArguments();
 const server = new MockServer({
-    hostname: TEST_ARGUMENTS.ENVIRONMENT,
-    port: parseInt(TEST_ARGUMENTS.PORT),
+    hostname: testArguments.ENVIRONMENT,
+    port: parseInt(testArguments.PORT),
     routes: [{
         path: '/v1/subscriptions/1/databases',
         method: 'get',
@@ -58,9 +58,9 @@ const server = new MockServer({
 });
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     protocol: 'http',
-    domain: `${TEST_ARGUMENTS.ENVIRONMENT}:${TEST_ARGUMENTS.PORT}`,
-    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
-    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
+    domain: `${testArguments.ENVIRONMENT}:${testArguments.PORT}`,
+    accessKey: testArguments.API_ACCESS_KEY,
+    secretKey: testArguments.API_SECRET_KEY,
 }
 
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);

@@ -1,16 +1,14 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
+import { CloudAPISDK } from '../../src/api';
 import { loadArguments } from '../helpers';
 
-const TEST_ARGUMENTS = loadArguments();
+const testArguments = loadArguments();
 
-const cloudAPISDKParameters: CloudAPISDKParameters = {
-    accessKey: TEST_ARGUMENTS.API_ACCESS_KEY,
-    secretKey: TEST_ARGUMENTS.API_SECRET_KEY,
-    domain: TEST_ARGUMENTS.ENVIRONMENT
-}
-
-const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
+const cloudAPIClient = new CloudAPISDK({
+    accessKey: testArguments.API_ACCESS_KEY,
+    secretKey: testArguments.API_SECRET_KEY,
+    domain: testArguments.ENVIRONMENT
+});
 describe('Cleanup', async function() {
     this.timeout(10 * 60 * 1000);
     
