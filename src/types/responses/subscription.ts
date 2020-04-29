@@ -80,7 +80,7 @@ export type SubscriptionVpcPeering = {
  * @param error Error status
  * @param 404 Delete status
  */
-export type SubscriptionStatus = 'active' | 'pending' | 'error' | '404';
+export type SubscriptionStatus = 'active' | 'pending' | 'error' | 'deleting' | 404;
 
 /**
  * The availiable subscription vpc peering status

@@ -25,14 +25,14 @@ describe('Cleanup', async function() {
                     const databaseId: number = database.databaseId;
                     console.log(`=== Starting cleanup for database ${databaseId} ===`);
                     await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-                    await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, '404');
+                    await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 404);
                     console.log(`=== Finished cleanup for database ${databaseId} ===`);
                 }
                 databases = await cloudAPIClient.getDatabases(subscriptionId);
                 expect(databases.response.data.message).to.eql(`Subscription ${subscriptionId}: no databases found`, `Database non-existence for subscription ${subscriptionId}`);
             }
             console.log(await cloudAPIClient.deleteSubscription(subscriptionId));
-            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, '404');
+            await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 404);
             console.log(`=== Finished cleanup for subscription ${subscriptionId} ===`);
         }
         subscriptions = await cloudAPIClient.getSubscriptions();
@@ -46,7 +46,7 @@ describe('Cleanup', async function() {
             if(id !== 1) {
                 console.log(`=== Starting cleanup for cloud account ${id} ===`);
                 await cloudAPIClient.deleteCloudAccount(id);
-                await cloudAPIClient.waitForCloudAccountStatus(id, '404');
+                await cloudAPIClient.waitForCloudAccountStatus(id, 404);
                 const cloudAccount = await cloudAPIClient.getCloudAccount(id);
                 expect(cloudAccount.status).to.not.eql('active', 'Cloud account status');
                 console.log(`=== Finished cleanup for cloud account ${id} ===`);

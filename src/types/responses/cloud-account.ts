@@ -32,4 +32,4 @@ export type CloudAccountProvider = 'AWS' | 'GCP';
  * @param 404 Deleted status
  */
 
-export type CloudAccountStatus = 'active' | 'draft' | 'change-draft' | 'error' | '404'; 
+export type CloudAccountStatus = 'active' | 'draft' | 'change-draft' | 'error' | 404; 

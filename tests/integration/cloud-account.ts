@@ -39,8 +39,8 @@ describe('Testing cloud account', async function() {
     });
     it('deleteCloudAccount', async () => {
         await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, '404');
+        await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, 404);
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount['response']['data']['status']).eql('404', 'Cloud account status')
+        expect(cloudAccount['response']['data']['status']).eql(404, 'Cloud account status')
     });
 });

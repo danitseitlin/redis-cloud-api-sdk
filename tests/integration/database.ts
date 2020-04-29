@@ -51,7 +51,7 @@ describe('Testing databases', async function() {
     });
     it.skip('deleteDatabase', async () => {
         await cloudAPIClient.deleteDatabase(subscriptionId, databaseId);
-        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, '404');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 404);
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(database['error']).to.eql('Not Found', 'Checking that the database was deleted');
     });

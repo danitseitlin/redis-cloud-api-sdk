@@ -142,4 +142,4 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
  * @param 404 deleted status
  * @param error error status
  */
-export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | '404' | 'error';
+export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error';
