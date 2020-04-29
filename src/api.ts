@@ -5,7 +5,7 @@ import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './
 import { SubscriptionCloudProvider, Subscription, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
-import { Task, TaskResponse, TaskStatus, ErrorResponse } from './types/task';
+import { Task, TaskResponse, TaskStatus } from './types/task';
 import { Database, DatabaseStatus } from './types/responses/database';
 
 export class CloudAPISDK {

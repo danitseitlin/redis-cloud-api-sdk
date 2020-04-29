@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
 import { loadArguments } from '../helpers';
+import Axios from 'axios';
 
 const TEST_ARGUMENTS = loadArguments();
 
@@ -12,6 +13,15 @@ const cloudAPISDKParameters: CloudAPISDKParameters = {
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
 describe('Testing general functions', async function() {
     this.timeout(10 * 60 * 1000);
+    it('Verifying no new paths are existing', async () => {
+        const axios = Axios.create({
+            baseURL: `https://${TEST_ARGUMENTS.ENVIRONMENT}/v1`,
+            responseType: 'json'
+        })
+        const response = await axios.get('/v2/api-docs?group=Redis Labs Cloud API - Version 1');
+        const paths = Object.keys(response.data.paths);
+        expect(paths.length).to.eql(20, 'Paths count');
+    }); 
     it('getAccountInformation', async () => {
         const accountInformation = await cloudAPIClient.getAccountInformation();
         expect(accountInformation['id']).not.to.eql(undefined, 'Account id');
