@@ -21,7 +21,6 @@ describe('Testing databases', async function() {
     });
     it('getDatabases', async () => {
         const databases = await cloudAPIClient.getDatabases(subscriptionId);
-        console.log(databases)
         expect(databases.length).to.eql(1, 'Database list length');
     });
     it('createDatabase', async () => {
@@ -38,7 +37,6 @@ describe('Testing databases', async function() {
     });
     it('getDatabase', async () => {
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        console.log(database)
         expect(database.databaseId).to.eql(databaseId, 'Database Id');
     });
     it('updateDatabase', async () => {
@@ -46,7 +44,6 @@ describe('Testing databases', async function() {
             name: 'test-updated-databases'
         };
         const updateDatabase = await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
-        console.log(updateDatabase)
         expect(updateDatabase['error']).to.eql(undefined, 'error');
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(updateParameters['name']).to.eql(database['name'], 'Checking that the name of the database was changed as expected');
@@ -60,7 +57,6 @@ describe('Testing databases', async function() {
     });
     it.skip('backupDatabase', async () => {
         const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
-        console.log(response)
         expect(response['error']).to.eql(undefined, 'Checking that the backup was done successfully');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
     });
@@ -70,7 +66,6 @@ describe('Testing databases', async function() {
             importFromUri: ['ftp-import-url']
         };
         const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
-        console.log(response)
         expect(response['error']).to.eql(undefined, 'Checking that the import was done successfully');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
     });

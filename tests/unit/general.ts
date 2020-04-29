@@ -27,9 +27,14 @@ const server = new MockServer({
         path: '/v1/logs',
         method: 'get',
         response: {
-            entries: {
-
-            }
+            enteries: [{
+                id: 1,
+                time: '22.05.2022',
+                originator: 'name',
+                apiKeyName: 'key-name',
+                type: 'AWS',
+                description: 'Key description',
+            }]
         }
     },{
         path: '/v1/payment-methods',
@@ -75,38 +80,38 @@ describe('Testing general functions', async function() {
         server.stop();
     });
     it('getAccountInformation', async () => {
-        const accountInformation: any = await cloudAPIClient.getAccountInformation();
+        const accountInformation = await cloudAPIClient.getAccountInformation();
         expect(accountInformation.message).to.eql(undefined, 'Error message existence');
         expect(accountInformation.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getDatabaseModules', async () => {
-        const databaseModules: any = await cloudAPIClient.getDatabaseModules();
+        const databaseModules = await cloudAPIClient.getDatabaseModules();
         expect(databaseModules.message).to.eql(undefined, 'Error message existence');
         expect(databaseModules.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getSystemLogs', async () => {
-        const systemLogs: any = await cloudAPIClient.getSystemLogs(2, 0);
+        const systemLogs = await cloudAPIClient.getSystemLogs(2, 0);
         expect(systemLogs.message).to.eql(undefined, 'Error message existence');
         expect(systemLogs.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
     it('getPaymentMethods', async () => {
-        const paymentMethods: any = await cloudAPIClient.getPaymentMethods();
+        const paymentMethods = await cloudAPIClient.getPaymentMethods();
         expect(paymentMethods.message).to.eql(undefined, 'Error message existence');
         expect(paymentMethods.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getPlans', async () => { 
-        const AWSPlans: any = await cloudAPIClient.getPlans('AWS');
+        const AWSPlans = await cloudAPIClient.getPlans('AWS');
         expect(AWSPlans.message).to.eql(undefined, 'Error message existence');
         expect(AWSPlans.message).not.to.eql('Request failed with status code 404', 'Error message type');
-        const GCPPlans: any = await cloudAPIClient.getPlans('GCP');
+        const GCPPlans = await cloudAPIClient.getPlans('GCP');
         expect(GCPPlans.message).to.eql(undefined, 'Error message existence');
         expect(GCPPlans.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });
     it('getRegions', async () => {
-        const AWSRegions: any = await cloudAPIClient.getRegions('AWS');
+        const AWSRegions = await cloudAPIClient.getRegions('AWS');
         expect(AWSRegions.message).to.eql(undefined, 'Error message existence');
         expect(AWSRegions.message).not.to.eql('Request failed with status code 404', 'Error message type');
-        const GCPRegions: any = await cloudAPIClient.getRegions('GCP');
+        const GCPRegions = await cloudAPIClient.getRegions('GCP');
         expect(GCPRegions.message).to.eql(undefined, 'Error message existence');
         expect(GCPRegions.message).not.to.eql('Request failed with status code 404', 'Error message type');
     });

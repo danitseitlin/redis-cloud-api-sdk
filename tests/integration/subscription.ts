@@ -55,23 +55,19 @@ describe('Testing subscription', async function() {
             }]
         };
         const createResponse = await cloudAPIClient.createSubscription(createParameters);
-        console.log(createResponse);
         subscriptionId = createResponse.resourceId;
         expect(subscriptionId).not.to.eql(undefined, `The subscription id`);
         console.log(`=== SubscriptionId: ${subscriptionId} ===`);
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription.cloudDetails[0].regions);
         expect(subscription['status']).to.eql('active', 'The subscription status');
     });
     it('getSubscriptions', async () => {
         const subscriptions = await cloudAPIClient.getSubscriptions();
-        console.log(subscriptions)
         expect(subscriptions.length).to.eql(1, 'The subscriptions count');
     }); 
     it('getSubscription', async () => {
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription)
         expect(subscription['id']).to.eql(subscriptionId, 'The subscription id');
     }); 
     it('updateSubscription', async () => {
@@ -81,12 +77,10 @@ describe('Testing subscription', async function() {
         });
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        console.log(subscription);
         expect(subscription['name']).to.eql(subscriptionName, `The subscription name`);
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
-        console.log(cidrWhitelists)
         expect(cidrWhitelists.cidr_ips).to.eql([], `The subscription cidr`);
     }); 
     it.skip('updateCidrWhitelists', async () => {
@@ -96,12 +90,10 @@ describe('Testing subscription', async function() {
         });
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
-        console.log(cidrWhitelists)
         expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `The subscription cidr`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log(subscriptionVpcPeerings)
         expect(subscriptionVpcPeerings).to.eql([], `The subscription peerings list`);
     }); 
     it.skip('createSubscriptionVpcPeering', async () => {
