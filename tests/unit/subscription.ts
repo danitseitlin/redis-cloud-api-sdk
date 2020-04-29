@@ -90,7 +90,8 @@ const server = new MockServer({
             response: {
                 status: 'processing-completed',
                 resource: {
-                    cidrIps: []
+                    cidr_ips: [],
+                    peerings: []
                 }
             }
         }
@@ -162,14 +163,13 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
-        expect(cidrWhitelists).to.eql({cidrIps: []}, 'The CIDR whitelist existence');
+        expect(cidrWhitelists.cidr_ips).to.eql([], 'The CIDR whitelist existence');
     }); 
     it('updateCidrWhitelists', async () => {
         const updatedCidrIps: string[] = ['192.168.20.0/24'];
         const updateResponse = await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
         });
-        console.log(updateResponse)
         expect(updateResponse.message).to.eql(undefined, 'Error message existence');
         expect(updateResponse.message).not.to.eql('Request failed with status code 404', 'Error message type');
     }); 
