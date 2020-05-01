@@ -80,6 +80,7 @@
             "method": "get",
             "response": {
                 "response": {
+                    "resourceId": 1,
                     "status": "processing-completed",
                     "resource": {
                         "cidr_ips": [],
