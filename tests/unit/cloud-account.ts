@@ -1,6 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK, CloudAPISDKParameters } from '../../src/api';
-import { CloudAccountCreationParameters } from '../../src/types/parameters/cloud-account'
+import { CloudAPISDK } from '../../src/api';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -12,25 +11,16 @@ const server = new MockServer({
     routes: mock.routes
 });
 
-const cloudAPISDKParameters: CloudAPISDKParameters = {
+const cloudAPIClient = new CloudAPISDK({
     protocol: 'http',
     domain: `${testArguments.ENVIRONMENT}:${testArguments.PORT}`,
     accessKey: testArguments.API_ACCESS_KEY,
     secretKey: testArguments.API_SECRET_KEY,
-}
-const cloudAccountCredentials: CloudAccountCreationParameters = {
-    name: 'My cloud account',
-    accessKeyId: 'fake-creds',
-    accessSecretKey: 'fake-creds',
-    consoleUsername: 'console-username',
-    consolePassword: 'console-password',
-    signInLoginUrl: 'sign-in-login-url'
-}
-const cloudAPIClient: CloudAPISDK = new CloudAPISDK(cloudAPISDKParameters);
+});
 
 describe('Testing cloud account', async function() {
     this.timeout(10 * 60 * 60);
-    let cloudAccountId: number = 1;
+    const cloudAccountId = 1;
     before(async () => {
         server.start();
     });
@@ -39,23 +29,27 @@ describe('Testing cloud account', async function() {
         server.stop();
     });
     it('createCloudAccount', async () => {
-        const response = await cloudAPIClient.createCloudAccount(cloudAccountCredentials);
-        expect(response.message).to.eql(undefined, 'Error message existence');
-        expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        const response = await cloudAPIClient.createCloudAccount({
+            name: 'My cloud account',
+            accessKeyId: 'fake-creds',
+            accessSecretKey: 'fake-creds',
+            consoleUsername: 'console-username',
+            consolePassword: 'console-password',
+            signInLoginUrl: 'sign-in-login-url'
+        });
+        expect(response.resourceId).to.eql(1, 'Cloud account id');
     });
     it('getCloudAccounts', async () => {
         const cloudAccounts = await cloudAPIClient.getCloudAccounts();
-        expect(cloudAccounts.message).to.eql(undefined, 'Error message existence');
-        expect(cloudAccounts.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     })
     it('getCloudAccount', async () => {
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount.message).to.eql(undefined, 'Error message existence');
-        expect(cloudAccount.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        expect(cloudAccount.id).to.eql(1, 'Cloud account id');
+        expect(cloudAccount.name).to.eql('My cloud account', 'Cloud account name');
     });
     it('deleteCloudAccount', async () => {
         const response = await cloudAPIClient.deleteCloudAccount(cloudAccountId);
-        expect(response.message).to.eql(undefined, 'Error message existence');
-        expect(response.message).not.to.eql('Request failed with status code 404', 'Error message type');
+        expect(response.resourceId).to.eql(1, 'Cloud account id');
     });
 });

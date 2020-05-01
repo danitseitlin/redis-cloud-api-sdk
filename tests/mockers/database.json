@@ -6,7 +6,8 @@
             "response": {
                 "subscription": [{
                     "databases": [{
-                        "id": 1
+                        "databaseId": 1,
+                        "name": "First database"
                     }]
                 }]
             }
@@ -20,7 +21,8 @@
             "path": "/v1/subscriptions/1/databases/1",
             "method": "get",
             "response": {
-                "id": 1
+                "databaseId": 1,
+                "name": "First database"
             }
         },{
             "path": "/v1/subscriptions/1/databases/1",
