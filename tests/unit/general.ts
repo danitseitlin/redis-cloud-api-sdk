@@ -11,7 +11,7 @@ const server = new MockServer({
     routes: mock.routes
 });
 
-const cloudAPIClient: CloudAPISDK = new CloudAPISDK({
+const cloudAPIClient = new CloudAPISDK({
     protocol: 'http',
     domain: `${testArguments.ENVIRONMENT}:${testArguments.PORT}`,
     accessKey: testArguments.API_ACCESS_KEY,
