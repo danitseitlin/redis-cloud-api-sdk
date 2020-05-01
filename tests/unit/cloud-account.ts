@@ -5,45 +5,11 @@ import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
 const testArguments = loadArguments();
+const mock = require('../mockers/cloud-account.json');
 const server = new MockServer({
     hostname: testArguments.ENVIRONMENT,
     port: parseInt(testArguments.PORT),
-    routes: [{
-        path: '/v1/cloud-accounts',
-        method: 'post',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/tasks/1',
-        method: 'get',
-        response: {
-            response: {
-                status: 'processing-completed'
-            }
-        }
-    },{
-        path: '/v1/cloud-accounts',
-        method: 'get',
-        response: {
-            cloudAccounts: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/cloud-accounts/1',
-        method: 'get',
-        response: {
-            id: 1,
-            name: 'My cloud account'
-        }
-    },{
-        path: '/v1/cloud-accounts/1',
-        method: 'delete',
-        response: {
-            taskId: 1
-        }
-    }]
+    routes: mock.routes
 });
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
