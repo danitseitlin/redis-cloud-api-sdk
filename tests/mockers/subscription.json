@@ -1,19 +1,11 @@
 {
     "routes": [
         {
-            "path": "/v1/payment-methods",
-            "method": "get",
-            "response": {
-                "paymentMethods": [{
-                    "id": 1
-                }]
-            }
-        },{
             "path": "/v1/subscriptions",
             "method": "post",
-            "response": [{
+            "response": {
                 "taskId": 1
-            }]
+            }
         },{
             "path": "/v1/subscriptions",
             "method": "get",
@@ -26,17 +18,13 @@
             "path": "/v1/subscriptions/1",
             "method": "get",
             "response": {
-                "subscriptions": [{
-                    "id": 1
-                }]
+                "id": 1
             }
         },{
             "path": "/v1/subscriptions/1",
             "method": "put",
             "response": {
-                "subscriptions": [{
-                    "id": 1
-                }]
+                "taskId": 1
             }
         },{
             "path": "/v1/subscriptions/1/cidr",
@@ -69,13 +57,6 @@
                 "taskId": 1
             }
         },{
-            "path": "/v1/cloud-accounts/1",
-            "method": "get",
-            "response": {
-                "id": 1,
-                "name": "My cloud account"
-            }
-        },{
             "path": "/v1/tasks/1",
             "method": "get",
             "response": {
@@ -83,8 +64,8 @@
                     "resourceId": 1,
                     "status": "processing-completed",
                     "resource": {
-                        "cidr_ips": [],
-                        "peerings": []
+                        "cidr_ips": ["123"],
+                        "peerings": ["456"]
                     }
                 }
             }
