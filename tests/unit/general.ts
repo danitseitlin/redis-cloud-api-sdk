@@ -4,64 +4,12 @@ import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
 const testArguments = loadArguments();
+const mock = require('../mockers/general.json');
 const server = new MockServer({
     hostname: testArguments.ENVIRONMENT,
     port: parseInt(testArguments.PORT),
-    routes: [{
-        path: '/v1/',
-        method: 'get',
-        response: {
-            account: {
-                id: 1
-            }
-        }
-    },{
-        path: '/v1/database-modules',
-        method: 'get',
-        response: {
-            modules: {
-                name: 'module1'
-            }
-        }
-    },{
-        path: '/v1/logs',
-        method: 'get',
-        response: {
-            entries: [{
-                id: 1,
-                time: '22.05.2022',
-                originator: 'name',
-                apiKeyName: 'key-name',
-                type: 'AWS',
-                description: 'Key description',
-            }]
-        }
-    },{
-        path: '/v1/payment-methods',
-        method: 'get',
-        response: {
-            paymentMethods: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/plans',
-        method: 'get',
-        response: {
-            plans: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/regions',
-        method: 'get',
-        response: {
-            regions: [{
-                id: 1
-            }]
-        }
-    }]
-})
+    routes: mock.routes
+});
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     protocol: 'http',

@@ -1,38 +1,40 @@
 {
-    "routes": [{
-        "path": "/v1/cloud-accounts",
-        "method": "post",
-        "response": {
-            "taskId": 1
-        }
-    },{
-        "path": "/v1/tasks/1",
-        "method": "get",
-        "response": {
+    "routes": [
+        {
+            "path": "/v1/cloud-accounts",
+            "method": "post",
             "response": {
-                "status": "processing-completed"
+                "taskId": 1
+            }
+        },{
+            "path": "/v1/tasks/1",
+            "method": "get",
+            "response": {
+                "response": {
+                    "status": "processing-completed"
+                }
+            }
+        },{
+            "path": "/v1/cloud-accounts",
+            "method": "get",
+            "response": {
+                "cloudAccounts": [{
+                    "id": 1
+                }]
+            }
+        },{
+            "path": "/v1/cloud-accounts/1",
+            "method": "get",
+            "response": {
+                "id": 1,
+                "name": "My cloud account"
+            }
+        },{
+            "path": "/v1/cloud-accounts/1",
+            "method": "delete",
+            "response": {
+                "taskId": 1
             }
         }
-    },{
-        "path": "/v1/cloud-accounts",
-        "method": "get",
-        "response": {
-            "cloudAccounts": [{
-                "id": 1
-            }]
-        }
-    },{
-        "path": "/v1/cloud-accounts/1",
-        "method": "get",
-        "response": {
-            "id": 1,
-            "name": "My cloud account"
-        }
-    },{
-        "path": "/v1/cloud-accounts/1",
-        "method": "delete",
-        "response": {
-            "taskId": 1
-        }
-    }]
+    ]
 }

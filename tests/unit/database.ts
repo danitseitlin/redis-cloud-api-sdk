@@ -5,56 +5,11 @@ import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
 const testArguments = loadArguments();
+const mock = require('../mockers/database.json');
 const server = new MockServer({
     hostname: testArguments.ENVIRONMENT,
     port: parseInt(testArguments.PORT),
-    routes: [{
-        path: '/v1/subscriptions/1/databases',
-        method: 'get',
-        response: {
-            subscription: [{
-                databases: [{
-                    id: 1
-                }]
-            }]
-        }
-    },{
-        path: '/v1/subscriptions/1/databases',
-        method: 'post',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/databases/1',
-        method: 'get',
-        response: {
-            id: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/databases/1',
-        method: 'put',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/databases/1',
-        method: 'delete',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/databases/1/backup',
-        method: 'post',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/databases/1/backup',
-        method: 'post',
-        response: {
-            taskId: 1
-        }
-    }]
+    routes: mock.routes
 });
 const cloudAPISDKParameters: CloudAPISDKParameters = {
     protocol: 'http',

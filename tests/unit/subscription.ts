@@ -5,97 +5,11 @@ import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
 const testArguments = loadArguments();
+const mock = require('../mockers/subscription.json');
 const server = new MockServer({
     hostname: testArguments.ENVIRONMENT,
     port: parseInt(testArguments.PORT),
-    routes: [{
-        path: '/v1/payment-methods',
-        method: 'get',
-        response: {
-            paymentMethods: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/subscriptions',
-        method: 'post',
-        response: [{
-            taskId: 1
-        }]
-    },{
-        path: '/v1/subscriptions',
-        method: 'get',
-        response: {
-            subscriptions: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/subscriptions/1',
-        method: 'get',
-        response: {
-            subscriptions: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/subscriptions/1',
-        method: 'put',
-        response: {
-            subscriptions: [{
-                id: 1
-            }]
-        }
-    },{
-        path: '/v1/subscriptions/1/cidr',
-        method: 'get',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/cidr',
-        method: 'put',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/peerings',
-        method: 'get',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/peerings',
-        method: 'post',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/subscriptions/1/peerings/1',
-        method: 'delete',
-        response: {
-            taskId: 1
-        }
-    },{
-        path: '/v1/cloud-accounts/1',
-        method: 'get',
-        response: {
-            id: 1,
-            name: 'My cloud account'
-        }
-    },{
-        path: '/v1/tasks/1',
-        method: 'get',
-        response: {
-            response: {
-                status: 'processing-completed',
-                resource: {
-                    cidr_ips: [],
-                    peerings: []
-                }
-            }
-        }
-    }]
+    routes: mock.routes
 });
 
 const cloudAPISDKParameters: CloudAPISDKParameters = {
