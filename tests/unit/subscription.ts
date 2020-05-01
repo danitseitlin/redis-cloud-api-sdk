@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../src/api';
-import { CreateSubscriptionParameters } from '../../src/types/parameters/subscription';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
@@ -23,7 +22,6 @@ describe('Testing subscription', async function() {
     this.timeout(10 * 60 * 60);
     let subscriptionId = 1;
     let vpcPeeringId = 1;
-    let cloudAccountId = 1;
     before(async () => {
         server.start();
     });
