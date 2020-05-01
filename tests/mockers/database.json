@@ -43,7 +43,7 @@
                 "taskId": 1
             }
         },{
-            "path": "/v1/subscriptions/1/databases/1/backup",
+            "path": "/v1/subscriptions/1/databases/1/import",
             "method": "post",
             "response": {
                 "taskId": 1
