@@ -5,16 +5,20 @@
             "method": "get",
             "response": {
                 "account": {
-                    "id": 1
+                    "id": 1,
+                    "key": {
+                        "accountId": 123
+                    }
                 }
             }
         },{
             "path": "/v1/database-modules",
             "method": "get",
             "response": {
-                "modules": {
-                    "name": "module1"
-                }
+                "modules": [{
+                    "name": "Module 1",
+                    "description": "The first module"
+                }]
             }
         },{
             "path": "/v1/logs",
