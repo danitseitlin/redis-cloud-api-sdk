@@ -23,6 +23,7 @@ import { DatabaseModule } from './general';
  */
 export type Database = {
     databaseId: number,
+    name: string,
     protocol: DatabaseProtocol,
     provider: DatabaseProvider,
     region: string,
