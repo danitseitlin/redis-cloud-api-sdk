@@ -20,8 +20,8 @@ const cloudAPIClient = new CloudAPISDK({
 
 describe('Testing subscription', async function() {
     this.timeout(10 * 60 * 60);
-    let subscriptionId = 1;
-    let vpcPeeringId = 1;
+    const subscriptionId = 1;
+    const vpcPeeringId = 1;
     before(async () => {
         server.start();
     });
