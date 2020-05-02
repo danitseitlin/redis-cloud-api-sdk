@@ -84,7 +84,6 @@ describe('Testing subscription', async function() {
         });
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
-        
         expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, `Subscription cidr ips`);
     }); 
     it('getSubscriptionVpcPeerings', async () => {

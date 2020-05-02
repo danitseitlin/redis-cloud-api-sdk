@@ -22,11 +22,10 @@ describe('Testing databases', async function() {
         expect(databases.length).to.eql(1, 'Database list length');
     });
     it('createDatabase', async () => {
-        const createParameters: DatabaseCreationParameters = {
+        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, {
             name: 'test-database',
             memoryLimitInGb: 10.0
-        };
-        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
+        });
         const id: number = createDatabase.resourceId;
         databaseId = id;
         expect(databaseId).not.to.eql(undefined, 'Database id');
@@ -40,13 +39,12 @@ describe('Testing databases', async function() {
         expect(database.databaseId).to.eql(databaseId, 'Database Id');
     });
     it('updateDatabase', async () => {
-        const updateParameters: DatabaseUpdateParameters = {
+        await cloudAPIClient.updateDatabase(subscriptionId, databaseId, {
             name: 'test-updated-databases'
-        };
-        await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
+        });
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        expect(updateParameters.name).to.eql(database.name, 'Database name');
+        expect('test-updated-databases').to.eql(database.name, 'Database name');
     });
     it.skip('backupDatabase', async () => {
         const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
@@ -54,11 +52,10 @@ describe('Testing databases', async function() {
         expect(response.error).to.eql(undefined, 'Error message');
     });
     it.skip('importIntoDatabase', async () => {
-        const importParameters: DatabaseImportParameters = {
+        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, {
             sourceType: 'ftp',
             importFromUri: ['ftp-import-url']
-        };
-        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
+        });
         expect(response.error).to.eql(undefined, 'Error message');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
     });
