@@ -27,7 +27,7 @@ describe('Testing cloud account', async function() {
         expect(cloudAccountId).not.to.eql(undefined, `Cloud account id`);
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, 'active');
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
-        expect(cloudAccount.status).to.eql('active', 'Cloud Account status');
+        expect(cloudAccount.status).to.eql('active', 'Cloud account status');
     });
     it('getCloudAccounts', async () => {
         const cloudAccounts  = await cloudAPIClient.getCloudAccounts();
