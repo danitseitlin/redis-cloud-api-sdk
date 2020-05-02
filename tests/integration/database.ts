@@ -27,9 +27,13 @@ describe('Testing databases', async function() {
             memoryLimitInGb: 10.0
         };
         const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
-        const databaseId: number = createDatabase.resourceId;
+        const id: number = createDatabase.resourceId;
+        databaseId = id;
         expect(databaseId).not.to.eql(undefined, 'Database id');
-        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, id, 'active');
+        const database = await cloudAPIClient.getDatabase(subscriptionId, id);
+        expect(database.status).eql('active', 'Database status');
+        
     });
     it('getDatabase', async () => {
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
@@ -40,14 +44,14 @@ describe('Testing databases', async function() {
             name: 'test-updated-databases'
         };
         await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(updateParameters.name).to.eql(database.name, 'Database name');
-        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
     });
     it.skip('backupDatabase', async () => {
         const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
-        expect(response.error).to.eql(undefined, 'Error message');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
+        expect(response.error).to.eql(undefined, 'Error message');
     });
     it.skip('importIntoDatabase', async () => {
         const importParameters: DatabaseImportParameters = {

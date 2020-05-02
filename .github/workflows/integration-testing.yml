@@ -1,8 +1,9 @@
 name: Integration testing
 
 on: 
-  schedule:
-    - cron:  '0 3 * * *'
+  push:
+  # schedule:
+  #   - cron:  '0 3 * * *'
 
 jobs:
   build:
