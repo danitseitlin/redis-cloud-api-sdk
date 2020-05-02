@@ -206,13 +206,7 @@ export class CloudAPISDK {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
-            console.log(`===============response=============`)
-            console.log(response.data)
-            console.log(`====================================`)
             const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            console.log(`===============response=============`)
-            console.log(taskResponse)
-            console.log(`====================================`)
             return taskResponse.response.resource;
         }
         catch(error) {
@@ -228,8 +222,10 @@ export class CloudAPISDK {
     async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
+            console.log(response.data)
             const taskId: number = response.data.taskId;
             const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            console.log(taskResponse.response)
             return taskResponse.response;
         }
         catch(error) {
