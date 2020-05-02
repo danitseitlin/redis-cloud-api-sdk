@@ -64,7 +64,7 @@ describe('Testing subscription', async function() {
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription.id).to.eql(subscriptionId, 'Subscription id');
     }); 
-    it('updateSubscription', async () => {
+    it.skip('updateSubscription', async () => {
         const subscriptionName = 'updated-subscription';
         await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
@@ -75,7 +75,6 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
-        console.log(cidrWhitelists)
         expect(cidrWhitelists.cidr_ips).to.eql([], `Subscription cidr ips`);
     }); 
     it('updateCidrWhitelists', async () => {

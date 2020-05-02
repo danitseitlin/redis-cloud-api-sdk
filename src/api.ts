@@ -222,10 +222,8 @@ export class CloudAPISDK {
     async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
-            console.log(response.data)
             const taskId: number = response.data.taskId;
             const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            console.log(taskResponse.response)
             return taskResponse.response;
         }
         catch(error) {
