@@ -64,7 +64,7 @@ describe('Testing subscription', async function() {
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
         expect(subscription.id).to.eql(subscriptionId, 'Subscription id');
     }); 
-    it.skip('updateSubscription', async () => {
+    it('updateSubscription', async () => {
         const subscriptionName = 'updated-subscription';
         await cloudAPIClient.updateSubscription(subscriptionId, {
             name: subscriptionName
@@ -77,7 +77,7 @@ describe('Testing subscription', async function() {
         const cidrWhitelists = await cloudAPIClient.getSubscriptionCidrWhitelist(subscriptionId);
         expect(cidrWhitelists.cidr_ips).to.eql([], `Subscription cidr ips`);
     }); 
-    it('updateCidrWhitelists', async () => {
+    it.skip('updateCidrWhitelists', async () => {
         const updatedCidrIps = ['192.168.1.0/24'];
         await cloudAPIClient.updateSubscriptionCidrWhitelists(subscriptionId, {
             cidrIps: updatedCidrIps
@@ -89,7 +89,6 @@ describe('Testing subscription', async function() {
     }); 
     it('getSubscriptionVpcPeerings', async () => {
         const subscriptionVpcPeerings = await cloudAPIClient.getSubscriptionVpcPeerings(subscriptionId);
-        console.log(subscriptionVpcPeerings)
         expect(subscriptionVpcPeerings).to.eql([], `Subscription peerings list`);
     }); 
     it.skip('createSubscriptionVpcPeering', async () => {
