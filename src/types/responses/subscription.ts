@@ -59,8 +59,8 @@ export type SubscriptionCloudDetails = {
  * @param the list of the errors
  */
 export type SubscriptionCidrWhitelist = {
-    cidr_ips: any[],
-    security_group_ids: any[],
+    cidr_ips: string[],
+    security_group_ids: string[],
     errors: any[]
 }
 
