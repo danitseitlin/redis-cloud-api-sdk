@@ -206,8 +206,13 @@ export class CloudAPISDK {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
+            console.log(`===============response=============`)
+            console.log(response.data)
+            console.log(`====================================`)
             const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            console.log(`===============response=============`)
             console.log(taskResponse)
+            console.log(`====================================`)
             return taskResponse.response.resource;
         }
         catch(error) {
