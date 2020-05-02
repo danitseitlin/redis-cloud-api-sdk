@@ -51,18 +51,18 @@ describe('Testing subscription', async function() {
             }]
         });
         subscriptionId = createResponse.resourceId;
-        expect(subscriptionId).not.to.eql(undefined, `Subscription id`);
+        expect(subscriptionId).not.to.eql(undefined, 'Subscription id');
         await cloudAPIClient.waitForSubscriptionStatus(subscriptionId, 'active');
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription.status).to.eql('active', 'The subscription status');
+        expect(subscription.status).to.eql('active', 'Subscription status');
     });
     it('getSubscriptions', async () => {
         const subscriptions = await cloudAPIClient.getSubscriptions();
-        expect(subscriptions.length).to.eql(1, 'The subscriptions count');
+        expect(subscriptions.length).to.eql(1, 'Subscriptions count');
     }); 
     it('getSubscription', async () => {
         const subscription = await cloudAPIClient.getSubscription(subscriptionId);
-        expect(subscription.id).to.eql(subscriptionId, 'The subscription id');
+        expect(subscription.id).to.eql(subscriptionId, 'Subscription id');
     }); 
     it('updateSubscription', async () => {
         const subscriptionName = 'updated-subscription';
