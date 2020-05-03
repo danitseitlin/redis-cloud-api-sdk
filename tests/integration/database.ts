@@ -10,7 +10,7 @@ const cloudAPIClient = new CloudAPISDK({
     secretKey: testArguments.API_SECRET_KEY,
     domain: testArguments.ENVIRONMENT
 });
-describe('Testing databases', async function() {
+describe('Testing database', async function() {
     this.timeout(60 * 60 * 1000);
     let subscriptionId: number = -1;
     let databaseId: number = -1;

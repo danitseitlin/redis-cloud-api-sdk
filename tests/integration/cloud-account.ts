@@ -23,8 +23,8 @@ describe('Testing cloud account', async function() {
             signInLoginUrl: 'sign-in-login-url'
         });
         cloudAccountId = response.resourceId;
-        console.log(`=== cloudAccountId: ${cloudAccountId} ===`);
-        expect(cloudAccountId).not.to.eql(undefined, `Cloud account id`);
+        console.log(`=== cloud account id: ${cloudAccountId} ===`);
+        expect(cloudAccountId).not.to.eql(undefined, 'Cloud account id');
         await cloudAPIClient.waitForCloudAccountStatus(cloudAccountId, 'active');
         const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
         expect(cloudAccount.status).to.eql('active', 'Cloud account status');
