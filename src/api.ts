@@ -3,7 +3,7 @@ import { CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateP
 import { DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters } from './types/parameters/database';
 import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
 import { SubscriptionCloudProvider, Subscription, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
-import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from './types/responses/general';
+import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
 import { Task, TaskResponse, TaskStatus } from './types/task';
 import { Database, DatabaseStatus } from './types/responses/database';
@@ -51,11 +51,13 @@ export class CloudAPISDK {
         }
     }
     
-    async getDataPersistences(): Promise<any> {
+    /**
+     * Returning a lookup list of data persistence values
+     */
+    async getDataPersistences(): Promise<DataPersistence[] & {[key: string]: any}> {
         try {
             const response = await this.httpClient.get('/data-persistence');
-            console.log(response.data)
-            return response.data;
+            return response.data.dataPersistence;
         }
         catch(error) {
             return error;

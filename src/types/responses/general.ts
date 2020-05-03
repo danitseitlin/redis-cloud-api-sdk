@@ -39,6 +39,16 @@ export type AccountInformation = {
 }
 
 /**
+ * Data persistence object
+ * @param name The name of the data-persistence
+ * @param description The description of the data-persistence
+ */
+export type DataPersistence = {
+    name: string,
+    description: string
+}
+
+/**
  * Database module object
  * @param name The name of the module
  * @param description The description of the module
