@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { loadArguments } from '../helpers';
 import { CloudAPISDK } from '../../src/api';
-import { CreateSubscriptionParameters } from '../../src/types/parameters/subscription';
 import { SubscriptionVpcPeering } from '../../src/types/responses/subscription';
 
 const testArguments = loadArguments();

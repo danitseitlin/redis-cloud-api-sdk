@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../src/api';
-import { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
 import { loadArguments } from '../helpers';
 
 const testArguments = loadArguments();
@@ -12,8 +11,8 @@ const cloudAPIClient = new CloudAPISDK({
 });
 describe('Testing database', async function() {
     this.timeout(60 * 60 * 1000);
-    let subscriptionId: number = -1;
-    let databaseId: number = -1;
+    let subscriptionId = -1;
+    let databaseId = -1;
     it('getSubscription', async () => {
         subscriptionId = (await cloudAPIClient.getSubscriptions())[0].id;
     });
@@ -26,13 +25,12 @@ describe('Testing database', async function() {
             name: 'test-database',
             memoryLimitInGb: 10.0
         });
-        const id: number = createDatabase.resourceId;
+        const id = createDatabase.resourceId;
         databaseId = id;
         expect(databaseId).not.to.eql(undefined, 'Database id');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, id, 'active');
         const database = await cloudAPIClient.getDatabase(subscriptionId, id);
         expect(database.status).eql('active', 'Database status');
-        
     });
     it('getDatabase', async () => {
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
