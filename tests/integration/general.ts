@@ -25,6 +25,10 @@ describe('Testing general', async function() {
         const accountInformation = await cloudAPIClient.getAccountInformation();
         expect(accountInformation.id).not.to.eql(undefined, 'Account id');
     }); 
+    it('getDataPersistences', async () => {
+        const dataPersistenceList = await cloudAPIClient.getDataPersistences();
+        expect(dataPersistenceList.length).to.eql(6, 'Data persistences count')
+    }); 
     it('getDatabaseModules', async () => {
         const databaseModules = await cloudAPIClient.getDatabaseModules();
         expect(databaseModules.length).gte(0, 'Database modules count');
