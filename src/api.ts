@@ -51,6 +51,17 @@ export class CloudAPISDK {
         }
     }
     
+    async getDataPersistences(): Promise<any> {
+        try {
+            const response = await this.httpClient.get('/data-persistence');
+            console.log(response.data)
+            return response.data;
+        }
+        catch(error) {
+            return error;
+        }
+    }
+
     /**
      * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
