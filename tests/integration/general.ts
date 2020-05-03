@@ -10,7 +10,7 @@ const cloudAPIClient = new CloudAPISDK({
     secretKey: testArguments.API_SECRET_KEY,
     domain: testArguments.ENVIRONMENT
 });
-describe('Testing general functions', async function() {
+describe('Testing general', async function() {
     this.timeout(10 * 60 * 1000);
     it('Verifying no new paths are existing', async () => {
         const axios = Axios.create({

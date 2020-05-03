@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../src/api';
-import { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters } from '../../src/types/parameters/database';
 import { loadArguments } from '../helpers';
 
 const testArguments = loadArguments();
@@ -10,10 +9,10 @@ const cloudAPIClient = new CloudAPISDK({
     secretKey: testArguments.API_SECRET_KEY,
     domain: testArguments.ENVIRONMENT
 });
-describe('Testing databases', async function() {
+describe('Testing database', async function() {
     this.timeout(60 * 60 * 1000);
-    let subscriptionId: number = -1;
-    let databaseId: number = -1;
+    let subscriptionId = -1;
+    let databaseId = -1;
     it('getSubscription', async () => {
         subscriptionId = (await cloudAPIClient.getSubscriptions())[0].id;
     });
@@ -22,39 +21,39 @@ describe('Testing databases', async function() {
         expect(databases.length).to.eql(1, 'Database list length');
     });
     it('createDatabase', async () => {
-        const createParameters: DatabaseCreationParameters = {
+        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, {
             name: 'test-database',
             memoryLimitInGb: 10.0
-        };
-        const createDatabase = await cloudAPIClient.createDatabase(subscriptionId, createParameters);
-        const databaseId: number = createDatabase.resourceId;
+        });
+        const id = createDatabase.resourceId;
+        databaseId = id;
         expect(databaseId).not.to.eql(undefined, 'Database id');
-        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
+        await cloudAPIClient.waitForDatabaseStatus(subscriptionId, id, 'active');
+        const database = await cloudAPIClient.getDatabase(subscriptionId, id);
+        expect(database.status).eql('active', 'Database status');
     });
     it('getDatabase', async () => {
         const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
         expect(database.databaseId).to.eql(databaseId, 'Database Id');
     });
     it('updateDatabase', async () => {
-        const updateParameters: DatabaseUpdateParameters = {
+        await cloudAPIClient.updateDatabase(subscriptionId, databaseId, {
             name: 'test-updated-databases'
-        };
-        await cloudAPIClient.updateDatabase(subscriptionId, databaseId, updateParameters);
-        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
-        expect(updateParameters.name).to.eql(database.name, 'Database name');
+        });
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
+        const database = await cloudAPIClient.getDatabase(subscriptionId, databaseId);
+        expect('test-updated-databases').to.eql(database.name, 'Database name');
     });
     it.skip('backupDatabase', async () => {
         const response = await cloudAPIClient.backupDatabase(subscriptionId, databaseId);
-        expect(response.error).to.eql(undefined, 'Error message');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
+        expect(response.error).to.eql(undefined, 'Error message');
     });
     it.skip('importIntoDatabase', async () => {
-        const importParameters: DatabaseImportParameters = {
+        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, {
             sourceType: 'ftp',
             importFromUri: ['ftp-import-url']
-        };
-        const response = await cloudAPIClient.importIntoDatabase(subscriptionId, databaseId, importParameters);
+        });
         expect(response.error).to.eql(undefined, 'Error message');
         await cloudAPIClient.waitForDatabaseStatus(subscriptionId, databaseId, 'active');
     });
