@@ -1,6 +1,6 @@
 .github
 node_modules
 src
-tests
+tests/
 package-lock.json
 tsconfig.json
