@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK } from '../../api';
+import { CloudAPISDK } from '../../src/api';
 import { loadArguments } from '../helpers';
 import Axios from 'axios';
 
