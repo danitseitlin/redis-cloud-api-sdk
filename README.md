@@ -21,5 +21,5 @@ const accountInformation = await cloudAPIClient.getAccountInformation();
 All the API calls from the official Swagger documentation are covered in the SDK
 (https://api.redislabs.com/v1/swagger-ui.html).
 
-![Integration testings](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testings/badge.svg)
+![Integration testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
 ![Unit testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
