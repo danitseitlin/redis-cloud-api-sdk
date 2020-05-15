@@ -1,8 +1,10 @@
 .github
 node_modules
-src
 tests
 **/tests/*.ts
 **/tests/*.js
+types/
+api.ts
+index.ts
 package-lock.json
 tsconfig.json

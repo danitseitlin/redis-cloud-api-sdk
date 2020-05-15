@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { CloudAPISDK } from '../../src/api';
+import { CloudAPISDK } from '../../api';
 import { loadArguments } from '../helpers';
 import { MockServer } from 'dmock-server';
 
