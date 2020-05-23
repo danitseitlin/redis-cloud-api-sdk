@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../api';
-import { loadArguments } from '../helpers';
-
-const testArguments = loadArguments();
+import { cliArguments } from 'cli-argument-parser';
 
 const cloudAPIClient = new CloudAPISDK({
-    accessKey: testArguments.API_ACCESS_KEY,
-    secretKey: testArguments.API_SECRET_KEY,
-    domain: testArguments.ENVIRONMENT
+    accessKey: cliArguments.API_ACCESS_KEY,
+    secretKey: cliArguments.API_SECRET_KEY,
+    domain: cliArguments.ENVIRONMENT
 });
 describe('Testing database', async function() {
     this.timeout(60 * 60 * 1000);

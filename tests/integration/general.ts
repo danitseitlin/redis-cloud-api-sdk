@@ -1,20 +1,18 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../api';
-import { loadArguments } from '../helpers';
+import { cliArguments } from 'cli-argument-parser';
 import Axios from 'axios';
 
-const testArguments = loadArguments();
-
 const cloudAPIClient = new CloudAPISDK({
-    accessKey: testArguments.API_ACCESS_KEY,
-    secretKey: testArguments.API_SECRET_KEY,
-    domain: testArguments.ENVIRONMENT
+    accessKey: cliArguments.API_ACCESS_KEY,
+    secretKey: cliArguments.API_SECRET_KEY,
+    domain: cliArguments.ENVIRONMENT
 });
 describe('Testing general', async function() {
     this.timeout(10 * 60 * 1000);
     it('Verifying no new paths are existing', async () => {
         const axios = Axios.create({
-            baseURL: `https://${testArguments.ENVIRONMENT}/v1`,
+            baseURL: `https://${cliArguments.ENVIRONMENT}/v1`,
             responseType: 'json'
         })
         const response = await axios.get('/v2/api-docs?group=Redis Labs Cloud API - Version 1');

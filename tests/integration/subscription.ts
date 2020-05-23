@@ -1,14 +1,12 @@
 import { expect } from 'chai';
-import { loadArguments } from '../helpers';
+import { cliArguments } from 'cli-argument-parser';
 import { CloudAPISDK } from '../../api';
 import { SubscriptionVpcPeering } from '../../types/responses/subscription';
 
-const testArguments = loadArguments();
-
 const cloudAPIClient: CloudAPISDK = new CloudAPISDK({
-    accessKey: testArguments.API_ACCESS_KEY,
-    secretKey: testArguments.API_SECRET_KEY,
-    domain: testArguments.ENVIRONMENT
+    accessKey: cliArguments.API_ACCESS_KEY,
+    secretKey: cliArguments.API_SECRET_KEY,
+    domain: cliArguments.ENVIRONMENT
 });
 describe('Testing subscription', async function() {
     this.timeout(60 * 60 * 1000);
@@ -18,8 +16,8 @@ describe('Testing subscription', async function() {
     it('createCloudAccount', async () => {
         const response = await cloudAPIClient.createCloudAccount({
             name: 'Cloud account',
-            accessKeyId: testArguments.AWS_ACCESS_ID,
-            accessSecretKey: testArguments.AWS_SECRET_KEY,
+            accessKeyId: cliArguments.AWS_ACCESS_ID,
+            accessSecretKey: cliArguments.AWS_SECRET_KEY,
             consoleUsername: 'console-username',
             consolePassword: 'console-password',
             signInLoginUrl: 'sign-in-login-url'
@@ -92,9 +90,9 @@ describe('Testing subscription', async function() {
     it.skip('createSubscriptionVpcPeering', async () => {
         const createResponse = await cloudAPIClient.createSubscriptionVpcPeering(subscriptionId, {
             region: 'us-east-1',
-            awsAccountId: testArguments.VPC_PEERING_AWS_ACCOUNT_ID,
-            vpcCidr: testArguments.VPC_PEERING_CIDR,
-            vpcId: testArguments.VPC_PEERING_ID
+            awsAccountId: cliArguments.VPC_PEERING_AWS_ACCOUNT_ID,
+            vpcCidr: cliArguments.VPC_PEERING_CIDR,
+            vpcId: cliArguments.VPC_PEERING_ID
         });
         vpcPeeringId = createResponse.resourceId;
         expect(vpcPeeringId).not.to.eql(undefined, 'VPC Peering id');
