@@ -18,6 +18,7 @@ const cloudAPIClient = new CloudAPISDK({
 });
 
 describe('Testing databases', async function() {
+    console.log(cliArguments)
     this.timeout(10 * 60 * 60);
     const subscriptionId = 1;
     const databaseId = 1;
