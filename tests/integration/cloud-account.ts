@@ -1,13 +1,11 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../api';
-import { loadArguments } from '../helpers';
-
-const testArguments = loadArguments();
+import { cliArguments } from 'cli-argument-parser';
 
 const cloudAPIClient = new CloudAPISDK({
-    accessKey: testArguments.API_ACCESS_KEY,
-    secretKey: testArguments.API_SECRET_KEY,
-    domain: testArguments.ENVIRONMENT
+    accessKey: cliArguments.API_ACCESS_KEY,
+    secretKey: cliArguments.API_SECRET_KEY,
+    domain: cliArguments.ENVIRONMENT
 });
 
 describe('Testing cloud account', async function() {
@@ -16,8 +14,8 @@ describe('Testing cloud account', async function() {
     it('createCloudAccount', async () => {
         const response = await cloudAPIClient.createCloudAccount({
             name: 'My cloud account',
-            accessKeyId: testArguments.AWS_ACCESS_ID,
-            accessSecretKey: testArguments.AWS_SECRET_KEY,
+            accessKeyId: cliArguments.AWS_ACCESS_ID,
+            accessSecretKey: cliArguments.AWS_SECRET_KEY,
             consoleUsername: 'console-username',
             consolePassword: 'console-password',
             signInLoginUrl: 'sign-in-login-url'

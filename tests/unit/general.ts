@@ -1,21 +1,20 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../api';
-import { loadArguments } from '../helpers';
+import { cliArguments } from 'cli-argument-parser';
 import { MockServer } from 'dmock-server';
 
-const testArguments = loadArguments();
 const mock = require('../mockers/general.json');
 const server = new MockServer({
-    hostname: testArguments.ENVIRONMENT,
-    port: parseInt(testArguments.PORT),
+    hostname: cliArguments.ENVIRONMENT,
+    port: parseInt(cliArguments.PORT),
     routes: mock.routes
 });
 
 const cloudAPIClient = new CloudAPISDK({
     protocol: 'http',
-    domain: `${testArguments.ENVIRONMENT}:${testArguments.PORT}`,
-    accessKey: testArguments.API_ACCESS_KEY,
-    secretKey: testArguments.API_SECRET_KEY,
+    domain: `${cliArguments.ENVIRONMENT}:${cliArguments.PORT}`,
+    accessKey: cliArguments.API_ACCESS_KEY,
+    secretKey: cliArguments.API_SECRET_KEY,
 });
 describe('Testing general functions', async function() {
     this.timeout(10 * 60 * 60);
