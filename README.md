@@ -4,7 +4,7 @@
 
 ## About
 This NodeJS module is an SDK for the [Redis Cloud REST API](https://docs.redislabs.com/latest/rc/api/).
-You can use [this module](https://www.npmjs.com/package/rl-cloud-api-sdk) to develope againts Redis Cloud REST API.
+You can use [this module](https://www.npmjs.com/package/rl-cloud-api-sdk) to develop againts Redis Cloud REST API.
 
 ## Quick Start
 
