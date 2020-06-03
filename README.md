@@ -32,5 +32,5 @@ This is how you call a specific API:
 const accountInformation = await client.getAccountInformation();
 ```
 
-You can find the API documentaion in this swagger link(https://api.redislabs.com/v1/swagger-ui.html)
+You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
