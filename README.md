@@ -1,6 +1,8 @@
 # rl-cloud-api-sdk
 ![Integration testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
 ![Unit testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
+[![GitHub license](https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg)](https://github.com/danitseitlin/rl-cloud-api-sdk/blob/master/LICENSE)
+[![npm version](http://img.shields.io/npm/v/rl-cloud-api-sdk.svg?style=flat)](https://npmjs.org/package/rl-cloud-api-sdk "View this project on npm") 
 
 ## About
 This NodeJS module is an SDK for the [Redis Cloud REST API](https://docs.redislabs.com/latest/rc/api/).
