@@ -1,27 +1,38 @@
 # rl-cloud-api-sdk
-### What is this module for?
-This project is an SDK for the Cloud API product of Redislabs Cloud. <br>
-This project is a module in https://www.npmjs.com/package/rl-cloud-api-sdk that can be used to perform API requests of Cloud API.<br>
-Below are a few simple usages on how to setup the module and use it. <br>
+![Integration testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
+![Unit testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
+[![GitHub license](https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg)](https://github.com/danitseitlin/rl-cloud-api-sdk/blob/master/LICENSE)
+[![npm version](http://img.shields.io/npm/v/rl-cloud-api-sdk.svg?style=flat)](https://npmjs.org/package/rl-cloud-api-sdk "View this project on npm") 
 
-### How to use:
-Run the following command in your IDEA terminal:
+## About
+This NodeJS module is an SDK for the [Redis Cloud REST API](https://docs.redislabs.com/latest/rc/api/).
+You can use [this module](https://www.npmjs.com/package/rl-cloud-api-sdk) to develop againts Redis Cloud REST API.
+
+## Quick Start
+
+### Install the module
+Run the following command in your terminal:
 
 `npm i rl-cloud-api-sdk`
-<br>
-### How to initialize:
+
+### Initialize the module
+To start using to API you first need to enable it and generate your API keys. You can follow the instructions [here](https://docs.redislabs.com/latest/rc/api/how-to/create-api-keys-for-your-team/). 
+
+It is recommended not to save your API secrets inside your code.
+
+This is how you create a client:
 ```
 const client = new CloudAPISDK({
     accessKey: 'API access key',
     secretKey: 'API secret key',
 });
+```
 
+This is how you call a specific API:
+```
 //basic usage
 const accountInformation = await client.getAccountInformation();
 ```
 
-All the API calls from the official Swagger documentation are covered in the SDK
-(https://api.redislabs.com/v1/swagger-ui.html).
+You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
-![Integration testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
-![Unit testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
