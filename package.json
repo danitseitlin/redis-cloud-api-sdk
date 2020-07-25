@@ -7,17 +7,17 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register",
-    "": "",
+    "integration-tests": "npm run general-integration-tests && npm run cloud-account-integration-tests && npm run database-integration-tests && npm run subscription-integration-tests",
     "general-integration-tests": "npm run test tests/integration/general.ts",
     "cloud-account-integration-tests": "npm run test tests/integration/cloud-account.ts",
     "database-integration-tests": "npm run test tests/integration/database.ts",
     "subscription-integration-tests": "npm run test tests/integration/subscription.ts",
     "clean-resources": "npm run test tests/integration/cleanup.ts",
     "unit-tests": "npm run general-unit-tests && npm run cloud-account-unit-tests && npm run subscription-unit-tests && npm run database-unit-tests",
-    "general-unit-tests": "npm run test tests/unit/general.ts",
-    "cloud-account-unit-tests": "npm run test tests/unit/cloud-account.ts",
-    "subscription-unit-tests": "npm run test tests/unit/subscription.ts",
-    "database-unit-tests": "npm run test tests/unit/database.ts"
+    "general-unit-tests": "npm run test tests/unit/general.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
+    "cloud-account-unit-tests": "npm run test tests/unit/cloud-account.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
+    "subscription-unit-tests": "npm run test tests/unit/subscription.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
+    "database-unit-tests": "npm run test tests/unit/database.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key"
   },
   "keywords": [
     "Cloud API",

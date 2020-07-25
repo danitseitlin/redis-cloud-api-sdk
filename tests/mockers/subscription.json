@@ -1,74 +1,70 @@
-{
-    "routes": [
-        {
-            "path": "/v1/subscriptions",
-            "method": "post",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions",
-            "method": "get",
-            "response": {
-                "subscriptions": [{
-                    "id": 1
-                }]
-            }
-        },{
-            "path": "/v1/subscriptions/1",
-            "method": "get",
-            "response": {
-                "id": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1",
-            "method": "put",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1/cidr",
-            "method": "get",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1/cidr",
-            "method": "put",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1/peerings",
-            "method": "get",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1/peerings",
-            "method": "post",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/subscriptions/1/peerings/1",
-            "method": "delete",
-            "response": {
-                "taskId": 1
-            }
-        },{
-            "path": "/v1/tasks/1",
-            "method": "get",
-            "response": {
-                "response": {
-                    "resourceId": 1,
-                    "status": "processing-completed",
-                    "resource": {
-                        "cidr_ips": ["123"],
-                        "peerings": ["456"]
-                    }
-                }
+[{
+    "path": "/v1/subscriptions",
+    "method": "post",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions",
+    "method": "get",
+    "response": {
+        "subscriptions": [{
+            "id": 1
+        }]
+    }
+},{
+    "path": "/v1/subscriptions/1",
+    "method": "get",
+    "response": {
+        "id": 1
+    }
+},{
+    "path": "/v1/subscriptions/1",
+    "method": "put",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions/1/cidr",
+    "method": "get",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions/1/cidr",
+    "method": "put",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions/1/peerings",
+    "method": "get",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions/1/peerings",
+    "method": "post",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/subscriptions/1/peerings/1",
+    "method": "delete",
+    "response": {
+        "taskId": 1
+    }
+},{
+    "path": "/v1/tasks/1",
+    "method": "get",
+    "response": {
+        "response": {
+            "resourceId": 1,
+            "status": "processing-completed",
+            "resource": {
+                "cidr_ips": ["123"],
+                "peerings": ["456"]
             }
         }
-    ]
-}
+    }
+}]

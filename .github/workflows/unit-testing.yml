@@ -16,12 +16,12 @@ jobs:
     - name: 'Setting up NPM'
       run: npm install && npm run build
     - name: 'Running unit tests on general requests'
-      run: npm run general-unit-tests -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run general-unit-tests
     - name: 'Running unit tests on cloud account requests'
-      run: npm run cloud-account-unit-tests -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run cloud-account-unit-tests
     - name: 'Running unit tests on subscription requests'
-      run: npm run subscription-unit-tests -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run subscription-unit-tests
     - name: 'Running unit tests on database requests'
-      run: npm run database-unit-tests -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run database-unit-tests
       env:
         CI: true
