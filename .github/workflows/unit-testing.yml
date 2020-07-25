@@ -14,7 +14,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: 'Setting up NPM'
-    - run: npm install && npm run build
+      run: npm install && npm run build
     - name: 'Running unit tests on general requests'
       run: npm run general-unit-tests -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
     - name: 'Running unit tests on cloud account requests'
