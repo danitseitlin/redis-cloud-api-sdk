@@ -1,30 +1,27 @@
 name: Unit testing
 
 on: [push]
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x]
-
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
+    - name: 'Setting up NPM'
+      run: npm install && npm run build
     - name: 'Running unit tests on general requests'
-      run: npm run test-unit-general -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run general-unit-tests
     - name: 'Running unit tests on cloud account requests'
-      run: npm run test-unit-cloud-account -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run cloud-account-unit-tests
     - name: 'Running unit tests on subscription requests'
-      run: npm run test-unit-subscription -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run subscription-unit-tests
     - name: 'Running unit tests on database requests'
-      run: npm run test-unit-database -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key
+      run: npm run database-unit-tests
       env:
         CI: true

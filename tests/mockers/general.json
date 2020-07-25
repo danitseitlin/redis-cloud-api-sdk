@@ -1,75 +1,71 @@
-{
-    "routes": [
-        {
-            "path": "/v1/",
-            "method": "get",
-            "response": {
-                "account": {
-                    "id": 1,
-                    "key": {
-                        "accountId": 123
-                    }
-                }
-            }
-        },{
-            "path": "/v1/data-persistence",
-            "method": "get",
-            "response": {
-                "dataPersistence": [
-                    { "name": "none", "description": "None" },
-                    { "name": "aof-every-1-second", "description": "Append only file (AOF) - fsync every 1 second" },
-                    { "name": "aof-every-write", "description": "Append only file (AOF) - fsync every write" },
-                    { "name": "snapshot-every-1-hour", "description": "Snapshot every 1 hour" },
-                    { "name": "snapshot-every-6-hours", "description": "Snapshot every 6 hour" },
-                    { "name": "snapshot-every-12-hours", "description": "Snapshot every 12 hour" } 
-                ]
-            }
-        },{
-            "path": "/v1/database-modules",
-            "method": "get",
-            "response": {
-                "modules": [{
-                    "name": "Module 1",
-                    "description": "The first module"
-                }]
-            }
-        },{
-            "path": "/v1/logs",
-            "method": "get",
-            "response": {
-                "entries": [{
-                    "id": 1,
-                    "time": "22.05.2022",
-                    "originator": "name",
-                    "apiKeyName": "key-name",
-                    "type": "AWS",
-                    "description": "Key description"
-                }]
-            }
-        },{
-            "path": "/v1/payment-methods",
-            "method": "get",
-            "response": {
-                "paymentMethods": [{
-                    "id": 1
-                }]
-            }
-        },{
-            "path": "/v1/plans",
-            "method": "get",
-            "response": {
-                "plans": [{
-                    "id": 1
-                }]
-            }
-        },{
-            "path": "/v1/regions",
-            "method": "get", 
-            "response": {
-                "regions": [{
-                    "id": 1
-                }]
+[{
+    "path": "/v1/",
+    "method": "get",
+    "response": {
+        "account": {
+            "id": 1,
+            "key": {
+                "accountId": 123
             }
         }
-    ]
-}
+    }
+},{
+    "path": "/v1/data-persistence",
+    "method": "get",
+    "response": {
+        "dataPersistence": [
+            { "name": "none", "description": "None" },
+            { "name": "aof-every-1-second", "description": "Append only file (AOF) - fsync every 1 second" },
+            { "name": "aof-every-write", "description": "Append only file (AOF) - fsync every write" },
+            { "name": "snapshot-every-1-hour", "description": "Snapshot every 1 hour" },
+            { "name": "snapshot-every-6-hours", "description": "Snapshot every 6 hour" },
+            { "name": "snapshot-every-12-hours", "description": "Snapshot every 12 hour" } 
+        ]
+    }
+},{
+    "path": "/v1/database-modules",
+    "method": "get",
+    "response": {
+        "modules": [{
+            "name": "Module 1",
+            "description": "The first module"
+        }]
+    }
+},{
+    "path": "/v1/logs",
+    "method": "get",
+    "response": {
+        "entries": [{
+            "id": 1,
+            "time": "22.05.2022",
+            "originator": "name",
+            "apiKeyName": "key-name",
+            "type": "AWS",
+            "description": "Key description"
+        }]
+    }
+},{
+    "path": "/v1/payment-methods",
+    "method": "get",
+    "response": {
+        "paymentMethods": [{
+            "id": 1
+        }]
+    }
+},{
+    "path": "/v1/plans",
+    "method": "get",
+    "response": {
+        "plans": [{
+            "id": 1
+        }]
+    }
+},{
+    "path": "/v1/regions",
+    "method": "get", 
+    "response": {
+        "regions": [{
+            "id": 1
+        }]
+    }
+}]
