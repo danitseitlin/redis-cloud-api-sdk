@@ -3,11 +3,11 @@ import { CloudAPISDK } from '../../api';
 import { cliArguments } from 'cli-argument-parser';
 import { MockServer } from 'dmock-server';
 
-const mock = require('../mockers/general.json');
+// const mock = require('../mockers/general.json');
 const server = new MockServer({
     hostname: cliArguments.ENVIRONMENT,
     port: parseInt(cliArguments.PORT),
-    routes: mock.routes
+    routes: 'tests/mockers/general.json'
 });
 
 const cloudAPIClient = new CloudAPISDK({

@@ -22,6 +22,6 @@ jobs:
     - name: 'Installing node modules'
       run: npm install
     - name: 'Running a cleanup'
-      run: npm run test-integration-cleanup -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      run: npm run clean-resources -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
       env:
         CI: true
