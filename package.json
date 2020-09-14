@@ -45,7 +45,7 @@
     "cli-argument-parser": "0.2.0",
     "dmock-server": "^1.3.1",
     "mocha": "^8.0.1",
-    "ts-node": "^8.5.4",
+    "ts-node": "^9.0.0",
     "typescript": "^3.7.4"
   }
 }
