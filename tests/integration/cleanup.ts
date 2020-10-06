@@ -12,6 +12,7 @@ describe('Cleanup', async function() {
     
     it('Resources cleanup', async () => {
         let subscriptions = await cloudAPIClient.getSubscriptions();
+        console.log(subscriptions)
         for(const subscription of subscriptions) {
             console.log(`=== Removing subscription ${subscription.id} ===`);
             let databases = await cloudAPIClient.getDatabases(subscription.id);
