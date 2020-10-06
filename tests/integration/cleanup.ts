@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { CloudAPISDK } from '../../api';
 import { cliArguments } from 'cli-argument-parser';
-console.log(cliArguments.API_ACCESS_KEY)
+
 const client = new CloudAPISDK({
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
@@ -12,7 +12,6 @@ describe('Cleanup', async function() {
     
     it('Resources cleanup', async () => {
         let subscriptions = await client.getSubscriptions();
-        console.log(subscriptions)
         for(const subscription of subscriptions) {
             console.log(`=== Removing subscription ${subscription.id} ===`);
             let databases = await client.getDatabases(subscription.id);
