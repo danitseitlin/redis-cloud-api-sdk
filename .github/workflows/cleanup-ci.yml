@@ -3,6 +3,7 @@ name: Resources cleanup
 on:  
     schedule:
       - cron:  '0 6 * * 2'
+    workflow_dispatch:
 
 jobs:
   build:
