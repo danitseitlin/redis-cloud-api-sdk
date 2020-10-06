@@ -3,6 +3,7 @@ name: Integration testing
 on: 
   schedule:
     - cron:  '0 3 * * 2'
+  workflow_dispatch:
 
 jobs:
   build:
