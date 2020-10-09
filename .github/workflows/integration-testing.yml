@@ -20,22 +20,22 @@ jobs:
     - name: 'Setting up NPM'
       run: npm install && npm run build
     - name: 'Running a cleanup'
-      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=true
       if: always()
     - name: 'Running the general tests'
-      run: npm run general-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run general-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=true
       if: success() || failure()
     - name: 'Running the cloud account tests'
-      run: npm run cloud-account-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run cloud-account-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=true
       if: success() || failure() 
     - name: 'Running the subscription tests' 
-      run: npm run subscription-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run subscription-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=true
       if: success() || failure()
     - name: 'Running the database tests'
-      run: npm run database-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run database-integration-tests -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --AWS_ACCESS_ID=${{ secrets.AWS_ACCESS_ID }} --AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }} --debug=true
       if: success() || failure()
     - name: 'Running a cleanup'
-      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
+      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=true
       if: always()
       env:
         CI: true
