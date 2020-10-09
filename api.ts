@@ -12,6 +12,7 @@ export class CloudAPISDK {
     private protocol: string = 'https';
     private domain: string = 'api.redislabs.com';
     private version: string = 'v1';
+    private debug: boolean = false;
     private accessKey: string
     private secretKey: string
     private httpClient: AxiosInstance
@@ -26,6 +27,7 @@ export class CloudAPISDK {
         if (parameters.protocol !== undefined) this.protocol = parameters.protocol;
         if (parameters.domain !== undefined) this.domain = parameters.domain;
         if (parameters.version !== undefined) this.version = parameters.version;
+        if (parameters.debug !== undefined) this.debug = parameters.debug;
         this.httpClient = Axios.create({
             baseURL: `${this.protocol}://${this.domain}/${this.version}`,
             responseType: 'json',
@@ -526,12 +528,14 @@ export class CloudAPISDK {
      */
     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus): Promise<void> { 
         let subscription = await this.getSubscription(subscriptionId);
-        let subscriptionStatus = subscription.status;
-        while (subscriptionStatus !== expectedStatus && subscriptionStatus !== 'error' && subscriptionStatus !== undefined) { 
+        while (subscription.status !== expectedStatus && subscription.status !== 'error' && subscription.status !== undefined) {
+            if(this.debug)
+                console.log(`Waiting for subscription ${subscription.id} status '${subscription.status}' to be become status '${expectedStatus}'`)
             await this.sleep(10);
             subscription = await this.getSubscription(subscriptionId);
-            subscriptionStatus = subscription.status;
         }
+        if(this.debug)
+            console.log(`Subscription ${subscription.id} ended up as ${subscription.status} status`);
     }
 
     /**
@@ -623,6 +627,7 @@ export class CloudAPISDK {
  * @param protocol Optional. The protocol of the API url
  * @param domain Optional. The domain of the API url
  * @param version Optional. The version of the API
+ * @param debug Optional. Ability to show extra debug logs
  */
 export interface CloudAPISDKParameters {
     accessKey: string,
@@ -630,6 +635,7 @@ export interface CloudAPISDKParameters {
     protocol?: string,
     domain?: string,
     version?: string,
+    debug?: boolean
 }
 
 type Error = {
