@@ -48,7 +48,6 @@ describe('Testing subscription', async function() {
                 memoryLimitInGb: 5
             }]
         });
-        console.log(createResponse)
         subscriptionId = createResponse.resourceId;
         expect(subscriptionId).not.to.eql(undefined, 'Subscription id');
         await client.waitForSubscriptionStatus(subscriptionId, 'active');
