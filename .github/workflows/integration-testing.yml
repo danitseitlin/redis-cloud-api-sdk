@@ -4,7 +4,11 @@ on:
   schedule:
     - cron:  '0 3 * * 2'
   workflow_dispatch:
-
+    inputs:
+      debug:
+        description: 'If to enable or disable debug logs'     
+        required: true
+        default: 'false'
 jobs:
   build:
     runs-on: ubuntu-latest
