@@ -5,7 +5,8 @@ import { cliArguments } from 'cli-argument-parser';
 const client = new CloudAPISDK({
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
-    domain: cliArguments.ENVIRONMENT
+    domain: cliArguments.ENVIRONMENT,
+    debug: (cliArguments.debug === 'true') ? true: false
 });
 
 describe('Testing cloud account', async function() {

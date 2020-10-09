@@ -85,7 +85,7 @@ describe('Testing subscription', async function() {
         expect(cidrWhitelists.cidr_ips).to.eql(updatedCidrIps, 'Subscription cidr ips');
     }); 
     it('getSubscriptionVpcPeerings', async () => {
-        const subscriptionVpcPeerings = await client.getSubscriptionVpcPeerings(subscriptionId);
+        const subscriptionVpcPeerings = await client.getVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings).to.eql([], 'Subscription peerings list');
     }); 
     it.skip('createSubscriptionVpcPeering', async () => {
@@ -97,13 +97,13 @@ describe('Testing subscription', async function() {
         });
         vpcPeeringId = createResponse.resourceId;
         expect(vpcPeeringId).not.to.eql(undefined, 'VPC Peering id');
-        await client.waitForSubscriptionVpcPeeringStatus(subscriptionId, vpcPeeringId, 'active');
-        const subscriptionVpcPeerings = await client.getSubscriptionVpcPeerings(subscriptionId);
+        await client.waitForVpcPeeringStatus(subscriptionId, vpcPeeringId, 'active');
+        const subscriptionVpcPeerings = await client.getVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings.length).gt(0, 'The subscription peerings list count');
     }); 
     it.skip('deleteSubscriptionVpcPeering', async () => {
         await client.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
-        const subscriptionVpcPeerings = await client.getSubscriptionVpcPeerings(subscriptionId);
+        const subscriptionVpcPeerings = await client.getVpcPeerings(subscriptionId);
         const subscriptionVpcPeering = subscriptionVpcPeerings.find((vpcPeering: SubscriptionVpcPeering) => vpcPeering.id === vpcPeeringId);
         expect(subscriptionVpcPeering).not.to.eql(undefined, 'Subscription peering existence');
     });

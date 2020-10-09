@@ -1,15 +1,17 @@
 name: Resources cleanup
 
 on:  
-    schedule:
-      - cron:  '0 6 * * 2'
-    workflow_dispatch:
-
+  schedule:
+    - cron:  '0 6 * * 2'
+  workflow_dispatch:
+    inputs:
+      debug:
+        description: 'If to enable or disable debug logs'     
+        required: true
+        default: 'false'
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [10.x]
@@ -23,6 +25,6 @@ jobs:
     - name: 'Installing node modules'
       run: npm install
     - name: 'Running a cleanup'
-      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }}
+      run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
       env:
         CI: true

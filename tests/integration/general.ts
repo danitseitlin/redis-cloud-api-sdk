@@ -6,7 +6,8 @@ import Axios from 'axios';
 const client = new CloudAPISDK({
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
-    domain: cliArguments.ENVIRONMENT
+    domain: cliArguments.ENVIRONMENT,
+    debug: (cliArguments.debug === 'true') ? true: false
 });
 describe('Testing general', async function() {
     this.timeout(10 * 60 * 1000);

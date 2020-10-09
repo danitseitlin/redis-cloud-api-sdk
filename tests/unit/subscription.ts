@@ -73,7 +73,7 @@ describe('Testing subscription', async function() {
         expect(response.resourceId).to.eql(1, 'Subscription id');
     }); 
     it('getSubscriptionVpcPeerings', async () => {
-        const subscriptionVpcPeerings = await client.getSubscriptionVpcPeerings(subscriptionId);
+        const subscriptionVpcPeerings = await client.getVpcPeerings(subscriptionId);
         expect(subscriptionVpcPeerings.length).to.eql(1, 'Vpc Peerings count');
     }); 
     it('createSubscriptionVpcPeering', async () => {
