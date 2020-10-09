@@ -6,7 +6,8 @@ import { SubscriptionVpcPeering } from '../../types/responses/subscription';
 const client: CloudAPISDK = new CloudAPISDK({
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
-    domain: cliArguments.ENVIRONMENT
+    domain: cliArguments.ENVIRONMENT,
+    debug: (cliArguments.debug === 'true') ? true: false
 });
 describe('Testing subscription', async function() {
     this.timeout(60 * 60 * 1000);
