@@ -3,10 +3,11 @@ import { CloudAPISDK } from '../../api';
 import { cliArguments } from 'cli-argument-parser';
 import Axios from 'axios';
 
-const cloudAPIClient = new CloudAPISDK({
+const client = new CloudAPISDK({
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
-    domain: cliArguments.ENVIRONMENT
+    domain: cliArguments.ENVIRONMENT,
+    debug: (cliArguments.debug === 'true') ? true: false
 });
 describe('Testing general', async function() {
     this.timeout(10 * 60 * 1000);
@@ -20,35 +21,35 @@ describe('Testing general', async function() {
         expect(paths.length).to.eql(20, 'Paths count');
     }); 
     it('getAccountInformation', async () => {
-        const accountInformation = await cloudAPIClient.getAccountInformation();
+        const accountInformation = await client.getAccountInformation();
         expect(accountInformation.id).not.to.eql(undefined, 'Account id');
     }); 
     it('getDataPersistences', async () => {
-        const dataPersistenceList = await cloudAPIClient.getDataPersistences();
+        const dataPersistenceList = await client.getDataPersistences();
         expect(dataPersistenceList.length).to.eql(6, 'Data persistences count')
     }); 
     it('getDatabaseModules', async () => {
-        const databaseModules = await cloudAPIClient.getDatabaseModules();
+        const databaseModules = await client.getDatabaseModules();
         expect(databaseModules.length).gte(0, 'Database modules count');
     });
     it('getSystemLogs', async () => {
-        const systemLogs = await cloudAPIClient.getSystemLogs(2, 0);
+        const systemLogs = await client.getSystemLogs(2, 0);
         expect(systemLogs.length).gte(0, 'System logs count');
     }); 
     it('getPaymentMethods', async () => {
-        const paymentMethods = await cloudAPIClient.getPaymentMethods();
+        const paymentMethods = await client.getPaymentMethods();
         expect(paymentMethods.length).gte(0, 'Payment methods count');
     });
     it('getPlans', async () => {
-        const AWSPlans = await cloudAPIClient.getPlans('AWS');
+        const AWSPlans = await client.getPlans('AWS');
         expect(AWSPlans.length).gte(0, 'AWS plans count');
-        const GCPPlans = await cloudAPIClient.getPlans('GCP');
+        const GCPPlans = await client.getPlans('GCP');
         expect(GCPPlans.length).gte(0, 'GCP plans count');
     });
     it('getRegions', async () => {
-        const AWSRegions = await cloudAPIClient.getRegions('AWS');
+        const AWSRegions = await client.getRegions('AWS');
         expect(AWSRegions.length).gte(0, 'AWS regions count');
-        const GCPRegions = await cloudAPIClient.getRegions('GCP');
+        const GCPRegions = await client.getRegions('GCP');
         expect(GCPRegions.length).gte(0, 'GCP regions count');
     });
 });

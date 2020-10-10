@@ -9,7 +9,7 @@ const server = new MockServer({
     routes: 'tests/mockers/cloud-account.json'
 });
 
-const cloudAPIClient = new CloudAPISDK({
+const client = new CloudAPISDK({
     protocol: 'http',
     domain: `${cliArguments.ENVIRONMENT}:${cliArguments.PORT}`,
     accessKey: cliArguments.API_ACCESS_KEY,
@@ -27,7 +27,7 @@ describe('Testing cloud account', async function() {
         server.stop();
     });
     it('createCloudAccount', async () => {
-        const response = await cloudAPIClient.createCloudAccount({
+        const response = await client.createCloudAccount({
             name: 'My cloud account',
             accessKeyId: 'fake-creds',
             accessSecretKey: 'fake-creds',
@@ -38,16 +38,16 @@ describe('Testing cloud account', async function() {
         expect(response.resourceId).to.eql(1, 'Cloud account id');
     });
     it('getCloudAccounts', async () => {
-        const cloudAccounts = await cloudAPIClient.getCloudAccounts();
+        const cloudAccounts = await client.getCloudAccounts();
         expect(cloudAccounts.length).to.eql(1, 'Cloud accounts count');
     })
     it('getCloudAccount', async () => {
-        const cloudAccount = await cloudAPIClient.getCloudAccount(cloudAccountId);
+        const cloudAccount = await client.getCloudAccount(cloudAccountId);
         expect(cloudAccount.id).to.eql(1, 'Cloud account id');
         expect(cloudAccount.name).to.eql('My cloud account', 'Cloud account name');
     });
     it('deleteCloudAccount', async () => {
-        const response = await cloudAPIClient.deleteCloudAccount(cloudAccountId);
+        const response = await client.deleteCloudAccount(cloudAccountId);
         expect(response.resourceId).to.eql(1, 'Cloud account id');
     });
 });

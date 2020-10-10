@@ -12,6 +12,7 @@ export class CloudAPISDK {
     private protocol: string = 'https';
     private domain: string = 'api.redislabs.com';
     private version: string = 'v1';
+    private debug: boolean = false;
     private accessKey: string
     private secretKey: string
     private httpClient: AxiosInstance
@@ -23,9 +24,10 @@ export class CloudAPISDK {
     constructor(parameters: CloudAPISDKParameters) {
         this.accessKey = parameters.accessKey;
         this.secretKey = parameters.secretKey;
-        if (parameters.protocol !== undefined) this.protocol = parameters.protocol;
-        if (parameters.domain !== undefined) this.domain = parameters.domain;
-        if (parameters.version !== undefined) this.version = parameters.version;
+        if(parameters.protocol !== undefined) this.protocol = parameters.protocol;
+        if(parameters.domain !== undefined) this.domain = parameters.domain;
+        if(parameters.version !== undefined) this.version = parameters.version;
+        if(parameters.debug !== undefined) this.debug = parameters.debug;
         this.httpClient = Axios.create({
             baseURL: `${this.protocol}://${this.domain}/${this.version}`,
             responseType: 'json',
@@ -248,7 +250,7 @@ export class CloudAPISDK {
      * Returning a lookup list of the subscription VPC Peerings
      * @param subscriptionId The id of the subscription
      */
-    async getSubscriptionVpcPeerings(subscriptionId: number): Promise<SubscriptionVpcPeering[]> {
+    async getVpcPeerings(subscriptionId: number): Promise<SubscriptionVpcPeering[]> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = response.data.taskId;
@@ -523,15 +525,20 @@ export class CloudAPISDK {
      * Waiting for the subscription status to change to a given status
      * @param subscriptionId The id of the subscription
      * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus): Promise<void> { 
+    async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
         let subscription = await this.getSubscription(subscriptionId);
-        let subscriptionStatus = subscription.status;
-        while (subscriptionStatus !== expectedStatus && subscriptionStatus !== 'error' && subscriptionStatus !== undefined) { 
-            await this.sleep(10);
+        let timePassedInSeconds = 0;
+        while (subscription.status !== expectedStatus && subscription.status !== 'error' && subscription.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+            this.log('debug', `Waiting for subscription ${subscription.id} status '${subscription.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds})`)
+            await this.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
             subscription = await this.getSubscription(subscriptionId);
-            subscriptionStatus = subscription.status;
         }
+        this.log('debug', `Subscription ${subscription.id} ended up as '${subscription.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        return subscription;
     }
 
     /**
@@ -539,19 +546,26 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the subscription VPC peering
      * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForSubscriptionVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus): Promise<void> {
-        let subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
-        let subscriptionVpcPeering = subscriptionVpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
-        if(subscriptionVpcPeering !== undefined) {
-            let status = subscriptionVpcPeering.status;
-            while (status !== expectedStatus && status !== 'failed' && status !== undefined) { 
-                await this.sleep(1);
-                subscriptionVpcPeerings = await this.getSubscriptionVpcPeerings(subscriptionId);
-                subscriptionVpcPeering = subscriptionVpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
-                if(subscriptionVpcPeering !== undefined) status = subscriptionVpcPeering.status;
+    async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
+        let vpcPeerings = await this.getVpcPeerings(subscriptionId);
+        let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+        let timePassedInSeconds = 0;
+        if(vpcPeering !== undefined) {
+            let status = vpcPeering.status;
+            while (status !== expectedStatus && status !== 'failed' && status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+                this.log('debug', `Waiting for VPC peering ${vpcPeeringId} status '${status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`)
+                await this.sleep(sleepTimeInSeconds);
+                timePassedInSeconds+=sleepTimeInSeconds;
+                vpcPeerings = await this.getVpcPeerings(subscriptionId);
+                vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+                if(vpcPeering !== undefined) status = vpcPeering.status;
             }
         }
+        this.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        return vpcPeering;
     }
 
     /**
@@ -559,46 +573,60 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus): Promise<void> {
+    async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
         let database = await this.getDatabase(subscriptionId, databaseId);
-        let databaseStatus = database.status;
-        while (databaseStatus !== expectedStatus && databaseStatus !== 'error' && databaseStatus !== undefined) { 
-            await this.sleep(1);
+        let timePassedInSeconds = 0;
+        while (database.status !== expectedStatus && database.status !== 'error' && database.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+            this.log('debug', `Waiting for database ${databaseId} status '${database.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
+            await this.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
             database = await this.getDatabase(subscriptionId, databaseId);
-            databaseStatus = database.status;
         }
+        this.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
+        return database;
     }
 
     /**
      * Waiting for cloud account status to change to a given status
      * @param cloudAccountId The id of the cloud account
      * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus): Promise<void> {
+    async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
         let cloudAccount = await this.getCloudAccount(cloudAccountId);
-        let cloudAccountStatus = cloudAccount.status;
-        while (cloudAccountStatus !== expectedStatus && cloudAccountStatus !== 'error' && cloudAccountStatus !== undefined) { 
-            await this.sleep(1);
+        let timePassedInSeconds = 0;
+        while (cloudAccount.status !== expectedStatus && cloudAccount.status !== 'error' && cloudAccount.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+            this.log('debug', `Waiting for cloud account ${cloudAccountId} status '${cloudAccount.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
+            await this.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
             cloudAccount = await this.getCloudAccount(cloudAccountId);
-            cloudAccountStatus = cloudAccount.status;
         }
+        this.log('debug', `Cloud account ${cloudAccountId} ended up as '${cloudAccount.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        return cloudAccount;
     }
 
     /**
      * Waiting for task status to change to a given status
      * @param taskId The id of the task
      * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus): Promise<Task & {[key: string]: any}> {
+    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<Task & {[key: string]: any}> {
         let task = await this.getTask(taskId);
-        let taskStatus = task.status;
-        while (taskStatus !== expectedStatus && taskStatus !== 'processing-error' && taskStatus !== undefined) { 
-            await this.sleep(1);
+        let timePassedInSeconds = 0;
+        while (task.status !== expectedStatus && task.status !== 'processing-error' && task.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+            this.log('debug', `Waiting for task ${taskId} status '${task.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
+            await this.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
             task = await this.getTask(taskId);
-            taskStatus = task.status;
         }
-        if (taskStatus === 'processing-error' && task.response.error !== undefined) { 
+        this.log('debug', `Task ${taskId} ended up as ${task.status} status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        if(task.status === 'processing-error' && task.response.error !== undefined) { 
             const errorType = task.response.error.type;
             const errorStatus = task.response.error.status;
             const errorDescription = task.response.error.description;
@@ -614,6 +642,16 @@ export class CloudAPISDK {
     private async sleep(seconds: number): Promise<{[key: string]: any}> {
         return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
+
+    /**
+     * Log messages depending on log levels
+     * @param level The log level
+     * @param message The message
+     */
+    private log(level: 'debug', message: string): void {
+        if(level === 'debug' && this.debug)
+            console.log(message);
+    }
 }
 
 /**
@@ -623,6 +661,7 @@ export class CloudAPISDK {
  * @param protocol Optional. The protocol of the API url
  * @param domain Optional. The domain of the API url
  * @param version Optional. The version of the API
+ * @param debug Optional. Ability to show extra debug logs
  */
 export interface CloudAPISDKParameters {
     accessKey: string,
@@ -630,6 +669,7 @@ export interface CloudAPISDKParameters {
     protocol?: string,
     domain?: string,
     version?: string,
+    debug?: boolean
 }
 
 type Error = {
