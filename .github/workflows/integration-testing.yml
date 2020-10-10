@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       debug:
-        description: 'If to enable or disable debug logs'     
+        description: 'Show debug logs'     
         required: true
         default: 'false'
 jobs:
@@ -42,4 +42,4 @@ jobs:
       run: npm run clean-resources -- -- --ENVIRONMENT=${{ secrets.API_ENVIRONMENT }} --API_ACCESS_KEY=${{ secrets.API_ACCESS_KEY }} --API_SECRET_KEY=${{ secrets.API_SECRET_KEY }} --debug=${{ github.event.inputs.debug }}
       if: always()
       env:
-        CI: ${{ github.event.inputs.debug }}
+        CI: true

@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       debug:
-        description: 'If to enable or disable debug logs'     
+        description: 'Show debug logs'     
         required: true
         default: 'false'
 jobs:
