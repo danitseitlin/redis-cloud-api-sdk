@@ -21,7 +21,15 @@
   },
   "keywords": [
     "Cloud API",
-    "Redis"
+    "Redis",
+    "cloud-api",
+    "redislabs",
+    "nodejs",
+    "typescript",
+    "sdk",
+    "cloud-api-sdk",
+    "api",
+    "Redislabs Cloud API"
   ],
   "repository": {
     "type": "git",
@@ -34,18 +42,18 @@
   },
   "homepage": "https://github.com/danitseitlin/rl-cloud-api-sdk#readme",
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.21.0"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
-    "@types/chai": "^4.2.7",
+    "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.2",
-    "@types/node": "^14.11.2",
+    "@types/node": "^14.14.6",
     "chai": "^4.2.0",
     "cli-argument-parser": "0.3.4",
     "dmock-server": "^1.5.5",
-    "mocha": "^8.0.1",
+    "mocha": "^8.2.0",
     "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.5"
   }
 }
