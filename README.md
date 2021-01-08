@@ -1,8 +1,23 @@
-# rl-cloud-api-sdk
-![Integration testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
-![Unit testing](https://github.com/danitseitlin/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
-[![GitHub license](https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg)](https://github.com/danitseitlin/rl-cloud-api-sdk/blob/master/LICENSE)
-[![npm version](http://img.shields.io/npm/v/rl-cloud-api-sdk.svg?style=flat)](https://npmjs.org/package/rl-cloud-api-sdk "View this project on npm") 
+<p align='center'>
+  <a href='https://www.npmjs.com/package/rl-cloud-api-sdk'>
+    <img src='https://img.shields.io/npm/v/rl-cloud-api-sdk/latest?style=plastic' target='_blank' />
+  </a>
+  <a href='https://npmjs.org/package/rl-cloud-api-sdk' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/npm/dm/rl-cloud-api-sdk.svg?color=blue&style=plastic' target='_blank' />
+  </a>
+  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/issues' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/github/issues/RedisLabs/rl-cloud-api-sdk?style=plastic' target='_blank' />
+  </a>
+  <a href='https://npmjs.org/package/rl-cloud-api-sdk' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/bundlephobia/min/rl-cloud-api-sdk/latest?style=plastic' target='_blank' />
+  </a>
+  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/commits/master'>
+    <img src='https://img.shields.io/github/last-commit/RedisLabs/rl-cloud-api-sdk?style=plastic' />
+  </a>
+  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/blob/master/LICENSE'>
+    <img src='https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg?style=plastic' target='_blank' />
+  </a>
+</p></p>
 
 ## About
 This NodeJS module is an SDK for the [Redis Cloud REST API](https://docs.redislabs.com/latest/rc/api/).
@@ -36,3 +51,4 @@ const accountInformation = await client.getAccountInformation();
 
 You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
+![Unit testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg) ![Integration testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
