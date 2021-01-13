@@ -48,7 +48,10 @@ This is how you call a specific API:
 //basic usage
 const accountInformation = await client.getAccountInformation();
 ```
-
+# Existing functions vs API Endpoints
+| function              | API endpoint | Usage                                  |
+| --------------------- | ------------ | -------------------------------------- |
+| getAccountInformation | `/`          | `await client.getAccountInformation()` |
 You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
 ![Unit testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg) ![Integration testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
