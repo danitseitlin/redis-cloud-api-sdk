@@ -49,9 +49,16 @@ This is how you call a specific API:
 const accountInformation = await client.getAccountInformation();
 ```
 # Existing functions vs API Endpoints
-| function              | API endpoint | Usage                                  |
-| --------------------- | ------------ | -------------------------------------- |
-| getAccountInformation | `/`          | `await client.getAccountInformation()` |
+| Section | Function              | API endpoint             | Usage                                  |
+|---------| --------------------- | ------------------------ | -------------------------------------- |
+| Account | getAccountInformation | `/`                      | `await client.getAccountInformation()` |
+| Account | getDataPersistences   | `/data-persistence`      | `await client.getDataPersistence()`    |
+| Account | getDatabaseModules    | `/database-modules`      | `await client.getDatabasesModules()`   |
+| Account | getSystemLogs         | `/logs?limit=1&offset=3` | `await client.getSystemLogs(1, 3)`     |
+| Account | getPaymentMethods     | `/payment-methods`       | `await client.getPaymentMethods()`     |
+| Account | getPlans              | `/plans?provider=AWS`    | `await client.getPlans('AWS')`         |
+| Account | getRegions            | `/regions?provider=AWS`  | `await client.getRegions('AWS')`       |
+
 You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
 ![Unit testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg) ![Integration testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
