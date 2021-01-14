@@ -49,39 +49,39 @@ This is how you call a specific API:
 const accountInformation = await client.getAccountInformation();
 ```
 # Existing functions vs API Endpoints
-| Section | Function              | API endpoint             | Usage                                  |
-|--------------- | --------------------- | ------------------------ | -------------------------------------- |
-| Account        | getAccountInformation | `/`                      | `await client.getAccountInformation()` |
-| Account        | getDataPersistences   | `/data-persistence`      | `await client.getDataPersistence()`    |
-| Account        | getDatabaseModules    | `/database-modules`      | `await client.getDatabasesModules()`   |
-| Account        | getSystemLogs         | `/logs?limit=1&offset=3` | `await client.getSystemLogs(1, 3)`     |
-| Account        | getPaymentMethods     | `/payment-methods`       | `await client.getPaymentMethods()`     |
-| Account        | getPlans              | `/plans?provider=AWS`    | `await client.getPlans('AWS')`         |
-| Account        | getRegions            | `/regions?provider=AWS`  | `await client.getRegions('AWS')`       |
-| Susbscriptions | getSubscriptions | `/subscriptions`
-| Susbscriptions | createSubscription | `/subscriptions`
-| Susbscriptions | getSubscription | `/subscriptions/1`
-| Susbscriptions | updateSubscription | `/subscriptions/1`
-| Susbscriptions | deleteSubscription | `/subscriptions/1`
-| Susbscriptions | getSubscriptionCidr | `/subscriptions/1/cidr`
-| Susbscriptions | updateSubscritionCidr | `/subscriptions/1/cidr`
-| Susbscriptions | getSubscriptionPeerings | `/subscriptions/1/peerings`
-| Susbscriptions | createSubscriptionPeering | `/subscriptions/1/peerings`
-| Susbscriptions | deleteSubscritionPeering | `/subscriptions/1/peerings/1`
-| Databases      | getDatabases | `/subscriptions/1/databases`
-| Databases      | createDatabase | `/subscriptions/1/databases`
-| Databases      | getDatabase | `/subscriptions/1/databases/1`
-| Databases      | updateDatabase | `/subscriptions/1/databases/1`
-| Databases      | deleteDatabase | `/subscriptions/1/databases/1`
-| Databases      | backupDatabase | `/subscriptions/1/databases/1/backup`
-| Databases      | importIntoDatabase | `/subscriptions/1/databases/1/import`
-| Cloud Accounts | getCloudAccounts | `/cloud-accounts`
-| Cloud Accounts | createCloudAccount | `/cloud-accouts`
-| Cloud Accounts | getCloudAccount | `/cloud-accounts/1`
-| Cloud Accounts | updateCloudAccount | `/cloud-accounts/1`
-| Cloud Accounts | deleteCloudAccount | `/cloud-accounts/1`
-| Tasks          | getTasks | `/tasks`
-| Tasks          | getTask | `/tasks/1`
+| Section        | Function                  | API endpoint                          | Usage                                  |
+|--------------- | ------------------------- | ------------------------------------- | -------------------------------------- |
+| Account        | getAccountInformation     | `/`                                   | `await client.getAccountInformation()` |
+| Account        | getDataPersistences       | `/data-persistence`                   | `await client.getDataPersistence()`    |
+| Account        | getDatabaseModules        | `/database-modules`                   | `await client.getDatabasesModules()`   |
+| Account        | getSystemLogs             | `/logs?limit=1&offset=3`              | `await client.getSystemLogs(1, 3)`     |
+| Account        | getPaymentMethods         | `/payment-methods`                    | `await client.getPaymentMethods()`     |
+| Account        | getPlans                  | `/plans?provider=AWS`                 | `await client.getPlans('AWS')`         |
+| Account        | getRegions                | `/regions?provider=AWS`               | `await client.getRegions('AWS')`       |
+| Susbscriptions | getSubscriptions          | `/subscriptions`                      | `await client.getSubscriptions()`      |
+| Susbscriptions | createSubscription        | `/subscriptions`                      | `await client.createSubscription({name: 'sub1', ....})` |
+| Susbscriptions | getSubscription           | `/subscriptions/1`                    | `await client.updateSubscription(1, {name: 'sub1'...})` |
+| Susbscriptions | updateSubscription        | `/subscriptions/1`                    | `await client.updateSubscription(1, {name: 'sub1'...})` |
+| Susbscriptions | deleteSubscription        | `/subscriptions/1`                    | `await client.deleteSubscription(1)` |
+| Susbscriptions | getSubscriptionCidrWhitelist       | `/subscriptions/1/cidr`               | `await client.getSubscriptionCidrWhitelist(1)` |
+| Susbscriptions | updateSubscriptionCidrWhitelists     | `/subscriptions/1/cidr`               | `await client.updateSubscriptionCidrWhitelists(1, {cidrIps: [...], ..})` |
+| Susbscriptions | getVpcPeerings   | `/subscriptions/1/peerings`           | `await client.getVpcPeerings(1)` |
+| Susbscriptions | createSubscriptionVpcPeering | `/subscriptions/1/peerings`           | `await client.createSubscriptionVpcPeering(1, {region: 'us-east-1',...})` |
+| Susbscriptions | deleteSubscriptionVpcPeering  | `/subscriptions/1/peerings/1`         | `await client.deleteSubscriptionVpcPeering(1, 1)` |
+| Databases      | getDatabases              | `/subscriptions/1/databases`          | `await client.getDatabases()` |
+| Databases      | createDatabase            | `/subscriptions/1/databases`          | `await client.createDatabase(1, {name: 'db1', ..})` |
+| Databases      | getDatabase               | `/subscriptions/1/databases/1`        | `await client.getDatabase(1, 1)` |
+| Databases      | updateDatabase            | `/subscriptions/1/databases/1`        | `await client.updateDatabase(1, 1, {name: 'db2', ..})` |
+| Databases      | deleteDatabase            | `/subscriptions/1/databases/1`        | `await client.deleteDatabase(1, 1)` |
+| Databases      | backupDatabase            | `/subscriptions/1/databases/1/backup` | `await client.backupDatabase(1, 1)` |
+| Databases      | importIntoDatabase        | `/subscriptions/1/databases/1/import` | `await client.importIntoDatabase(1, 1, {importFromUri: 's3://...'})` |
+| Cloud Accounts | getCloudAccounts          | `/cloud-accounts`                     | `await client.getCloudAccounts()` |
+| Cloud Accounts | createCloudAccount        | `/cloud-accouts`                      | `await client.createCloudAccount({name: 'c1'...})` |
+| Cloud Accounts | getCloudAccount           | `/cloud-accounts/1`                   | `await client.getCloudAccount(1)` |
+| Cloud Accounts | updateCloudAccount        | `/cloud-accounts/1`                   | `await client.updateCloudAccount(1)` |
+| Cloud Accounts | deleteCloudAccount        | `/cloud-accounts/1`                   | `await client.deleteCloudAccount(1)` |
+| Tasks          | getTasks                  | `/tasks`                              | `await client.getTasks()` |
+| Tasks          | getTask                   | `/tasks/1`                            | `await client.getTask()` |
 
 You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
