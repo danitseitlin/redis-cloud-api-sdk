@@ -49,8 +49,8 @@ This is how you call a specific API:
 const accountInformation = await client.getAccountInformation();
 ```
 # Existing functions vs API Endpoints
-| Section        | Function                  | API endpoint                          | Usage                                  |
-|--------------- | ------------------------- | ------------------------------------- | -------------------------------------- |
+| Section        | Function                         | API endpoint                          | Usage                                                                     |
+|--------------- | -------------------------------- | ------------------------------------- | ------------------------------------------------------------------------- |
 | Account        | getAccountInformation            | `/`                                   | `await client.getAccountInformation()`                                    |
 | Account        | getDataPersistences              | `/data-persistence`                   | `await client.getDataPersistence()`                                       |
 | Account        | getDatabaseModules               | `/database-modules`                   | `await client.getDatabasesModules()`                                      |
