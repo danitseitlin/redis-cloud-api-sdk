@@ -14,4 +14,3 @@ jobs:
       with:
         pkg_name: rl-cloud-api-sdk
         npm_access_token: ${{secrets.NPM_AUTH_TOKEN}}
-        github_access_token: ${{secrets.G_AUTH_TOKEN}}
