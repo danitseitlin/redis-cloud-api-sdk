@@ -73,10 +73,7 @@ export type Database = {
     supportOSSClusterApi?: boolean,
     dataPersistence?: DatabaseDataPersistence,
     replication?: boolean,
-    throughputMeasurement?: {
-        by: DatabaseThroughputMeasurement,
-        value: number
-    },
+    throughputMeasurement?: DatabaseThroughputMeasurement,
     modules?: string[],
     quantity?: number,
     averageItemSizeInBytes?: number
