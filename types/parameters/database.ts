@@ -33,10 +33,7 @@ export type DatabaseCreationParameters = {
     dataPersistence?: DatabaseDataPersistence,
     dataEvictionPolicy?: DatabaseDataEvictionPolicy,
     replication?: boolean,
-    throughputMeasurement?: {
-        by: DatabaseThroughputMeasurement,
-        value: number
-    },
+    throughputMeasurement?: DatabaseThroughputMeasurement,
     averageItemSizeInBytes?: number,
     replicaOf?: string[],
     periodicBackupPath?: string,
@@ -77,10 +74,7 @@ export type DatabaseUpdateParameters = {
     dataPersistence?: DatabaseDataPersistence,
     dataEvictionPolicy?: DatabaseDataEvictionPolicy,
     replication?: boolean,
-    throughputMeasurement?: {
-        by: DatabaseThroughputMeasurement,
-        value: number
-    },
+    throughputMeasurement?: DatabaseThroughputMeasurement,
     replicaOf?: string[],
     periodicBackupPath?: string,
     sourceIp?: string[],
