@@ -97,13 +97,22 @@ export type Alert = {
 
 /**
  * The database module
- * @param name Required. Redis Labs module Id
+ * @param name Required. The name of the database module.
  * @param parameters Optional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
  */
 export type Module = {
-    name: string,
-    parameters: {[key: string]: any}
+    name: DatabaseModule,
+    parameters?: {[key: string]: any}
 }
+
+/**
+ * The available database modules by name
+ * @param RedisBloom The Redis Bloom module
+ * @param RedisGraph The Redis Graph module
+ * @param RedisJSON The Redis JSON module
+ * @param RediSearch The Redis Search module
+ */
+type DatabaseModule = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch'
 
 /**
  * The parameters needed to import a database file into an existing database
