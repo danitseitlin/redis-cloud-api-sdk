@@ -1,5 +1,6 @@
 import { SubscriptionMemoryStorage, SubscriptionCloudProvider } from '../responses/subscription'
 import { DatabaseProtocol, DatabaseDataPersistence, DatabaseThroughputMeasurement } from '../responses/database'
+import { Module } from './database'
 
 /**
  * The parameters needed to create a subscription
@@ -74,7 +75,7 @@ export type Database = {
     dataPersistence?: DatabaseDataPersistence,
     replication?: boolean,
     throughputMeasurement?: DatabaseThroughputMeasurement,
-    modules?: string[],
+    modules?: Module[],
     quantity?: number,
     averageItemSizeInBytes?: number
 }
