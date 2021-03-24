@@ -13,6 +13,8 @@ import { DatabaseModule } from './general';
  * @param supportOSSClusterApi If the database supports oss cluster API
  * @param dataPersistence The data persistence of the database
  * @param replication If the database replication is enabled/disabled
+ * @param privateEndpoint The private endpoint of the database
+ * @param publicEndpoint The public endpoint of the database
  * @param dataEvictionPolicy The data eviction policy of the database
  * @param throughputMeasurement The throughput measurement of the database
  * @param replicaOf The replica of endpoints of the database
@@ -34,6 +36,8 @@ export type Database = {
     supportOSSClusterApi: boolean,
     dataPersistence: DatabaseDataPersistence,
     replication: boolean,
+    privateEndpoint: string,
+    publicEndpoint: string,
     dataEvictionPolicy: DatabaseDataEvictionPolicy,
     throughputMeasurement: DatabaseThroughputMeasurement,
     replicaOf: null | string[],
