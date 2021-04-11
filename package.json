@@ -50,7 +50,7 @@
     "@types/mocha": "^8.0.2",
     "@types/node": "^14.14.6",
     "chai": "^4.2.0",
-    "cli-argument-parser": "0.3.5",
+    "cli-argument-parser": "0.3.6",
     "dmock-server": "^1.5.5",
     "mocha": "^8.2.0",
     "ts-node": "^9.0.0",
