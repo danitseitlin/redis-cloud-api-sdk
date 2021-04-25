@@ -4,4 +4,4 @@ export { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportPar
 export { CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters, CidrUpdateParameters } from './types/parameters/subscription';
 export { CloudAccountProvider } from './types/responses/cloud-account';
 export { DatabaseProtocol, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseImportSource, DatabaseThroughputMeasurement } from './types/responses/database';
-export { SubscriptionCloudProvider, SubscriptionMemoryStorage } from './types/responses/subscription';
+export { SubscriptionCloudProvider, SubscriptionMemoryStorage, Subscription } from './types/responses/subscription';
