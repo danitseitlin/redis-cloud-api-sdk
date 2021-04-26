@@ -143,10 +143,11 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
 
 /**
  * The available database status
- * @param active activate status
- * @param draft pending status
- * @param active-change-pending pending change status
- * @param 404 deleted status
- * @param error error status
+ * @param active The database status when it's activated
+ * @param draft The database status when it's pending
+ * @param active-change-pending The database status when it's pending for an active change (active + pending status)
+ * @param 404 The database status when it's deleted (404 status code)
+ * @param error The database status when it's in error
+ * @param synced The database status when it's synced with it's replica's
  */
-export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error';
+export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced';
