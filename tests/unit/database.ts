@@ -23,11 +23,9 @@ describe('Testing databases', async function() {
     before(async () => {
         server.start();
     });
-
     after(async () => {
         server.stop();
     });
-
     it('getDatabases', async () => {
         const databases = await client.getDatabases(subscriptionId);
         expect(databases.length).to.eql(1, 'Databases count')

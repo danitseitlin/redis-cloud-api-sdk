@@ -20,7 +20,6 @@ describe('Testing general functions', async function() {
     before(async () => {
         server.start();
     });
-
     after(async () => {
         server.stop();
     });

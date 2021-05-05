@@ -22,7 +22,6 @@ describe('Testing cloud account', async function() {
     before(async () => {
         server.start();
     });
-
     after(async () => {
         server.stop();
     });
