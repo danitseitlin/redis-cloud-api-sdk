@@ -23,11 +23,9 @@ describe('Testing subscription', async function() {
     before(async () => {
         server.start();
     });
-
     after(async () => {
         server.stop();
     });
-
     it('createSubscription', async () => {
         const response = await client.createSubscription({
             dryRun: false,
