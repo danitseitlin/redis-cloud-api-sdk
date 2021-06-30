@@ -85,4 +85,4 @@ const accountInformation = await client.getAccountInformation();
 
 You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
 
-![Unit testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg) ![Integration testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Integration%20testing/badge.svg)
+![Unit testing](https://github.com/RedisLabs/rl-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
