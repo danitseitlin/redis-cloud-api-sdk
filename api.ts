@@ -588,6 +588,26 @@ export class CloudAPISDK {
         this.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
         return database;
     }
+    /**
+     * Waiting for all databases status under subscription to change to 'Active'
+     * @param subscriptionId The id of the subscription
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+    async waitForAllDatabasesStatusUnderSubscription(subscriptionId: number, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
+        let databases = await this.getDatabases(subscriptionId);
+        let timePassedInSeconds = 0;
+        for ( let database of databases){
+            while (database.status !== 'active' && database.status !== 'error' && database.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+                this.log('debug', `Waiting for database ${database.databaseId} status '${database.status}' to be become status 'active' (${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
+                await this.sleep(sleepTimeInSeconds);
+                timePassedInSeconds+=sleepTimeInSeconds;
+                database = await this.getDatabase(subscriptionId, database.databaseId);
+            }
+            this.log('debug', `Database ${database.databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`)
+        }
+    }
 
     /**
      * Waiting for cloud account status to change to a given status
