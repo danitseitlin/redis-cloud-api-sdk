@@ -597,8 +597,8 @@ export class CloudAPISDK {
      */
     async waitForSubscriptionDatabasesStatus(subscriptionId: number, expectedStatus: DatabaseStatus = 'active', timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
         let databases = await this.getDatabases(subscriptionId);
-        for (let database of databases){
-            this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
+        for (const database of databases){
+            await this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
         }
     }
     
