@@ -13,6 +13,8 @@ import { DatabaseModule } from './general';
  * @param supportOSSClusterApi If the database supports oss cluster API
  * @param dataPersistence The data persistence of the database
  * @param replication If the database replication is enabled/disabled
+ * @param privateEndpoint The private endpoint of the database
+ * @param publicEndpoint The public endpoint of the database
  * @param dataEvictionPolicy The data eviction policy of the database
  * @param throughputMeasurement The throughput measurement of the database
  * @param replicaOf The replica of endpoints of the database
@@ -34,6 +36,8 @@ export type Database = {
     supportOSSClusterApi: boolean,
     dataPersistence: DatabaseDataPersistence,
     replication: boolean,
+    privateEndpoint: string,
+    publicEndpoint: string,
     dataEvictionPolicy: DatabaseDataEvictionPolicy,
     throughputMeasurement: DatabaseThroughputMeasurement,
     replicaOf: null | string[],
@@ -57,10 +61,12 @@ export type DatabaseThroughputMeasurement = {
 
 /**
  * The database security
+ * @param password The database password
  * @param sslClientAuthentication The SSL client authentication
  * @param sourceIps The list of source IP's
  */
 export type DatabaseSecurity = {
+    password: string,
     sslClientAuthentication: boolean,
     sourceIps: string[],
     [key: string]: any
@@ -137,10 +143,11 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
 
 /**
  * The available database status
- * @param active activate status
- * @param draft pending status
- * @param active-change-pending pending change status
- * @param 404 deleted status
- * @param error error status
+ * @param active The database status when it's activated
+ * @param draft The database status when it's pending
+ * @param active-change-pending The database status when it's pending for an active change (active + pending status)
+ * @param 404 The database status when it's deleted (404 status code)
+ * @param error The database status when it's in error
+ * @param synced The database status when it's synced with it's replica's
  */
-export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error';
+export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced';
