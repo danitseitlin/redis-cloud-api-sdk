@@ -588,6 +588,7 @@ export class CloudAPISDK {
         this.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
         return database;
     }
+    
     /**
      * Waiting for all databases status under subscription to change to the expected status
      * @param subscriptionId The id of the subscription
