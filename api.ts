@@ -588,7 +588,21 @@ export class CloudAPISDK {
         this.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
         return database;
     }
-
+    
+    /**
+     * Waiting for all databases status under subscription to change to the expected status
+     * @param subscriptionId The id of the subscription
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+    async waitForSubscriptionDatabasesStatus(subscriptionId: number, expectedStatus: DatabaseStatus = 'active', timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
+        let databases = await this.getDatabases(subscriptionId);
+        for (const database of databases){
+            await this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
+        }
+    }
+    
     /**
      * Waiting for cloud account status to change to a given status
      * @param cloudAccountId The id of the cloud account
