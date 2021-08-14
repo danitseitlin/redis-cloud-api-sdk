@@ -46,14 +46,14 @@
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
-    "@types/chai": "4.2.19",
+    "@types/chai": "4.2.21",
     "@types/mocha": "9.0.0",
-    "@types/node": "16.4.9",
+    "@types/node": "16.6.1",
     "chai": "4.3.4",
     "cli-argument-parser": "0.4.5",
     "dmock-server": "1.8.0",
     "mocha": "9.0.3",
-    "ts-node": "10.1.0",
+    "ts-node": "10.2.0",
     "typescript": "4.3.5"
   }
 }
