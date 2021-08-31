@@ -7,15 +7,17 @@ import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Reg
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
 import { Task, TaskResponse, TaskStatus } from './types/task';
 import { Database, DatabaseStatus } from './types/responses/database';
+import { General } from './api/general';
 
 export class CloudAPISDK {
-    private protocol: string = 'https';
-    private domain: string = 'api.redislabs.com';
-    private version: string = 'v1';
-    private debug: boolean = false;
+    private protocol = 'https';
+    private domain = 'api.redislabs.com';
+    private version = 'v1';
+    private debug = false;
     private accessKey: string
     private secretKey: string
     private httpClient: AxiosInstance
+    private general: General
 
     /**
      * Initializing the constructur with given custom parameters
@@ -37,46 +39,28 @@ export class CloudAPISDK {
                 'x-api-secret-key': this.secretKey
             }
         })
+        this.general = new General(this.httpClient);
     }
 
-    //Account related requests
     /**
      * Returning current account and related information
      */
     async getAccountInformation(): Promise<AccountInformation & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get('/');
-            return response.data.account;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getAccountInformation();
     }
     
     /**
      * Returning a lookup list of data persistence values
      */
     async getDataPersistences(): Promise<DataPersistence[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get('/data-persistence');
-            return response.data.dataPersistence;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getDataPersistences();
     }
 
     /**
      * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
     async getDatabaseModules(): Promise<DatabaseModule[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get('/database-modules');
-            return response.data.modules;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getDatabaseModules();
     }
 
     /**
@@ -85,26 +69,14 @@ export class CloudAPISDK {
      * @param offset Number of items to skip
      */
     async getSystemLogs(limit: number, offset: number): Promise<SystemLog[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/logs?limit=${limit}&offset=${offset}`);
-            return response.data.entries;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getSystemLogs(limit, offset);
     }
 
     /**
      * Returning a lookup list of current account’s payment methods
      */
     async getPaymentMethods(): Promise<PaymentMethod[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get('/payment-methods');
-            return response.data.paymentMethods;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getPaymentMethods();
     }
 
     /**
@@ -112,13 +84,7 @@ export class CloudAPISDK {
      * @param provider The cloud provider of the plan
      */
     async getPlans(provider: SubscriptionCloudProvider): Promise<Plan[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/plans?provider=${provider}`);
-            return response.data.plans;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getPlans(provider);
     }
 
     /**
@@ -126,13 +92,7 @@ export class CloudAPISDK {
      * @param provider The cloud provider of the plan
      */
     async getRegions(provider: SubscriptionCloudProvider): Promise<Region[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/regions?provider=${provider}`);
-            return response.data.regions;
-        }
-        catch(error) {
-            return error;
-        }
+        return await this.general.getRegions(provider);
     }
 
     /* ------------------------------------------------------------------------------Subscription------------------------------------------------------------------------------*/
