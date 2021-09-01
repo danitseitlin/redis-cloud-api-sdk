@@ -52,7 +52,7 @@
     "chai": "4.3.4",
     "cli-argument-parser": "0.4.5",
     "dmock-server": "1.8.0",
-    "mocha": "9.0.3",
+    "mocha": "9.1.1",
     "ts-node": "10.2.0",
     "typescript": "4.3.5"
   }
