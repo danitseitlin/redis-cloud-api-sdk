@@ -2,7 +2,7 @@ name: Unit testing
 
 on: [push, workflow_dispatch]
 jobs:
-  build:
+  CI:
     runs-on: ubuntu-latest
     strategy:
       matrix:
