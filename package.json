@@ -7,12 +7,6 @@
   "scripts": {
     "build": "tsc",
     "test": "mocha -r ts-node/register",
-    "integration-tests": "npm run general-integration-tests && npm run cloud-account-integration-tests && npm run database-integration-tests && npm run subscription-integration-tests",
-    "general-integration-tests": "npm run test tests/integration/general.ts",
-    "cloud-account-integration-tests": "npm run test tests/integration/cloud-account.ts",
-    "database-integration-tests": "npm run test tests/integration/database.ts",
-    "subscription-integration-tests": "npm run test tests/integration/subscription.ts",
-    "clean-resources": "npm run test tests/integration/cleanup.ts",
     "unit-tests": "npm run general-unit-tests && npm run cloud-account-unit-tests && npm run subscription-unit-tests && npm run database-unit-tests",
     "general-unit-tests": "npm run test tests/unit/general.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
     "cloud-account-unit-tests": "npm run test tests/unit/cloud-account.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
@@ -20,40 +14,36 @@
     "database-unit-tests": "npm run test tests/unit/database.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key"
   },
   "keywords": [
-    "Cloud API",
     "Redis",
-    "cloud-api",
-    "redislabs",
-    "nodejs",
-    "typescript",
-    "sdk",
-    "cloud-api-sdk",
-    "api",
-    "Redislabs Cloud API"
+    "Redis Cloud API",
+    "Redis Cloud API SDK",
+    "Cloud API SDK",
+    "Cloud API",
+    "Cloud"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danitseitlin/rl-cloud-api-sdk.git"
+    "url": "git+https://github.com/danitseitlin/redis-cloud-api-sdk.git"
   },
   "author": "Dani Tseitlin",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/danitseitlin/rl-cloud-api-sdk/issues"
+    "url": "https://github.com/danitseitlin/redis-cloud-api-sdk/issues"
   },
-  "homepage": "https://github.com/danitseitlin/rl-cloud-api-sdk#readme",
+  "homepage": "https://github.com/danitseitlin/redis-cloud-api-sdk#readme",
   "dependencies": {
-    "axios": "^0.21.0"
+    "axios": "0.21.0"
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.21",
     "@types/mocha": "9.0.0",
-    "@types/node": "16.6.1",
+    "@types/node": "16.7.10",
     "chai": "4.3.4",
-    "cli-argument-parser": "0.4.5",
-    "dmock-server": "1.8.0",
-    "mocha": "9.0.3",
-    "ts-node": "10.2.0",
-    "typescript": "4.3.5"
+    "cli-argument-parser": "0.4.9",
+    "dmock-server": "1.8.5",
+    "mocha": "9.1.1",
+    "ts-node": "10.2.1",
+    "typescript": "4.4.2"
   }
 }
