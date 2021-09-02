@@ -10,7 +10,7 @@ export class General {
             return response.data.account;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
     
@@ -23,7 +23,7 @@ export class General {
             return response.data.dataPersistence;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -36,7 +36,7 @@ export class General {
             return response.data.modules;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -51,7 +51,7 @@ export class General {
             return response.data.entries;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -64,7 +64,7 @@ export class General {
             return response.data.paymentMethods;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -78,7 +78,7 @@ export class General {
             return response.data.plans;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -92,7 +92,7 @@ export class General {
             return response.data.regions;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 }
