@@ -106,7 +106,7 @@ export class CloudAPISDK {
             return response.data.subscriptions;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
     
@@ -122,7 +122,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -136,7 +136,7 @@ export class CloudAPISDK {
             return response.data;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -153,7 +153,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -169,7 +169,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -185,7 +185,7 @@ export class CloudAPISDK {
             return taskResponse.response.resource;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -202,7 +202,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -218,7 +218,7 @@ export class CloudAPISDK {
             return taskResponse.response.resource.peerings;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -235,7 +235,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -252,7 +252,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -268,7 +268,7 @@ export class CloudAPISDK {
             return response.data.subscription[0].databases;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -285,7 +285,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }   
     
@@ -300,7 +300,7 @@ export class CloudAPISDK {
             return response.data;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -318,7 +318,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -335,7 +335,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -352,7 +352,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -370,7 +370,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -384,7 +384,7 @@ export class CloudAPISDK {
             return response.data.cloudAccounts;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -400,7 +400,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -414,7 +414,7 @@ export class CloudAPISDK {
             return response.data;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -431,7 +431,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -447,7 +447,7 @@ export class CloudAPISDK {
             return taskResponse.response;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -461,7 +461,7 @@ export class CloudAPISDK {
             return response.data;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
@@ -475,7 +475,7 @@ export class CloudAPISDK {
             return response.data;
         }
         catch(error) {
-            return error;
+            return error as any;
         }
     }
 
