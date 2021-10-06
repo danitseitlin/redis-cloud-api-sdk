@@ -112,7 +112,7 @@ export type Module = {
  * @param RedisJSON The Redis JSON module
  * @param RediSearch The Redis Search module
  */
-type DatabaseModule = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch'
+type DatabaseModule = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch' | 'RedisTimeSeries'
 
 /**
  * The parameters needed to import a database file into an existing database
