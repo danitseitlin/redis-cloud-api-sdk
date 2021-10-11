@@ -2,12 +2,13 @@ import Axios, { AxiosInstance } from 'axios';
 import { CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters } from './types/parameters/subscription';
 import { DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters } from './types/parameters/database';
 import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
-import { SubscriptionCloudProvider, Subscription, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
+import { SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
 import { Task, TaskResponse, TaskStatus } from './types/task';
 import { Database, DatabaseStatus } from './types/responses/database';
 import { General } from './api/general';
+import { Subscription } from './api/subscription'
 
 export class CloudAPISDK {
     private protocol = 'https';
@@ -18,6 +19,7 @@ export class CloudAPISDK {
     private secretKey: string
     private httpClient: AxiosInstance
     private general: General
+    private subscription: Subscription
 
     /**
      * Initializing the constructur with given custom parameters
@@ -40,6 +42,7 @@ export class CloudAPISDK {
             }
         })
         this.general = new General(this.httpClient);
+        this.subscription = new Subscription(this.httpClient)
     }
 
     /**
@@ -101,13 +104,7 @@ export class CloudAPISDK {
      * Returning a lookup list of current account's subscriptions
      */
     async getSubscriptions(): Promise<Subscription[] & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get('/subscriptions');
-            return response.data.subscriptions;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.subscription.getSubscriptions();
     }
     
     /**
@@ -115,15 +112,7 @@ export class CloudAPISDK {
      * @param createParameters The given parameters given for the subscription creation
      */
     async createSubscription(createParameters: CreateSubscriptionParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.post('/subscriptions', createParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.subscription.createSubscription(createParameters);
     }
 
     /**
@@ -131,13 +120,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}`);
-            return response.data;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.getSubscription(subscriptionId)
     }
 
     /**
@@ -146,15 +129,7 @@ export class CloudAPISDK {
      * @param updateParameters The given update parameters to update the subscription with
      */
     async updateSubscription(subscriptionId: number, updateParameters: SubscriptionUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.put(`/subscriptions/${subscriptionId}`, updateParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.updateSubscription(subscriptionId, updateParameters)
     }
 
     /**
@@ -162,15 +137,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async deleteSubscription(subscriptionId: number): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.deleteSubscription(subscriptionId)
     }
 
     /**
@@ -178,15 +145,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getSubscriptionCidrWhitelist(subscriptionId: number): Promise<SubscriptionCidrWhitelist & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/cidr`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.getSubscriptionCidrWhitelist(subscriptionId)
     }
 
     /**
@@ -195,15 +154,7 @@ export class CloudAPISDK {
      * @param updateParameters The parameters to update the subscription with
      */
     async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.updateSubscriptionCidrWhitelists(subscriptionId, updateParameters)
     }
 
     /**
@@ -211,15 +162,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getVpcPeerings(subscriptionId: number): Promise<SubscriptionVpcPeering[]> {
-        try {
-            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/peerings`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource.peerings;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.getVpcPeerings(subscriptionId)
     }
 
     /**
@@ -228,15 +171,7 @@ export class CloudAPISDK {
      * @param createParameters The create parameters to create the VPC peering with
      */
     async createSubscriptionVpcPeering(subscriptionId: number, createParameters: VpcPeeringCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.createSubscriptionVpcPeering(subscriptionId, createParameters)
     }
 
     /**
@@ -245,15 +180,7 @@ export class CloudAPISDK {
      * @param vpcPeeringId The id of the VPC peering
      */
     async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId)
     }
 
     /* ---------------------------------------------------------------------------------Database---------------------------------------------------------------------------------*/
