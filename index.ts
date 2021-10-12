@@ -5,3 +5,4 @@ export { CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringC
 export { CloudAccountProvider } from './types/responses/cloud-account';
 export { DatabaseProtocol, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseImportSource, DatabaseThroughputMeasurement, DatabaseStatus } from './types/responses/database';
 export { SubscriptionCloudProvider, SubscriptionMemoryStorage, Subscription, SubscriptionPricing, SubscriptionStatus } from './types/responses/subscription';
+export { Task, TaskResponse, ErrorResponse, TaskStatus } from './types/task';
