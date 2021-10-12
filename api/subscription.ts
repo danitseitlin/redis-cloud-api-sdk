@@ -2,9 +2,13 @@ import { AxiosInstance } from "axios";
 import { CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters } from "../types/parameters/subscription";
 import { SubscriptionCidrWhitelist, SubscriptionVpcPeering } from "../types/responses/subscription";
 import { TaskResponse } from '../types/task';
+import { Task } from '../api/task';
 
 export class Subscription {
-    constructor(protected client: AxiosInstance) { }
+    private task: Task
+    constructor(protected client: AxiosInstance, private debug = false) {
+        this.task = new Task(this.client, this.debug)
+     }
     /**
     * Returning a lookup list of current account's subscriptions
     */
@@ -26,7 +30,7 @@ export class Subscription {
         try {
             const response = await this.client.post('/subscriptions', createParameters);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
@@ -57,7 +61,7 @@ export class Subscription {
         try {
             const response = await this.client.put(`/subscriptions/${subscriptionId}`, updateParameters);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
@@ -73,7 +77,7 @@ export class Subscription {
         try {
             const response = await this.client.delete(`/subscriptions/${subscriptionId}`);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
@@ -89,7 +93,7 @@ export class Subscription {
         try {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response.resource;
         }
         catch(error) {
@@ -106,7 +110,7 @@ export class Subscription {
         try {
             const response = await this.client.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
@@ -122,7 +126,7 @@ export class Subscription {
         try {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response.resource.peerings;
         }
         catch(error) {
@@ -139,7 +143,7 @@ export class Subscription {
         try {
             const response = await this.client.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
@@ -156,28 +160,11 @@ export class Subscription {
         try {
             const response = await this.client.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
             const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
         }
         catch(error) {
             return error as any;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
