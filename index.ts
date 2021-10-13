@@ -3,7 +3,7 @@ export { CloudAPISDK, CloudAPISDKParameters } from './api';
 // PARAMETERS
 export { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
 export { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters, Module } from './types/parameters/database';
-export { CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters, CidrUpdateParameters, CloudProvider, Database } from './types/parameters/subscription';
+export { CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters, CidrUpdateParameters, CloudProvider, Database, CloudProviderRegion } from './types/parameters/subscription';
 // RESPONSES
 export { CloudAccountProvider } from './types/responses/cloud-account';
 export { DatabaseProtocol, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseImportSource, DatabaseThroughputMeasurement, DatabaseStatus } from './types/responses/database';
