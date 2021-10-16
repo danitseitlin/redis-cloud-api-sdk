@@ -91,9 +91,14 @@ export type DatabaseUpdateParameters = {
  * @param value The value of the alert
  */
 export type Alert = {
-    name: string,
+    name: AlertName,
     value: string
 }
+
+/**
+ * The alert names
+ */
+export type AlertName = 'dataset-size' | 'throughput-higher-than' | 'throughput-lower-than' | 'latency' | 'syncsource-error' | 'syncsource-lag';
 
 /**
  * The database module
@@ -111,6 +116,7 @@ export type Module = {
  * @param RedisGraph The Redis Graph module
  * @param RedisJSON The Redis JSON module
  * @param RediSearch The Redis Search module
+ * @param RedisTimeSeries The Redis Time Series module
  */
 type DatabaseModule = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch' | 'RedisTimeSeries'
 
