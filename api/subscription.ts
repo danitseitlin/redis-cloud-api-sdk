@@ -19,7 +19,7 @@ export class Subscription {
         }
         catch(error) {
             return error as any;
-            }
+        }
     }
 
     /**
