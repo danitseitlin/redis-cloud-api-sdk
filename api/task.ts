@@ -62,17 +62,17 @@ export class Task {
      * @param level The log level
      * @param message The message
      */
-         private log(level: 'debug', message: string): void {
-            if(level === 'debug' && this.debug)
-                console.log(message);
+    private log(level: 'debug', message: string): void {
+        if(level === 'debug' && this.debug){
+            console.log(message);
         }
+    }
 
     /**
      * Freezing the code for a number of seconds
      * @param seconds seconds to freeze the code
      */
-        private async sleep(seconds: number): Promise<{[key: string]: any}> {
-            return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-        }
-
+    private async sleep(seconds: number): Promise<{[key: string]: any}> {
+        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+    }
 }
