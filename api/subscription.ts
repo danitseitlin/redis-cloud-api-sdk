@@ -8,7 +8,7 @@ export class Subscription {
     private task: Task
     constructor(protected client: AxiosInstance, private debug = false) {
         this.task = new Task(this.client, this.debug)
-     }
+    }
     /**
     * Returning a lookup list of current account's subscriptions
     */
@@ -42,7 +42,7 @@ export class Subscription {
      * Returning a subscription
      * @param subscriptionId The id of the subscription
      */
-        async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
+    async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
         try {
             const response = await this.client.get(`/subscriptions/${subscriptionId}`);
             return response.data;
