@@ -23,7 +23,7 @@ import { DatabaseModule } from './general';
  * @param modules The database modules
  * @param alerts The database alerts
  */
-export type Database = {
+export type DatabaseResponse = {
     databaseId: number,
     name: string,
     protocol: DatabaseProtocol,
@@ -40,7 +40,7 @@ export type Database = {
     publicEndpoint: string,
     dataEvictionPolicy: DatabaseDataEvictionPolicy,
     throughputMeasurement: DatabaseThroughputMeasurement,
-    replicaOf: null | string[],
+    replicaOf: DatabaseReplicaOfEndpoints,
     clustering: DatabaseClustering,
     security: DatabaseSecurity,
     modules: DatabaseModule[],
@@ -151,3 +151,10 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
  * @param synced The database status when it's synced with it's replica's
  */
 export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced';
+
+/**
+ * The replica of endpoints of the database
+ */
+export type DatabaseReplicaOfEndpoints = {
+    endpoints: string[]
+}
