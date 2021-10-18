@@ -123,7 +123,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
-        return await this.getSubscription(subscriptionId)
+        return await this.subscription.getSubscription(subscriptionId)
     }
 
     /**
@@ -132,7 +132,7 @@ export class CloudAPISDK {
      * @param updateParameters The given update parameters to update the subscription with
      */
     async updateSubscription(subscriptionId: number, updateParameters: SubscriptionUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
-        return await this.updateSubscription(subscriptionId, updateParameters)
+        return await this.subscription.updateSubscription(subscriptionId, updateParameters)
     }
 
     /**
@@ -140,7 +140,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async deleteSubscription(subscriptionId: number): Promise<TaskResponse & {[key: string]: any}> {
-        return await this.deleteSubscription(subscriptionId)
+        return await this.subscription.deleteSubscription(subscriptionId)
     }
 
     /**
@@ -148,7 +148,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getSubscriptionCidrWhitelist(subscriptionId: number): Promise<SubscriptionCidrWhitelist & {[key: string]: any}> {
-        return await this.getSubscriptionCidrWhitelist(subscriptionId)
+        return await this.subscription.getSubscriptionCidrWhitelist(subscriptionId)
     }
 
     /**
@@ -157,7 +157,7 @@ export class CloudAPISDK {
      * @param updateParameters The parameters to update the subscription with
      */
     async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
-        return await this.updateSubscriptionCidrWhitelists(subscriptionId, updateParameters)
+        return await this.subscription.updateSubscriptionCidrWhitelists(subscriptionId, updateParameters)
     }
 
     /**
@@ -165,7 +165,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getVpcPeerings(subscriptionId: number): Promise<SubscriptionVpcPeering[]> {
-        return await this.getVpcPeerings(subscriptionId)
+        return await this.subscription.getVpcPeerings(subscriptionId)
     }
 
     /**
@@ -174,7 +174,7 @@ export class CloudAPISDK {
      * @param createParameters The create parameters to create the VPC peering with
      */
     async createSubscriptionVpcPeering(subscriptionId: number, createParameters: VpcPeeringCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
-        return await this.createSubscriptionVpcPeering(subscriptionId, createParameters)
+        return await this.subscription.createSubscriptionVpcPeering(subscriptionId, createParameters)
     }
 
     /**
@@ -183,7 +183,7 @@ export class CloudAPISDK {
      * @param vpcPeeringId The id of the VPC peering
      */
     async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<TaskResponse & {[key: string]: any}> {
-        return await this.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId)
+        return await this.subscription.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId)
     }
 
     /* ---------------------------------------------------------------------------------Database---------------------------------------------------------------------------------*/

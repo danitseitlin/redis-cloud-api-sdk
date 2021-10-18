@@ -9,6 +9,7 @@ export class Subscription {
     constructor(protected client: AxiosInstance, private debug = false) {
         this.task = new Task(this.client, this.debug)
     }
+    
     /**
     * Returning a lookup list of current account's subscriptions
     */
