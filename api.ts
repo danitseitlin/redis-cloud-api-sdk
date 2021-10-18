@@ -6,7 +6,7 @@ import { SubscriptionCloudProvider, Subscription, SubscriptionCidrWhitelist, Sub
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
 import { Task, TaskResponse, TaskStatus } from './types/task';
-import { Database, DatabaseStatus } from './types/responses/database';
+import { DatabaseResponse, DatabaseStatus } from './types/responses/database';
 import { General } from './api/general';
 
 export class CloudAPISDK {
@@ -262,7 +262,7 @@ export class CloudAPISDK {
      * Returning a lookup list of databases owned by the account
      * @param subscriptionId The id of the subscription
      */
-    async getDatabases(subscriptionId: number): Promise<Database[] & {[key: string]: any}> {
+    async getDatabases(subscriptionId: number): Promise<DatabaseResponse[] & {[key: string]: any}> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases`);
             return response.data.subscription[0].databases;
@@ -294,7 +294,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      * @param databaseId The id of the database
      */
-    async getDatabase(subscriptionId: number, databaseId: number): Promise<Database & {[key: string]: any}> {
+    async getDatabase(subscriptionId: number, databaseId: number): Promise<DatabaseResponse & {[key: string]: any}> {
         try {
             const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             return response.data;

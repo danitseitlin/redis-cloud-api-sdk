@@ -23,7 +23,7 @@ import { DatabaseModule } from './general';
  * @param modules The database modules
  * @param alerts The database alerts
  */
-export type Database = {
+export type DatabaseResponse = {
     databaseId: number,
     name: string,
     protocol: DatabaseProtocol,
