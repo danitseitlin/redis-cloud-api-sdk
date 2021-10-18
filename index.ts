@@ -6,7 +6,7 @@ export { DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportPar
 export { CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters, CidrUpdateParameters, CloudProvider, DatabaseParameters, CloudProviderRegion } from './types/parameters/subscription';
 // RESPONSES
 export { CloudAccountProvider } from './types/responses/cloud-account';
-export { DatabaseProtocol, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseImportSource, DatabaseThroughputMeasurement, DatabaseStatus, DatabaseResponse } from './types/responses/database';
+export { DatabaseProtocol, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseImportSource, DatabaseThroughputMeasurement, DatabaseStatus, DatabaseResponse, DatabaseReplicaOfEndpoints as Endpoints } from './types/responses/database';
 export { SubscriptionCloudProvider, SubscriptionMemoryStorage, Subscription, SubscriptionPricing, SubscriptionStatus, } from './types/responses/subscription';
 export { DatabaseModule } from './types/responses/general';
 // TASKS
