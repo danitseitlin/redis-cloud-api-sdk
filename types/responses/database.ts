@@ -40,7 +40,7 @@ export type DatabaseResponse = {
     publicEndpoint: string,
     dataEvictionPolicy: DatabaseDataEvictionPolicy,
     throughputMeasurement: DatabaseThroughputMeasurement,
-    replicaOf: null | string[],
+    replicaOf: Endpoints,
     clustering: DatabaseClustering,
     security: DatabaseSecurity,
     modules: DatabaseModule[],
@@ -151,3 +151,10 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
  * @param synced The database status when it's synced with it's replica's
  */
 export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced';
+
+/**
+ * The endpoints in replicaOf object
+ */
+export type Endpoints = {
+    endpoints: string[]
+}
