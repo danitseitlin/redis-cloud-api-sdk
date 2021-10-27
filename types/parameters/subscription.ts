@@ -19,7 +19,7 @@ export type CreateSubscriptionParameters = {
     memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
     cloudProviders: CloudProvider[],
-    databases: Database[]
+    databases: DatabaseParameters[]
 }
 
 /**
@@ -67,7 +67,7 @@ export type CloudProviderRegion = {
  * @param quantity Optional. Number of databases (of this type) that will be created. Default: 1
  * @param averageItemSizeInBytes Optional. Relevant only to ram-and-flash clusters. Estimated average size (measured in bytes) of the items stored in the database. Default: 1000
  */
-export type Database = {
+export type DatabaseParameters = {
     name: string,
     protocol?: DatabaseProtocol,
     memoryLimitInGb: number,
