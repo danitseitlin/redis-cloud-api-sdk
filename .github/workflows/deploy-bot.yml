@@ -10,7 +10,7 @@ jobs:
     - name: Setting up the environment
       run: npm install && npm run build
     - name: Deploying version
-      uses: danitseitlin/npm-package-deployer@master
+      uses: danitseitlin/npm-package-deployer@create-master-upgrade-manager-by-type--112
       with:
         pkg_name: redis-cloud-api-sdk
         main_pkg_manager: github
