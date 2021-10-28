@@ -1,20 +1,20 @@
 <p align='center'>
-  <a href='https://www.npmjs.com/package/rl-cloud-api-sdk'>
-    <img src='https://img.shields.io/npm/v/rl-cloud-api-sdk/latest?style=plastic' target='_blank' />
+  <a href='https://www.npmjs.com/package/redis-cloud-api-sdk'>
+    <img src='https://img.shields.io/npm/v/redis-cloud-api-sdk/latest?style=plastic' target='_blank' />
   </a>
-  <a href='https://npmjs.org/package/rl-cloud-api-sdk' style='width:25px;height:20px;'>
-    <img src='https://img.shields.io/npm/dm/rl-cloud-api-sdk.svg?color=blue&style=plastic' target='_blank' />
+  <a href='https://npmjs.org/package/redis-cloud-api-sdk' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/npm/dm/redis-cloud-api-sdk.svg?color=blue&style=plastic' target='_blank' />
   </a>
-  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/issues' style='width:25px;height:20px;'>
-    <img src='https://img.shields.io/github/issues/RedisLabs/rl-cloud-api-sdk?style=plastic' target='_blank' />
+  <a href='https://github.com/danitseitlin/redis-cloud-api-sdk/issues' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/github/issues/danitseitlin/redis-cloud-api-sdk?style=plastic' target='_blank' />
   </a>
-  <a href='https://npmjs.org/package/rl-cloud-api-sdk' style='width:25px;height:20px;'>
-    <img src='https://img.shields.io/bundlephobia/min/rl-cloud-api-sdk/latest?style=plastic' target='_blank' />
+  <a href='https://npmjs.org/package/redis-cloud-api-sdk' style='width:25px;height:20px;'>
+    <img src='https://img.shields.io/bundlephobia/min/redis-cloud-api-sdk/latest?style=plastic' target='_blank' />
   </a>
-  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/commits/master'>
-    <img src='https://img.shields.io/github/last-commit/RedisLabs/rl-cloud-api-sdk?style=plastic' />
+  <a href='https://github.com/danitsetlin/redis-cloud-api-sdk/commits/master'>
+    <img src='https://img.shields.io/github/last-commit/danitseitlin/redis-cloud-api-sdk?style=plastic' />
   </a>
-  <a href='https://github.com/RedisLabs/rl-cloud-api-sdk/blob/master/LICENSE'>
+  <a href='https://github.com/danitseitlin/redis-cloud-api-sdk/blob/master/LICENSE'>
     <img src='https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg?style=plastic' target='_blank' />
   </a>
 </p></p>
