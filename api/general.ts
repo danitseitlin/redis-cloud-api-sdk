@@ -6,7 +6,7 @@ export class General {
     constructor(protected client: AxiosInstance) { }
     async getAccountInformation(): Promise<AccountInformation & {[key: string]: any}> {
         try {
-            const response = await this.client.get('/');
+            const response: any = await this.client.get('/');
             return response.data.account;
         }
         catch(error) {
@@ -19,7 +19,7 @@ export class General {
      */
     async getDataPersistences(): Promise<DataPersistence[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get('/data-persistence');
+            const response: any = await this.client.get('/data-persistence');
             return response.data.dataPersistence;
         }
         catch(error) {
@@ -32,7 +32,7 @@ export class General {
      */
     async getDatabaseModules(): Promise<DatabaseModule[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get('/database-modules');
+            const response: any = await this.client.get('/database-modules');
             return response.data.modules;
         }
         catch(error) {
@@ -47,7 +47,7 @@ export class General {
      */
     async getSystemLogs(limit: number, offset: number): Promise<SystemLog[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get(`/logs?limit=${limit}&offset=${offset}`);
+            const response: any = await this.client.get(`/logs?limit=${limit}&offset=${offset}`);
             return response.data.entries;
         }
         catch(error) {
@@ -60,7 +60,7 @@ export class General {
      */
     async getPaymentMethods(): Promise<PaymentMethod[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get('/payment-methods');
+            const response: any = await this.client.get('/payment-methods');
             return response.data.paymentMethods;
         }
         catch(error) {
@@ -74,7 +74,7 @@ export class General {
      */
     async getPlans(provider: SubscriptionCloudProvider): Promise<Plan[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get(`/plans?provider=${provider}`);
+            const response: any = await this.client.get(`/plans?provider=${provider}`);
             return response.data.plans;
         }
         catch(error) {
@@ -88,7 +88,7 @@ export class General {
      */
     async getRegions(provider: SubscriptionCloudProvider): Promise<Region[] & {[key: string]: any}> {
         try {
-            const response = await this.client.get(`/regions?provider=${provider}`);
+            const response: any = await this.client.get(`/regions?provider=${provider}`);
             return response.data.regions;
         }
         catch(error) {
