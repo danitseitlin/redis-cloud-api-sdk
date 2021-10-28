@@ -12,6 +12,7 @@ jobs:
     - name: Deploying version
       uses: danitseitlin/npm-package-deployer@master
       with:
-        pkg_name: rl-cloud-api-sdk
+        pkg_name: redis-cloud-api-sdk
+        main_pkg_manager: github
         npm_access_token: ${{secrets.NPM_AUTH_TOKEN}}
         github_access_token: ${{secrets.G_AUTH_TOKEN}}
