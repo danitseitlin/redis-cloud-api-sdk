@@ -50,12 +50,16 @@ export type DataPersistence = {
 
 /**
  * Database module object
+ * @param id The ID of the module
  * @param name The name of the module
+ * @param version The version of the module
  * @param description The description of the module
  * @param parameters The parameters of the module
  */
 export type DatabaseModule = {
+    id: number,
     name: string,
+    version: string,
     description: string,
     parameters: DatabaseModuleParameter[],
     [key: string]: any
