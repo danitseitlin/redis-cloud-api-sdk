@@ -2,7 +2,7 @@ import Axios, { AxiosInstance } from 'axios';
 import { CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters } from './types/parameters/subscription';
 import { DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters } from './types/parameters/database';
 import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
-import { SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus } from './types/responses/subscription';
+import { SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus, SubscriptionResponse } from './types/responses/subscription';
 import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence } from './types/responses/general';
 import { CloudAccount, CloudAccountStatus } from './types/responses/cloud-account';
 import { TaskResponse, TaskStatus } from './types/task';
@@ -106,7 +106,7 @@ export class CloudAPISDK {
     /**
      * Returning a lookup list of current account's subscriptions
      */
-    async getSubscriptions(): Promise<Subscription[] & {[key: string]: any}> {
+    async getSubscriptions(): Promise<SubscriptionResponse[] & {[key: string]: any}> {
         return await this.subscription.getSubscriptions();
     }
     
@@ -122,7 +122,7 @@ export class CloudAPISDK {
      * Returning a subscription
      * @param subscriptionId The id of the subscription
      */
-    async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
+    async getSubscription(subscriptionId: number): Promise<SubscriptionResponse & {[key: string]: any}> {
         return await this.subscription.getSubscription(subscriptionId)
     }
 
