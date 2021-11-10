@@ -1,6 +1,9 @@
 import { AxiosInstance } from "axios";
-import { CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, VpcPeeringCreationParameters } from "../types/parameters/subscription";
-import { SubscriptionCidrWhitelist, SubscriptionVpcPeering } from "../types/responses/subscription";
+import { 
+    CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
+    VpcPeeringCreationParameters 
+} from "../types/parameters/subscription";
+import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse } from "../types/responses/subscription";
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
 
@@ -13,7 +16,7 @@ export class Subscription {
     /**
     * Returning a lookup list of current account's subscriptions
     */
-    async getSubscriptions(): Promise<Subscription[] & {[key: string]: any}> {
+    async getSubscriptions(): Promise<SubscriptionResponse[] & {[key: string]: any}> {
         try {
             const response: any = await this.client.get('/subscriptions');
             return response.data.subscriptions;
@@ -43,7 +46,7 @@ export class Subscription {
      * Returning a subscription
      * @param subscriptionId The id of the subscription
      */
-    async getSubscription(subscriptionId: number): Promise<Subscription & {[key: string]: any}> {
+    async getSubscription(subscriptionId: number): Promise<SubscriptionResponse & {[key: string]: any}> {
         try {
             const response: any = await this.client.get(`/subscriptions/${subscriptionId}`);
             return response.data;

@@ -11,7 +11,7 @@ import { Region } from './general';
  * @param subscriptionPricing The pricing of the subscription
  * @param cloudDetails The cloud details of the subscription
  */
-export type Subscription = {
+export type SubscriptionResponse = {
     id: number,
     name: string,
     status: SubscriptionStatus,
