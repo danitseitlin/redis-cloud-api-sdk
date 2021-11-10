@@ -4,7 +4,7 @@ export { CloudAPISDK, CloudAPISDKParameters } from './api';
 export { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
 export { 
     DatabaseCreationParameters, DatabaseUpdateParameters, DatabaseImportParameters,
-     Module, Alert, AlertName 
+    Module, Alert, AlertName 
 } from './types/parameters/database';
 export { 
     CreateSubscriptionParameters, SubscriptionUpdateParameters, 
