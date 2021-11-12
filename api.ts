@@ -10,6 +10,7 @@ import { DatabaseResponse, DatabaseStatus } from './types/responses/database';
 import { General } from './api/general';
 import { Subscription } from './api/subscription'
 import { Task } from './api/task';
+import { Database } from './api/database';
 
 export class CloudAPISDK {
     private protocol = 'https';
@@ -21,6 +22,7 @@ export class CloudAPISDK {
     private httpClient: AxiosInstance
     private general: General
     private subscription: Subscription
+    private database: Database
     private task: Task
 
     /**
@@ -44,8 +46,9 @@ export class CloudAPISDK {
             }
         })
         this.general = new General(this.httpClient);
-        this.subscription = new Subscription(this.httpClient)
-        this.task = new Task(this.httpClient)
+        this.subscription = new Subscription(this.httpClient);
+        this.database = new Database(this.httpClient);
+        this.task = new Task(this.httpClient);
     }
 
     /**
@@ -193,13 +196,7 @@ export class CloudAPISDK {
      * @param subscriptionId The id of the subscription
      */
     async getDatabases(subscriptionId: number): Promise<DatabaseResponse[] & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases`);
-            return response.data.subscription[0].databases;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return await this.database.getDatabases(subscriptionId);
     }
 
     /**
@@ -208,15 +205,7 @@ export class CloudAPISDK {
      * @param createParameters The create parameters to create the database 
      */
     async createDatabase(subscriptionId: number, createParameters: DatabaseCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.createDatabase(subscriptionId, createParameters);
     }   
     
     /**
@@ -225,13 +214,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      */
     async getDatabase(subscriptionId: number, databaseId: number): Promise<DatabaseResponse & {[key: string]: any}> {
-        try {
-            const response = await this.httpClient.get(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
-            return response.data;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.getDatabase(subscriptionId, databaseId);
     }
 
     /**
@@ -241,15 +224,7 @@ export class CloudAPISDK {
      * @param updateParameters The update parameters to update the database
      */
     async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.updateDatabase(subscriptionId, databaseId, updateParameters);
     }
 
     /**
@@ -258,15 +233,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      */
     async deleteDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.deleteDatabase(subscriptionId, databaseId);
     }
 
     /**
@@ -275,15 +242,7 @@ export class CloudAPISDK {
      * @param databaseId The id of the database
      */
     async backupDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.backupDatabase(subscriptionId, databaseId);
     }
 
     /**
@@ -293,15 +252,7 @@ export class CloudAPISDK {
      * @param importParameters The import parameters to import into a database
      */
     async importIntoDatabase(subscriptionId: number, databaseId: number, importParameters: DatabaseImportParameters): Promise<TaskResponse & {[key: string]: any}> {
-        try {
-            const response: any = await this.httpClient.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/import`, importParameters);
-            const taskId: number = response.data.taskId;
-            const taskResponse = await this.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response;
-        }
-        catch(error) {
-            return error as any;
-        }
+        return this.database.importIntoDatabase(subscriptionId, databaseId, importParameters);
     }
 
     /* ------------------------------------------------------------------------------Cloud-Account------------------------------------------------------------------------------*/
