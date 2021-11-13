@@ -1,9 +1,13 @@
-import { AxiosInstance } from "axios";
-import { SubscriptionCloudProvider } from "..";
-import { AccountInformation, DataPersistence, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from "../types/responses/general";
+import { AxiosInstance } from 'axios';
+import { AccountInformation, DataPersistence, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from '../types/responses/general';
+import { SubscriptionCloudProvider } from '../types/responses/subscription';
 
 export class General {
     constructor(protected client: AxiosInstance) { }
+
+    /**
+     * Retrieving a lookup of the account information
+     */
     async getAccountInformation(): Promise<AccountInformation & {[key: string]: any}> {
         try {
             const response: any = await this.client.get('/');

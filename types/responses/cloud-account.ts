@@ -7,7 +7,7 @@
  * @param accessKeyId The access key id of the cloud account
  */
 
-export type CloudAccount = {
+export type CloudAccountResponse = {
     id: number,
     name: string,
     provider: string,

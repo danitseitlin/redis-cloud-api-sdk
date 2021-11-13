@@ -1,5 +1,5 @@
-import { AxiosInstance } from "axios";
-import { TaskStatus } from "../types/task";
+import { AxiosInstance } from 'axios';
+import { TaskStatus } from '../types/task';
 
 export class Task {
     constructor(protected client: AxiosInstance, private debug = false) {}

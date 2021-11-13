@@ -1,9 +1,9 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance } from 'axios';
 import { 
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
-} from "../types/parameters/subscription";
-import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse } from "../types/responses/subscription";
+} from '../types/parameters/subscription';
+import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse } from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
 

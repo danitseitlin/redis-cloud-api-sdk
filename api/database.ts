@@ -1,7 +1,8 @@
-import { AxiosInstance } from "axios";
-import { DatabaseCreationParameters, TaskResponse, DatabaseUpdateParameters, DatabaseImportParameters } from "..";
-import { DatabaseResponse } from "../types/responses/database";
-import { Task } from "./task";
+import { AxiosInstance } from 'axios';
+import { DatabaseCreationParameters, DatabaseImportParameters, DatabaseUpdateParameters } from '../types/parameters/database';
+import { DatabaseResponse } from '../types/responses/database';
+import { TaskResponse } from '../types/task';
+import { Task } from './task';
 
 export class Database {
     private task: Task
