@@ -20,7 +20,7 @@ export class CloudAPISDK {
     private debug = false;
     private accessKey: string
     private secretKey: string
-    private httpClient: AxiosInstance
+    protected httpClient: AxiosInstance
     private general: General
     private subscription: Subscription
     private database: Database
