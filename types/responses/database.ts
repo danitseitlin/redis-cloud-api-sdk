@@ -6,6 +6,7 @@ import { DatabaseModule } from './general';
  * @param protocol The protocol of the database
  * @param provider The provider of the database
  * @param region The region of the database
+ * @param redisVersionCompliance The Redis version of the database
  * @param status The status of the database
  * @param memoryLimitInGb The memory limit of the database
  * @param memoryUsedInMb The memory used in the database
@@ -29,6 +30,7 @@ export type DatabaseResponse = {
     protocol: DatabaseProtocol,
     provider: DatabaseProvider,
     region: string,
+    redisVersionCompliance: string,
     status: DatabaseStatus,
     memoryLimitInGb: number,
     memoryUsedInMb: number,
