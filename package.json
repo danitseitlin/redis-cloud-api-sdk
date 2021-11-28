@@ -26,7 +26,7 @@
     "url": "git+https://github.com/danitseitlin/redis-cloud-api-sdk.git"
   },
   "author": "Dani Tseitlin",
-  "license": "BSD-3-Clause",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/danitseitlin/redis-cloud-api-sdk/issues"
   },
