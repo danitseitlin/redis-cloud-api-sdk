@@ -15,12 +15,12 @@
     <img src='https://img.shields.io/github/last-commit/danitseitlin/redis-cloud-api-sdk?style=plastic' />
   </a>
   <a href='https://github.com/danitseitlin/redis-cloud-api-sdk/blob/master/LICENSE'>
-    <img src='https://img.shields.io/badge/license-BSD%203%20Clause-blue.svg?style=plastic' target='_blank' />
+    <img src='https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=plastic' target='_blank' />
   </a>
 </p></p>
 
 ## About
-This NodeJS module is an SDK for the [Redis Cloud REST API](https://docs.redis.com/latest/rc/api/).
+This NPM package is an SDK for the [Redis Cloud REST API](https://docs.redis.com/latest/rc/api/).
 You can use [this module](https://www.npmjs.com/package/redis-cloud-api-sdk) to develop againts Redis Cloud REST API.
 
 ## Quick Start
