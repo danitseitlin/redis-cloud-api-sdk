@@ -160,5 +160,18 @@ export type Plan = {
 export type Region = {
     name: string,
     provider: string,
+    networking: RegionNetworking[],
+    preferredAvailabilityZones: string[],
+    multipleAvailabilityZones: boolean
     [key: string]: any
+}
+
+/**
+ * Region's networking object
+ * @param deploymentCIDR The Deployment CIDR
+ * @param subnetId The subnetId 
+ */
+export type RegionNetworking = {
+    deploymentCIDR: string,
+    subnetId: string
 }
