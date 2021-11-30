@@ -64,11 +64,13 @@ export type DatabaseThroughputMeasurement = {
 /**
  * The database security
  * @param password The database password
+ * @param enableTls The TLS status
  * @param sslClientAuthentication The SSL client authentication
  * @param sourceIps The list of source IP's
  */
 export type DatabaseSecurity = {
     password: string,
+    enableTls?: boolean,
     sslClientAuthentication: boolean,
     sourceIps: string[],
     [key: string]: any
