@@ -156,6 +156,9 @@ export type Plan = {
  * Region object
  * @param name The name of the region
  * @param provider The provider of the region
+ * @param RegionNetworking The networking of the region
+ * @param preferredAvailabilityZones The preferred availability zones
+ * @param multipleAvailabilityZones The multiple availability zones
  */
 export type Region = {
     name: string,
