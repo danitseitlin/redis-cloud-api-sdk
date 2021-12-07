@@ -1,8 +1,8 @@
-import { AxiosInstance } from 'axios';
 import { TaskStatus } from '../types/task';
+import { Client } from './api.base';
 
 export class Task {
-    constructor(protected client: AxiosInstance, private debug = false) {}
+    constructor(protected client: Client, private debug = false) {}
 
     /**
      * Waiting for task status to change to a given status

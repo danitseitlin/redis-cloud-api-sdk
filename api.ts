@@ -1,26 +1,34 @@
-import Axios, { AxiosInstance } from 'axios';
-import { CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters } from './types/parameters/subscription';
-import { DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters } from './types/parameters/database';
-import { CloudAccountCreationParameters, CloudAccountUpdateParameters } from './types/parameters/cloud-account';
-import { SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus, SubscriptionResponse } from './types/responses/subscription';
-import { AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence } from './types/responses/general';
-import { CloudAccountResponse, CloudAccountStatus } from './types/responses/cloud-account';
-import { TaskResponse, TaskStatus } from './types/task';
+import {
+    CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters
+} from './types/parameters/subscription';
+import {
+    DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters
+} from './types/parameters/database';
+import {
+    CloudAccountCreationParameters, CloudAccountUpdateParameters
+} from './types/parameters/cloud-account';
+import {
+    SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering,
+    SubscriptionVpcPeeringStatus, SubscriptionResponse
+} from './types/responses/subscription';
+import {
+    AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence
+} from './types/responses/general';
+import {
+    CloudAccountResponse, CloudAccountStatus
+} from './types/responses/cloud-account';
+import {
+    TaskResponse, TaskStatus
+} from './types/task';
 import { DatabaseResponse, DatabaseStatus } from './types/responses/database';
 import { General } from './api/general';
 import { Subscription } from './api/subscription'
 import { Task } from './api/task';
 import { Database } from './api/database';
 import { CloudAccount } from './api/cloud-account';
+import { Client } from './api/api.base';
 
-export class CloudAPISDK {
-    private protocol = 'https';
-    private domain = 'api.redislabs.com';
-    private version = 'v1';
-    private debug = false;
-    private accessKey: string
-    private secretKey: string
-    protected httpClient: AxiosInstance
+export class CloudAPISDK extends Client{
     private general: General
     private subscription: Subscription
     private database: Database
@@ -32,26 +40,12 @@ export class CloudAPISDK {
      * @param parameters The parameters we can pass you customize our sdk client
      */
     constructor(parameters: CloudAPISDKParameters) {
-        this.accessKey = parameters.accessKey;
-        this.secretKey = parameters.secretKey;
-        if(parameters.protocol !== undefined) this.protocol = parameters.protocol;
-        if(parameters.domain !== undefined) this.domain = parameters.domain;
-        if(parameters.version !== undefined) this.version = parameters.version;
-        if(parameters.debug !== undefined) this.debug = parameters.debug;
-        this.httpClient = Axios.create({
-            baseURL: `${this.protocol}://${this.domain}/${this.version}`,
-            responseType: 'json',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': this.accessKey,
-                'x-api-secret-key': this.secretKey
-            }
-        })
-        this.general = new General(this.httpClient);
-        this.subscription = new Subscription(this.httpClient);
-        this.database = new Database(this.httpClient);
-        this.cloudAccount = new CloudAccount(this.httpClient);
-        this.task = new Task(this.httpClient);
+        super(parameters);
+        this.general = new General(this);
+        this.subscription = new Subscription(this);
+        this.database = new Database(this);
+        this.cloudAccount = new CloudAccount(this);
+        this.task = new Task(this);
     }
 
     /**

@@ -1,13 +1,13 @@
-import { AxiosInstance } from 'axios';
 import { DatabaseCreationParameters, DatabaseImportParameters, DatabaseUpdateParameters } from '../types/parameters/database';
 import { DatabaseResponse } from '../types/responses/database';
 import { TaskResponse } from '../types/task';
+import { Client } from './api.base';
 import { Task } from './task';
 
 export class Database {
     private task: Task
-    constructor(protected client: AxiosInstance, private debug = false) {
-        this.task = new Task(this.client, this.debug)
+    constructor(protected client: Client, private debug = false) {
+        this.task = new Task(client, this.debug)
     }
     /**
      * Returning a lookup list of databases owned by the account
@@ -15,7 +15,7 @@ export class Database {
      */
      async getDatabases(subscriptionId: number): Promise<DatabaseResponse[] & {[key: string]: any}> {
         try {
-            const response: any = await this.client.get(`/subscriptions/${subscriptionId}/databases`);
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/databases`);
             return response.data.subscription[0].databases;
         }
         catch(error) {
@@ -30,7 +30,7 @@ export class Database {
      */
     async createDatabase(subscriptionId: number, createParameters: DatabaseCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/databases`, createParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -63,7 +63,7 @@ export class Database {
      */
     async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
+            const response = await this.client.put(`/subscriptions/${subscriptionId}/databases/${databaseId}`, updateParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -80,7 +80,7 @@ export class Database {
      */
     async deleteDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}/databases/${databaseId}`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -97,7 +97,7 @@ export class Database {
      */
     async backupDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -115,7 +115,7 @@ export class Database {
      */
     async importIntoDatabase(subscriptionId: number, databaseId: number, importParameters: DatabaseImportParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/import`, importParameters);
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/import`, importParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
