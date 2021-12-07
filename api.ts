@@ -28,7 +28,7 @@ import { Database } from './api/database';
 import { CloudAccount } from './api/cloud-account';
 import { Client } from './api/api.base';
 
-export class CloudAPISDK extends Client{
+export class CloudAPISDK extends Client {
     private general: General
     private subscription: Subscription
     private database: Database
@@ -422,24 +422,6 @@ export class CloudAPISDK extends Client{
      */
     async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<Task & {[key: string]: any}> {
         return await this.task.waitForTaskStatus(taskId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
-    }
-
-    /**
-     * Freezing the code for a number of seconds
-     * @param seconds seconds to freeze the code
-     */
-    private async sleep(seconds: number): Promise<{[key: string]: any}> {
-        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-    }
-
-    /**
-     * Log messages depending on log levels
-     * @param level The log level
-     * @param message The message
-     */
-    private log(level: 'debug', message: string): void {
-        if(level === 'debug' && this.debug)
-            console.log(message);
     }
 }
 

@@ -9,8 +9,8 @@ import { Client } from './api.base';
 
 export class Subscription {
     private task: Task
-    constructor(protected client: Client, private debug = false) {
-        this.task = new Task(client, this.debug)
+    constructor(protected client: Client) {
+        this.task = new Task(client)
     }
     
     /**

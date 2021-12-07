@@ -5,31 +5,31 @@ export class Client {
     /**
      * The protocol of the API. Default: 'https'
      */
-    protected protocol = 'https';
+    public protocol = 'https';
     /**
      * The domain of the API. Default: 'api.redislabs.com'
      */
-    protected domain = 'api.redislabs.com';
+    public domain = 'api.redislabs.com';
     /**
      * The version of the API. Default: 'v1'
      */
-    protected version = 'v1';
+    public version = 'v1';
     /**
      * If to report debug logs when performing requests. Default: false
      */
-    protected debug = false;
+    public debug = false;
     /**
      * The Axios HTTP Client.
      */
-    protected httpClient: AxiosInstance
+    public httpClient: AxiosInstance
     /**
      * The access key for authentication.
      */
-    protected accessKey: string
+    public accessKey: string
     /**
      * The secret key for authentication.
      */
-    protected secretKey: string
+    public secretKey: string
 
     /**
      * Initializing the API base of the SDK
@@ -59,6 +59,7 @@ export class Client {
      * @returns An Axios Response
      */
     async get(url: string): Promise<AxiosResponse<any, any>> {
+        this.log('debug', `Performing GET request for url '${url}'`);
         return await this.httpClient.get(url);
     }
 
@@ -69,6 +70,7 @@ export class Client {
      * @returns An Axios Response
      */
     async post(url: string, body?: any): Promise<AxiosResponse<any, any>> {
+        this.log('debug', `Performing POST request for url '${url}'`);
         if(body){
             return await this.httpClient.post(url, body);
         }
@@ -82,6 +84,7 @@ export class Client {
      * @returns An Axios Response
      */
     async put(url: string, body?: any): Promise<AxiosResponse<any, any>> {
+        this.log('debug', `Performing PUT request for url '${url}'`);
         if(body){
             return await this.httpClient.put(url, body);
         }
@@ -94,6 +97,26 @@ export class Client {
      * @returns An Axios Response
      */
     async delete(url: string): Promise<AxiosResponse<any, any>> {
+        this.log('debug', `Performing DELETE request for url '${url}'`);
         return await this.httpClient.delete(url);
+    }
+
+    /**
+     * Log messages depending on log levels
+     * @param level The log level
+     * @param message The message
+     */
+    log(level: 'debug', message: string): void {
+        if(level === 'debug' && this.debug === true){
+            console.debug(message);
+        }
+    }
+
+    /**
+     * Freezing the code for a number of seconds
+     * @param seconds seconds to freeze the code
+     */
+    async sleep(seconds: number): Promise<{[key: string]: any}> {
+        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
 }
