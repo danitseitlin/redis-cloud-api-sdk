@@ -14,6 +14,7 @@ const client = new CloudAPISDK({
     domain: `${cliArguments.ENVIRONMENT}:${cliArguments.PORT}`,
     accessKey: cliArguments.API_ACCESS_KEY,
     secretKey: cliArguments.API_SECRET_KEY,
+    debug: true
 });
 
 describe('Testing subscription', async function() {
