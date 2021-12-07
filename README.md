@@ -19,70 +19,20 @@
   </a>
 </p></p>
 
-## About
-This NPM package is an SDK for the [Redis Cloud REST API](https://docs.redis.com/latest/rc/api/).
+# Let's get started :memo:
+### Installing latest version:<br>
+```
+npm install redis-cloud-api-sdk@latest
+```
+
+### Versions & Releases
+* A list of existing versions can be found [here](https://www.npmjs.com/package/redis-cloud-api-sdk?activeTab=versions)
+* A list of releases will be found [here](https://github.com/danitseitlin/redis-cloud-api-sdk/releases)
+
+# Documentation :book:
+Come and read our SDK documentation [here](https://danitseitlin.github.io/redis-cloud-api-sdk/classes/CloudAPISDK.html) before starting<br>
+You can also find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
+
+# About :thought_balloon:
+This NPM package is an SDK for the [Redis Cloud REST API](https://docs.redis.com/latest/rc/api/).<br>
 You can use [this module](https://www.npmjs.com/package/redis-cloud-api-sdk) to develop againts Redis Cloud REST API.
-
-## Quick Start
-
-### Install the module
-Run the following command in your terminal:
-
-`npm i redis-cloud-api-sdk`
-
-### Initialize the module
-To start using to API you first need to enable it and generate your API keys. You can follow the instructions [here](https://docs.redis.com/latest/rc/api/get-started/manage-api-keys/). 
-
-It is recommended not to save your API secrets inside your code.
-
-This is how you create a client:
-```
-const client = new CloudAPISDK({
-    accessKey: 'API access key',
-    secretKey: 'API secret key',
-});
-```
-
-This is how you call a specific API:
-```
-//basic usage
-const accountInformation = await client.getAccountInformation();
-```
-# Existing functions vs API Endpoints
-| Section        | Function                         | API endpoint                          | Usage                                                                     |
-|--------------- | -------------------------------- | ------------------------------------- | ------------------------------------------------------------------------- |
-| Account        | getAccountInformation            | `/`                                   | `await client.getAccountInformation()`                                    |
-| Account        | getDataPersistences              | `/data-persistence`                   | `await client.getDataPersistence()`                                       |
-| Account        | getDatabaseModules               | `/database-modules`                   | `await client.getDatabasesModules()`                                      |
-| Account        | getSystemLogs                    | `/logs?limit=1&offset=3`              | `await client.getSystemLogs(1, 3)`                                        |
-| Account        | getPaymentMethods                | `/payment-methods`                    | `await client.getPaymentMethods()`                                        |
-| Account        | getPlans                         | `/plans?provider=AWS`                 | `await client.getPlans('AWS')`                                            |
-| Account        | getRegions                       | `/regions?provider=AWS`               | `await client.getRegions('AWS')`                                          |
-| Susbscriptions | getSubscriptions                 | `/subscriptions`                      | `await client.getSubscriptions()`                                         |
-| Susbscriptions | createSubscription               | `/subscriptions`                      | `await client.createSubscription({name: 'sub1', ....})`                   |
-| Susbscriptions | getSubscription                  | `/subscriptions/1`                    | `await client.updateSubscription(1, {name: 'sub1'...})`                   |
-| Susbscriptions | updateSubscription               | `/subscriptions/1`                    | `await client.updateSubscription(1, {name: 'sub1'...})`                   |
-| Susbscriptions | deleteSubscription               | `/subscriptions/1`                    | `await client.deleteSubscription(1)`                                      |
-| Susbscriptions | getSubscriptionCidrWhitelist     | `/subscriptions/1/cidr`               | `await client.getSubscriptionCidrWhitelist(1)`                            |
-| Susbscriptions | updateSubscriptionCidrWhitelists | `/subscriptions/1/cidr`               | `await client.updateSubscriptionCidrWhitelists(1, {cidrIps: [...], ..})`  |
-| Susbscriptions | getVpcPeerings                   | `/subscriptions/1/peerings`           | `await client.getVpcPeerings(1)`                                          |
-| Susbscriptions | createSubscriptionVpcPeering     | `/subscriptions/1/peerings`           | `await client.createSubscriptionVpcPeering(1, {region: 'us-east-1',...})` |
-| Susbscriptions | deleteSubscriptionVpcPeering     | `/subscriptions/1/peerings/1`         | `await client.deleteSubscriptionVpcPeering(1, 1)`                         |
-| Databases      | getDatabases                     | `/subscriptions/1/databases`          | `await client.getDatabases()`                                             |
-| Databases      | createDatabase                   | `/subscriptions/1/databases`          | `await client.createDatabase(1, {name: 'db1', ..})`                       |
-| Databases      | getDatabase                      | `/subscriptions/1/databases/1`        | `await client.getDatabase(1, 1)`                                          |
-| Databases      | updateDatabase                   | `/subscriptions/1/databases/1`        | `await client.updateDatabase(1, 1, {name: 'db2', ..})`                    |
-| Databases      | deleteDatabase                   | `/subscriptions/1/databases/1`        | `await client.deleteDatabase(1, 1)`                                       |
-| Databases      | backupDatabase                   | `/subscriptions/1/databases/1/backup` | `await client.backupDatabase(1, 1)`                                       |
-| Databases      | importIntoDatabase               | `/subscriptions/1/databases/1/import` | `await client.importIntoDatabase(1, 1, {importFromUri: 's3://...'})`      |
-| Cloud Accounts | getCloudAccounts                 | `/cloud-accounts`                     | `await client.getCloudAccounts()`                                         |
-| Cloud Accounts | createCloudAccount               | `/cloud-accouts`                      | `await client.createCloudAccount({name: 'c1'...})`                        |
-| Cloud Accounts | getCloudAccount                  | `/cloud-accounts/1`                   | `await client.getCloudAccount(1)`                                         |
-| Cloud Accounts | updateCloudAccount               | `/cloud-accounts/1`                   | `await client.updateCloudAccount(1)`                                      |
-| Cloud Accounts | deleteCloudAccount               | `/cloud-accounts/1`                   | `await client.deleteCloudAccount(1)`                                      |
-| Tasks          | getTasks                         | `/tasks`                              | `await client.getTasks()`                                                 |
-| Tasks          | getTask                          | `/tasks/1`                            | `await client.getTask()`                                                  |
-
-You can find the API documentation [here](https://api.redislabs.com/v1/swagger-ui.html)
-
-![Unit testing](https://github.com/danitseitlin/redis-cloud-api-sdk/workflows/Unit%20testing/badge.svg)
