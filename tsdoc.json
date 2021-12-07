@@ -1,0 +1,12 @@
+{
+    "tsdoc":{
+        "source":"./api.ts",
+        "destination":"./docs",
+        "tutorials":"",
+        "systemName": "redis-cloud-api-sdk",
+        "footer": "",
+        "copyright": "redis-cloud-api-sdk Copyright © 2021 Dani Tseitlin",
+        "outputSourceFiles" : true,
+        "commentsOnly": true
+    }
+}

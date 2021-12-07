@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
+    "generate-docs": "typedoc --out docs .",
     "test": "mocha -r ts-node/register",
     "unit-tests": "npm run general-unit-tests && npm run cloud-account-unit-tests && npm run subscription-unit-tests && npm run database-unit-tests",
     "general-unit-tests": "npm run test tests/unit/general.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
@@ -44,6 +45,8 @@
     "dmock-server": "1.8.5",
     "mocha": "9.1.3",
     "ts-node": "10.4.0",
-    "typescript": "4.4.4"
+    "typescript": "4.4.4",
+    "@microsoft/tsdoc": "0.13.2",
+    "typedoc": "0.22.10"
   }
 }
