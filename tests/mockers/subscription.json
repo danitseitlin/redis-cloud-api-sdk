@@ -58,6 +58,8 @@
     "path": "/v1/tasks/1",
     "method": "get",
     "response": {
+        "resourceId": 1,
+        "status": "processing-completed",
         "response": {
             "resourceId": 1,
             "status": "processing-completed",

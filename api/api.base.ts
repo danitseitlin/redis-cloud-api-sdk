@@ -61,7 +61,7 @@ export class Client {
     async get(url: string): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing GET request for url '${url}'`);
         const response = await this.httpClient.get(url);
-        this.log('debug', JSON.stringify(response))
+        this.log('debug', JSON.stringify(response.data))
         return response;
     }
 
