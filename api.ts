@@ -323,6 +323,17 @@ export class CloudAPISDK extends Client {
     }
 
     /**
+     * Waiting for existing subscriptions statuses to change to a given status
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds 
+     * @returns A batch of subscription responses
+     */
+    async waitForSubscriptionsStatus(expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
+        return await this.subscription.waitForSubscriptionsStatus(expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
+    }
+
+    /**
      * Waiting for the subscription VPC peering status to change to a given status
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the subscription VPC peering

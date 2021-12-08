@@ -88,4 +88,12 @@ describe('Testing subscription', async function() {
         const response = await client.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId);
         expect(response.resourceId).to.eql(1, 'Subscription id');
     });
+    it('waitForSubscriptionStatus', async () => {
+        const response = await client.waitForSubscriptionStatus(subscriptionId, 'active');
+        expect(response.id).to.eql(1, 'Subscription id');
+    });
+    it('waitForSubscriptionsStatus', async() => {
+        const responses = await client.waitForSubscriptionsStatus('active');
+        expect(responses.length).to.eql(1, 'The count of subscription responses');
+    })
 });

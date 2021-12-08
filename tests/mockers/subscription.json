@@ -16,7 +16,8 @@
     "path": "/v1/subscriptions/1",
     "method": "get",
     "response": {
-        "id": 1
+        "id": 1,
+        "status": "active"
     }
 },{
     "path": "/v1/subscriptions/1",
