@@ -60,7 +60,9 @@ export class Client {
      */
     async get(url: string): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing GET request for url '${url}'`);
-        return await this.httpClient.get(url);
+        const response = await this.httpClient.get(url);
+        this.log('debug', JSON.stringify(response))
+        return response;
     }
 
     /**
@@ -108,7 +110,7 @@ export class Client {
      */
     log(level: 'debug', message: string): void {
         if(level === 'debug' && this.debug === true){
-            console.debug(message);
+            console.debug(`[Cloud API SDK] ${message}`);
         }
     }
 

@@ -20,7 +20,7 @@ export class Task {
             timePassedInSeconds+=sleepTimeInSeconds;
             task = await this.getTask(taskId);
         }
-        this.client.log('debug', `Task ${taskId} ended up as ${task.status} status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        this.client.log('debug', `Task ${taskId} ended up as '${task.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
         if(task.status === 'processing-error' && task.response.error !== undefined) { 
             const errorType = task.response.error.type;
             const errorStatus = task.response.error.status;
