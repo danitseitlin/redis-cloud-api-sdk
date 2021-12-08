@@ -1,5 +1,5 @@
 import { DatabaseCreationParameters, DatabaseImportParameters, DatabaseUpdateParameters } from '../types/parameters/database';
-import { DatabaseResponse } from '../types/responses/database';
+import { DatabaseResponse, DatabaseStatus } from '../types/responses/database';
 import { TaskResponse } from '../types/task';
 import { Client } from './api.base';
 import { Task } from './task';
@@ -122,6 +122,41 @@ export class Database {
         }
         catch(error) {
             return error as any;
+        }
+    }
+
+    /**
+     * Waiting for database status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param databaseId The id of the database
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+    async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
+        let database = await this.getDatabase(subscriptionId, databaseId);
+        let timePassedInSeconds = 0;
+        while (database.status !== expectedStatus && database.status !== 'error' && database.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+            this.client.log('debug', `Waiting for database ${databaseId} status '${database.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
+            await this.client.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
+            database = await this.getDatabase(subscriptionId, databaseId);
+        }
+        this.client.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
+        return database;
+    }
+
+    /**
+     * Waiting for all databases status under subscription to change to the expected status
+     * @param subscriptionId The id of the subscription
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+    async waitForSubscriptionDatabasesStatus(subscriptionId: number, expectedStatus: DatabaseStatus = 'active', timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
+        let databases = await this.getDatabases(subscriptionId);
+        for (const database of databases){
+            await this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
         }
     }
 }
