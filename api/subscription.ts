@@ -2,7 +2,7 @@ import {
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
 } from '../types/parameters/subscription';
-import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse } from '../types/responses/subscription';
+import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse, SubscriptionStatus, SubscriptionVpcPeeringStatus } from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
 import { Client } from './api.base';
@@ -170,5 +170,52 @@ export class Subscription {
         catch(error) {
             return error as any;
         }
+    }
+
+    /**
+     * Waiting for the subscription status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
+        let subscription = await this.getSubscription(subscriptionId);
+        let timePassedInSeconds = 0;
+        while (subscription.status !== expectedStatus && subscription.status !== 'error' && subscription.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+            this.client.log('debug', `Waiting for subscription ${subscription.id} status '${subscription.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds})`)
+            await this.client.sleep(sleepTimeInSeconds);
+            timePassedInSeconds+=sleepTimeInSeconds;
+            subscription = await this.getSubscription(subscriptionId);
+        }
+        this.client.log('debug', `Subscription ${subscription.id} ended up as '${subscription.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        return subscription;
+    }
+
+    /**
+     * Waiting for the subscription VPC peering status to change to a given status
+     * @param subscriptionId The id of the subscription
+     * @param vpcPeeringId The id of the subscription VPC peering
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
+     */
+     async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
+        let vpcPeerings = await this.getVpcPeerings(subscriptionId);
+        let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+        let timePassedInSeconds = 0;
+        if(vpcPeering !== undefined) {
+            let status = vpcPeering.status;
+            while (status !== expectedStatus && status !== 'failed' && status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+                this.client.log('debug', `Waiting for VPC peering ${vpcPeeringId} status '${status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`)
+                await this.client.sleep(sleepTimeInSeconds);
+                timePassedInSeconds+=sleepTimeInSeconds;
+                vpcPeerings = await this.getVpcPeerings(subscriptionId);
+                vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+                if(vpcPeering !== undefined) status = vpcPeering.status;
+            }
+        }
+        this.client.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        return vpcPeering;
     }
 }

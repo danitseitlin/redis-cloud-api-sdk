@@ -319,16 +319,7 @@ export class CloudAPISDK extends Client {
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
-        let subscription = await this.getSubscription(subscriptionId);
-        let timePassedInSeconds = 0;
-        while (subscription.status !== expectedStatus && subscription.status !== 'error' && subscription.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
-            this.log('debug', `Waiting for subscription ${subscription.id} status '${subscription.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds})`)
-            await this.sleep(sleepTimeInSeconds);
-            timePassedInSeconds+=sleepTimeInSeconds;
-            subscription = await this.getSubscription(subscriptionId);
-        }
-        this.log('debug', `Subscription ${subscription.id} ended up as '${subscription.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
-        return subscription;
+        return await this.subscription.waitForSubscriptionStatus(subscriptionId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
     }
 
     /**
@@ -340,22 +331,7 @@ export class CloudAPISDK extends Client {
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
     async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
-        let vpcPeerings = await this.getVpcPeerings(subscriptionId);
-        let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
-        let timePassedInSeconds = 0;
-        if(vpcPeering !== undefined) {
-            let status = vpcPeering.status;
-            while (status !== expectedStatus && status !== 'failed' && status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
-                this.log('debug', `Waiting for VPC peering ${vpcPeeringId} status '${status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`)
-                await this.sleep(sleepTimeInSeconds);
-                timePassedInSeconds+=sleepTimeInSeconds;
-                vpcPeerings = await this.getVpcPeerings(subscriptionId);
-                vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
-                if(vpcPeering !== undefined) status = vpcPeering.status;
-            }
-        }
-        this.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
-        return vpcPeering;
+        return await this.subscription.waitForVpcPeeringStatus(subscriptionId, vpcPeeringId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
     }
 
     /**
@@ -367,16 +343,7 @@ export class CloudAPISDK extends Client {
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
     async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
-        let database = await this.getDatabase(subscriptionId, databaseId);
-        let timePassedInSeconds = 0;
-        while (database.status !== expectedStatus && database.status !== 'error' && database.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
-            this.log('debug', `Waiting for database ${databaseId} status '${database.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
-            await this.sleep(sleepTimeInSeconds);
-            timePassedInSeconds+=sleepTimeInSeconds;
-            database = await this.getDatabase(subscriptionId, databaseId);
-        }
-        this.log('debug', `Database ${databaseId} ended up as '${database.status}' status after ${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
-        return database;
+        return await this.database.waitForDatabaseStatus(subscriptionId, databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
     }
     
     /**
@@ -387,10 +354,7 @@ export class CloudAPISDK extends Client {
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
     async waitForSubscriptionDatabasesStatus(subscriptionId: number, expectedStatus: DatabaseStatus = 'active', timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
-        let databases = await this.getDatabases(subscriptionId);
-        for (const database of databases){
-            await this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
-        }
+        return await this.database.waitForSubscriptionDatabasesStatus(subscriptionId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
     }
     
     /**
@@ -401,16 +365,7 @@ export class CloudAPISDK extends Client {
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
     async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
-        let cloudAccount = await this.getCloudAccount(cloudAccountId);
-        let timePassedInSeconds = 0;
-        while (cloudAccount.status !== expectedStatus && cloudAccount.status !== 'error' && cloudAccount.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
-            this.log('debug', `Waiting for cloud account ${cloudAccountId} status '${cloudAccount.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
-            await this.sleep(sleepTimeInSeconds);
-            timePassedInSeconds+=sleepTimeInSeconds;
-            cloudAccount = await this.getCloudAccount(cloudAccountId);
-        }
-        this.log('debug', `Cloud account ${cloudAccountId} ended up as '${cloudAccount.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
-        return cloudAccount;
+        return await this.cloudAccount.waitForCloudAccountStatus(cloudAccountId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
     }
 
     /**
