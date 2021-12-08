@@ -1,8 +1,8 @@
-import { AxiosInstance } from 'axios';
 import { TaskStatus } from '../types/task';
+import { Client } from './api.base';
 
 export class Task {
-    constructor(protected client: AxiosInstance, private debug = false) {}
+    constructor(protected client: Client) {}
 
     /**
      * Waiting for task status to change to a given status
@@ -15,12 +15,12 @@ export class Task {
         let task = await this.getTask(taskId);
         let timePassedInSeconds = 0;
         while (task.status !== expectedStatus && task.status !== 'processing-error' && task.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
-            this.log('debug', `Waiting for task ${taskId} status '${task.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
-            await this.sleep(sleepTimeInSeconds);
+            this.client.log('debug', `Waiting for task ${taskId} status '${task.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
+            await this.client.sleep(sleepTimeInSeconds);
             timePassedInSeconds+=sleepTimeInSeconds;
             task = await this.getTask(taskId);
         }
-        this.log('debug', `Task ${taskId} ended up as ${task.status} status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        this.client.log('debug', `Task ${taskId} ended up as '${task.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
         if(task.status === 'processing-error' && task.response.error !== undefined) { 
             const errorType = task.response.error.type;
             const errorStatus = task.response.error.status;
@@ -55,24 +55,5 @@ export class Task {
         catch(error) {
             return error as any;
         }
-    }
-
-    /**
-     * Log messages depending on log levels
-     * @param level The log level
-     * @param message The message
-     */
-    private log(level: 'debug', message: string): void {
-        if(level === 'debug' && this.debug){
-            console.log(message);
-        }
-    }
-
-    /**
-     * Freezing the code for a number of seconds
-     * @param seconds seconds to freeze the code
-     */
-    private async sleep(seconds: number): Promise<{[key: string]: any}> {
-        return new Promise(resolve => setTimeout(resolve, seconds * 1000));
     }
 }

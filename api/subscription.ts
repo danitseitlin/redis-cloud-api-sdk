@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios';
 import { 
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
@@ -6,11 +5,12 @@ import {
 import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse } from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
+import { Client } from './api.base';
 
 export class Subscription {
     private task: Task
-    constructor(protected client: AxiosInstance, private debug = false) {
-        this.task = new Task(this.client, this.debug)
+    constructor(protected client: Client) {
+        this.task = new Task(client)
     }
     
     /**
@@ -18,7 +18,7 @@ export class Subscription {
     */
     async getSubscriptions(): Promise<SubscriptionResponse[] & {[key: string]: any}> {
         try {
-            const response: any = await this.client.get('/subscriptions');
+            const response = await this.client.get('/subscriptions');
             return response.data.subscriptions;
         }
         catch(error) {
@@ -32,7 +32,7 @@ export class Subscription {
      */
     async createSubscription(createParameters: CreateSubscriptionParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.post('/subscriptions', createParameters);
+            const response = await this.client.post('/subscriptions', createParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -48,7 +48,7 @@ export class Subscription {
      */
     async getSubscription(subscriptionId: number): Promise<SubscriptionResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.get(`/subscriptions/${subscriptionId}`);
+            const response = await this.client.get(`/subscriptions/${subscriptionId}`);
             return response.data;
         }
         catch(error) {
@@ -63,7 +63,7 @@ export class Subscription {
      */
     async updateSubscription(subscriptionId: number, updateParameters: SubscriptionUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.put(`/subscriptions/${subscriptionId}`, updateParameters);
+            const response = await this.client.put(`/subscriptions/${subscriptionId}`, updateParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -79,7 +79,7 @@ export class Subscription {
      */
     async deleteSubscription(subscriptionId: number): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.delete(`/subscriptions/${subscriptionId}`);
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -95,7 +95,7 @@ export class Subscription {
     */
     async getSubscriptionCidrWhitelist(subscriptionId: number): Promise<SubscriptionCidrWhitelist & {[key: string]: any}> {
         try {
-            const response: any = await this.client.get(`/subscriptions/${subscriptionId}/cidr`);
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response.resource;
@@ -112,7 +112,7 @@ export class Subscription {
      */
     async updateSubscriptionCidrWhitelists(subscriptionId: number, updateParameters: CidrUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
+            const response = await this.client.put(`/subscriptions/${subscriptionId}/cidr`, updateParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -128,7 +128,7 @@ export class Subscription {
      */
     async getVpcPeerings(subscriptionId: number): Promise<SubscriptionVpcPeering[]> {
         try {
-            const response: any = await this.client.get(`/subscriptions/${subscriptionId}/peerings`);
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response.resource.peerings;
@@ -145,7 +145,7 @@ export class Subscription {
      */
     async createSubscriptionVpcPeering(subscriptionId: number, createParameters: VpcPeeringCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/peerings`, createParameters);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
@@ -162,7 +162,7 @@ export class Subscription {
      */
     async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response: any = await this.client.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}/peerings/${vpcPeeringId}`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
