@@ -73,10 +73,9 @@ export class Client {
      */
     async post(url: string, body?: any): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing POST request for url '${url}'`);
-        if(body){
-            return await this.httpClient.post(url, body);
-        }
-        return await this.httpClient.post(url);
+        const response = body ? await this.httpClient.post(url, body): await this.httpClient.post(url);
+        this.log('debug', JSON.stringify(response.data))
+        return response;
     }
 
     /**
@@ -87,10 +86,9 @@ export class Client {
      */
     async put(url: string, body?: any): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing PUT request for url '${url}'`);
-        if(body){
-            return await this.httpClient.put(url, body);
-        }
-        return await this.httpClient.put(url);
+        const response = body ? await this.httpClient.put(url, body): await this.httpClient.put(url);
+        this.log('debug', JSON.stringify(response.data))
+        return response;
     }
 
     /**
@@ -100,7 +98,9 @@ export class Client {
      */
     async delete(url: string): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing DELETE request for url '${url}'`);
-        return await this.httpClient.delete(url);
+        const response = await this.httpClient.delete(url);
+        this.log('debug', JSON.stringify(response.data))
+        return response;
     }
 
     /**
