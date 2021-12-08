@@ -179,7 +179,7 @@ export class Subscription {
      * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-     async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
+    async waitForSubscriptionStatus(subscriptionId: number, expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
         let subscription = await this.getSubscription(subscriptionId);
         let timePassedInSeconds = 0;
         while (subscription.status !== expectedStatus && subscription.status !== 'error' && subscription.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
@@ -193,6 +193,23 @@ export class Subscription {
     }
 
     /**
+     * Waiting for existing subscriptions statuses to change to a given status
+     * @param expectedStatus The expected status
+     * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
+     * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds 
+     * @returns A batch of subscription responses
+     */
+    async waitForSubscriptionsStatus(expectedStatus: SubscriptionStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5) {
+        const subscriptions = await this.getSubscriptions();
+        const subscriptionResponses: SubscriptionResponse[] = [];
+        for(const subscription of subscriptions) {
+            const response = await this.waitForSubscriptionStatus(subscription.id, expectedStatus, timeoutInSeconds, sleepTimeInSeconds);
+            subscriptionResponses.push(response);
+        }
+        return subscriptionResponses;
+    }
+
+    /**
      * Waiting for the subscription VPC peering status to change to a given status
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the subscription VPC peering
@@ -200,7 +217,7 @@ export class Subscription {
      * @param timeoutInSeconds The timeout of waiting for the status. Default: 5 minutes
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-     async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
+    async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
         let vpcPeerings = await this.getVpcPeerings(subscriptionId);
         let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
         let timePassedInSeconds = 0;
