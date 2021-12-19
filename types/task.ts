@@ -1,3 +1,5 @@
+import { SubscriptionPricing } from "..";
+
 /**
  * Task object
  * @param taskId The id of the task
@@ -19,10 +21,12 @@ export type Task = {
  * Task response object
  * @param resourceId The resource id
  * @param error The error of the task
+ * @param resource The resource of the task (Returned when dryRun = true)
  */
 export type TaskResponse = {
     resourceId: number,
     error?: ErrorResponse,
+    resource?: SubscriptionPricing[]
     [key: string]: any
 }
 
