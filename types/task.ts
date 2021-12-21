@@ -1,4 +1,5 @@
-import { SubscriptionPricing } from "..";
+import { SubscriptionPricing } from "./responses/subscription";
+
 
 /**
  * Task object

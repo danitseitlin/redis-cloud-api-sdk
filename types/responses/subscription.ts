@@ -33,7 +33,6 @@ export type SubscriptionResponse = {
  * @param pricePerUnit The price per unit of the type measurement of the subscription pricing
  * @param priceCurrency The currency of the price
  * @param pricePeriod The time period of the price
- * 
  */
 export type SubscriptionPricing = {
     type: string,
