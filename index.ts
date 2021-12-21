@@ -22,6 +22,6 @@ export {
     SubscriptionCloudProvider, SubscriptionMemoryStorage, SubscriptionResponse,
     SubscriptionPricing, SubscriptionStatus 
 } from './types/responses/subscription';
-export { DatabaseModule } from './types/responses/general';
+export { DatabaseModule, SubscriptionPaymentMethod } from './types/responses/general';
 // TASKS
 export { Task, TaskResponse, ErrorResponse, TaskStatus } from './types/task';
