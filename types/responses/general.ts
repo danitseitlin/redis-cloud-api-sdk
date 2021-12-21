@@ -178,3 +178,8 @@ export type RegionNetworking = {
     deploymentCIDR: string,
     subnetId: string
 }
+
+/**
+ * The payment methods for subscriptions
+ */
+export type SubscriptionPaymentMethod = 'credit-card' | 'marketplace' ;
