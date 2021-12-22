@@ -27,7 +27,9 @@ export type Task = {
 export type TaskResponse = {
     resourceId: number,
     error?: ErrorResponse,
-    resource?: SubscriptionPricing[]
+    resource?: {
+        pricing?: SubscriptionPricing[]
+    }
     [key: string]: any
 }
 

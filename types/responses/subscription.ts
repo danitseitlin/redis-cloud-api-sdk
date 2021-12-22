@@ -29,6 +29,7 @@ export type SubscriptionResponse = {
  * @param type The type of the subscription pricing
  * @param quantity The quantity of the subscription pricing
  * @param quantityMeasurement The quantity measurement of the subscription pricing
+ * @param databaseName The name of the database
  * @param typeDetails The details of the type measurement of the subscription pricing
  * @param pricePerUnit The price per unit of the type measurement of the subscription pricing
  * @param priceCurrency The currency of the price
@@ -38,6 +39,7 @@ export type SubscriptionPricing = {
     type: string,
     quantity: number,
     quantityMeasurement: string,
+    databaseName?: string,
     typeDetails?: string,
     pricePerUnit?: number,
     priceCurrency?: string,
