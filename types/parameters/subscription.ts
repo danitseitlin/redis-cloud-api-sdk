@@ -16,7 +16,7 @@ import { SubscriptionPaymentMethod } from '../responses/general'
 export type CreateSubscriptionParameters = {
     name?: string,
     dryRun?: boolean,
-    SubscriptionPaymentMethod?: SubscriptionPaymentMethod
+    paymentMethod?: SubscriptionPaymentMethod
     paymentMethodId?: number,
     memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
