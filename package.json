@@ -1,5 +1,5 @@
 {
-  "name": "redis-cloud-api-sdk",
+  "name": "@redislabsdev/redis-cloud-api-sdk",
   "version": "1.0.9",
   "description": "This is a client for the Redislabs Cloud API",
   "main": "lib/index.js",
@@ -24,14 +24,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danitseitlin/redis-cloud-api-sdk.git"
+    "url": "https://github.com/redislabsdev/redis-cloud-api-sdk"
   },
-  "author": "Dani Tseitlin",
+  "author": "Redis",
   "license": "Apache 2.0",
   "bugs": {
-    "url": "https://github.com/danitseitlin/redis-cloud-api-sdk/issues"
+    "url": "https://github.com/redislabsdev/redis-cloud-api-sdk/issues"
   },
-  "homepage": "https://github.com/danitseitlin/redis-cloud-api-sdk#readme",
+  "homepage": "https://github.com/redislabsdev/redis-cloud-api-sdk#readme",
   "dependencies": {
     "axios": "0.24.0"
   },
