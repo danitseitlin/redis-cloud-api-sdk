@@ -1,6 +1,7 @@
 import { SubscriptionMemoryStorage, SubscriptionCloudProvider } from '../responses/subscription'
 import { DatabaseProtocol, DatabaseDataPersistence, DatabaseThroughputMeasurement } from '../responses/database'
 import { Module } from './database'
+import { SubscriptionPaymentMethod } from '../responses/general'
 
 /**
  * The parameters needed to create a subscription
@@ -15,6 +16,7 @@ import { Module } from './database'
 export type CreateSubscriptionParameters = {
     name?: string,
     dryRun?: boolean,
+    paymentMethod?: SubscriptionPaymentMethod
     paymentMethodId?: number,
     memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
