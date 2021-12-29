@@ -23,9 +23,9 @@ jobs:
       - name: Publish a new version
         uses: danitseitlin/package-deployer@master
         with:
-          pkg_name: 'swat-api-clients'
-          pkg_managers: '[github, npm]'
+          pkg_name: 'redis-cloud-api-sdk'
+          pkg_managers: '[github]'
           npm_scope: 'redislabsdev'
           npm_registry: npm.pkg.github.com
-          npm_access_token: ${{secrets.GITHUB_TOKEN}}
           github_access_token: ${{secrets.GITHUB_TOKEN}}
+          dry_run: true
