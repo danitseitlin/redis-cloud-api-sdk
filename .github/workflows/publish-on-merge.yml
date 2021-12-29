@@ -3,7 +3,7 @@ name: publish-on-merge
 on:
   push:
     branches:
-      - 'master'
+      - 'add-npm-version-patch-to-publish'
 
 jobs:
   build-and-push:
@@ -14,8 +14,6 @@ jobs:
         with:
           node-version: 10
           registry-url: https://npm.pkg.github.com
-      - name: Bump version number 
-        run: npm version patch -m "Upgrade to version %s"
       - name: Npm Registery
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
       - name: Install dependencies
@@ -23,7 +21,11 @@ jobs:
       - name: Run build
         run: npm run build
       - name: Publish a new version
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      
+        uses: danitseitlin/package-deployer@master
+        with:
+          pkg_name: 'swat-api-clients'
+          pkg_managers: '[github, npm]'
+          npm_scope: 'redislabsdev'
+          npm_registry: npm.pkg.github.com
+          npm_access_token: ${{secrets.GITHUB_TOKEN}}
+          github_access_token: ${{secrets.GITHUB_TOKEN}}
