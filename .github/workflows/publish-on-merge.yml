@@ -23,10 +23,9 @@ jobs:
       - name: Publish a new version
         uses: danitseitlin/package-deployer@master
         with:
-          pkg_name: 'redis-cloud-api-sdk'
+          pkg_name: '@redislabsdev/redis-cloud-api-sdk'
           pkg_managers: '[github]'
           npm_scope: 'redislabsdev'
-          github_repo: 'redislabsdev'
           npm_registry: npm.pkg.github.com
           github_access_token: ${{secrets.GITHUB_TOKEN}}
           dry_run: true
