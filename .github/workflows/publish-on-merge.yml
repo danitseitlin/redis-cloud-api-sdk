@@ -3,7 +3,7 @@ name: publish-on-merge
 on:
   push:
     branches:
-      - 'add-npm-version-patch-to-publish'
+      - 'master'
 
 jobs:
   build-and-push:
@@ -29,6 +29,5 @@ jobs:
           npm_registry: npm.pkg.github.com
           github_access_token: ${{secrets.GITHUB_TOKEN}}
           npm_access_token: ${{secrets.GITHUB_TOKEN}}
-          dry_run: true
           debug: true
           pretty_print: true
