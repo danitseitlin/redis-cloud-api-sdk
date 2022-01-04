@@ -19,7 +19,7 @@ export type CreateSubscriptionParameters = {
     dryRun?: boolean,
     paymentMethod?: SubscriptionPaymentMethod
     paymentMethodId?: number,
-    deploymentType: DeploymentType,
+    deploymentType?: DeploymentType,
     memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
     cloudProviders: CloudProvider[],
