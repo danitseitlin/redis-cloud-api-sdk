@@ -8,6 +8,7 @@ import { SubscriptionPaymentMethod } from '../responses/general'
  * @param name Optional. Subscription name
  * @param dryRun Optional. When 'false’: Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true’: creates a read-only deployment plan without any resource creation. Default: ‘true’
  * @param paymentMethodId Required. A valid payment method (credit card, wire transfer etc) pre-defined in the current account. It will be billed for any charges related to the created subscription)
+ * @param deploymentType Optional. The deployment types for the subscription. Default: single-region.
  * @param memoryStorage Optional. Memory storage preference: either ‘ram’ or a combination of 'ram-and-flash’. Default: ‘ram’
  * @param persistentStorageEncryption Optional. Encrypt data stored in persistent storage. Required for a GCP subscription. Default: ‘false’
  * @param cloudProviders Required. 
@@ -18,6 +19,7 @@ export type CreateSubscriptionParameters = {
     dryRun?: boolean,
     paymentMethod?: SubscriptionPaymentMethod
     paymentMethodId?: number,
+    deploymentType: DeploymentType,
     memoryStorage?: SubscriptionMemoryStorage,
     persistentStorageEncryption?: boolean,
     cloudProviders: CloudProvider[],
@@ -114,3 +116,8 @@ export type VpcPeeringCreationParameters = {
     vpcId: string,
     vpcCidr: string
 }
+
+/**
+ * The deployment types for the subscription
+ */
+export type DeploymentType = 'single-region' | 'active-active';
