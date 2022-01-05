@@ -1,9 +1,11 @@
+import { DeploymentType } from '../parameters/subscription';
 import { Region } from './general';
 
 /**
  * Subscription object
  * @param id The id of the subscription
  * @param status The status of the subscription
+ * @param deploymentType The deployment types for the subscription
  * @param paymentMethodId The payment method id of the subscription
  * @param memoryStorage The memory storage of the subscription
  * @param storageEncryption The storage encryption of the subscription
@@ -15,6 +17,7 @@ export type SubscriptionResponse = {
     id: number,
     name: string,
     status: SubscriptionStatus,
+    deploymentType: DeploymentType,
     paymentMethodId: number,
     memoryStorage: SubscriptionMemoryStorage,
     storageEncryption: boolean,
