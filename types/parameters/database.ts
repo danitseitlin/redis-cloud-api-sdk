@@ -96,7 +96,7 @@ export type DatabaseUpdateParameters = {
  */
 export type Alert = {
     name: AlertName,
-    value: string
+    value: number
 }
 
 /**
