@@ -1,3 +1,4 @@
+import { AlertName } from '../..';
 import { DatabaseModule } from './general';
 
 /**
@@ -35,6 +36,7 @@ export type DatabaseResponse = {
     memoryLimitInGb: number,
     memoryUsedInMb: number,
     memoryStorage: DatabaseMemoryStorage,
+    activeActiveRedis?: boolean
     supportOSSClusterApi: boolean,
     dataPersistence: DatabaseDataPersistence,
     replication: boolean,
@@ -46,7 +48,23 @@ export type DatabaseResponse = {
     clustering: DatabaseClustering,
     security: DatabaseSecurity,
     modules: DatabaseModule[],
-    alerts: any[],
+    alerts: DatabaseAlert[],
+    crdbDatabases?: CrdbDatabase[],
+    [key: string]: any
+}
+
+/**
+ * The database alert
+ * @param id The ID of the alert
+ * @param name The name of the alert
+ * @param value The value of the alert
+ * @param defaultValue The default value of the alert
+ */
+export type DatabaseAlert = {
+    id: number,
+    name: AlertName,
+    value: number,
+    defaultValue: number,
     [key: string]: any
 }
 
@@ -162,3 +180,53 @@ export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 
 export type DatabaseReplicaOfEndpoints = {
     endpoints: string[]
 }
+
+/**
+ * The CRDB information
+ * @param provider The provider of the database
+ * @param region The region of the database
+ * @param redisVersionCompliance The Redis version of the database
+ * @param publicEndpoint The public endpoint of the database
+ * @param privateEndpoint The private endpoint of the database
+ * @param memoryLimitInGb The memory limit of the database
+ * @param memoryUsedInMb The memory used in the database
+ * @param readOperationsPerSecond The reads/second speed
+ * @param writeOperationsPerSecond The writes/second speed
+ * @param dataPersistence The data persistence of the database
+ * @param alerts The database alerts
+ * @param security The database security
+ * @param backup The database backup
+ */
+export type CrdbDatabase = {
+    provider: DatabaseProvider,
+    region: string,
+    redisVersionCompliance: string,
+    publicEndpoint: string,
+    privateEndpoint: string,
+    memoryLimitInGb: number,
+    memoryUsedInMb: number,
+    readOperationsPerSecond: number,
+    writeOperationsPerSecond: number,
+    dataPersistence: DatabaseDataPersistence,
+    alerts: DatabaseAlert[],
+    security: DatabaseSecurity,
+    backup: Backup
+    [key: string]: any
+}
+
+/**
+ * The database backup
+ * @param enableRemoteBackup The backup status
+ * @param interval The backup time interval
+ * @param destination The backup destination
+ */
+export type Backup = {
+    enableRemoteBackup: boolean,
+    interval: BackupInterval,
+    destination: string
+}
+
+/**
+ * The Backup time intervals
+ */
+export type BackupInterval = 'every-24-hours' | 'every-12-hours' | 'every-6-hours' | 'every-4-hours' | 'every-2-hours' | 'every-1-hours';
