@@ -210,7 +210,7 @@ export type CrdbDatabase = {
     dataPersistence: DatabaseDataPersistence,
     alerts: DatabaseAlert[],
     security: DatabaseSecurity,
-    backup: Backup
+    backup: DatabaseBackup
     [key: string]: any
 }
 
@@ -220,7 +220,7 @@ export type CrdbDatabase = {
  * @param interval The backup time interval
  * @param destination The backup destination
  */
-export type Backup = {
+export type DatabaseBackup = {
     enableRemoteBackup: boolean,
     interval: BackupInterval,
     destination: string
