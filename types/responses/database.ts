@@ -12,6 +12,9 @@ import { DatabaseModule } from './general';
  * @param memoryLimitInGb The memory limit of the database
  * @param memoryUsedInMb The memory used in the database
  * @param memoryStorage The memory storage type of the database
+ * @param activeActiveRedis If the database is Active Active
+ * @param activatedOn The time the database was created
+ * @param lastModified The last time the database was modified
  * @param supportOSSClusterApi If the database supports oss cluster API
  * @param dataPersistence The data persistence of the database
  * @param replication If the database replication is enabled/disabled
@@ -36,7 +39,9 @@ export type DatabaseResponse = {
     memoryLimitInGb: number,
     memoryUsedInMb: number,
     memoryStorage: DatabaseMemoryStorage,
-    activeActiveRedis?: boolean
+    activeActiveRedis?: boolean,
+    activatedOn: string,
+    lastModified: string,
     supportOSSClusterApi: boolean,
     dataPersistence: DatabaseDataPersistence,
     replication: boolean,
