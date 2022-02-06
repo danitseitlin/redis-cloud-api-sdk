@@ -86,7 +86,7 @@ export class Client {
      */
     async put(url: string, body?: any): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing PUT request for url '${url}'`);
-        const response = body ? await this.httpClient.put(url, body): await this.httpClient.put(url);
+        const response = body ? await this.httpClient.put(url, body) : await this.httpClient.put(url);
         this.log('debug', JSON.stringify(response.data))
         return response;
     }
@@ -96,9 +96,9 @@ export class Client {
      * @param url The URL of the request
      * @returns An Axios Response
      */
-    async delete(url: string): Promise<AxiosResponse<any, any>> {
+    async delete(url: string, body?: any): Promise<AxiosResponse<any, any>> {
         this.log('debug', `Performing DELETE request for url '${url}'`);
-        const response = await this.httpClient.delete(url);
+        const response = body ? await this.httpClient.delete(url, { data: body}) : await this.httpClient.delete(url);
         this.log('debug', JSON.stringify(response.data))
         return response;
     }
