@@ -117,7 +117,8 @@ export type SubscriptionStatus = 'active' | 'pending' | 'error' | 'deleting' | 4
  * @param pending-acceptance Pending status
  * @param failed Error status
  */
-export type SubscriptionVpcPeeringStatus = 'active' | 'inactive' | 'pending-acceptance' | 'failed';
+export type SubscriptionVpcPeeringStatus = 'active' | 'inactive' | 'pending-acceptance' | 'failed' | 'initiating-request'
+    | 'provisioning' | 'deleted' | 'expired' | 'rejected';
 
 /**
  * The subscription memory storage types

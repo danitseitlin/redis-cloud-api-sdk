@@ -20,7 +20,8 @@ export {
 } from './types/responses/database';
 export {
     SubscriptionCloudProvider, SubscriptionMemoryStorage, SubscriptionResponse,
-    SubscriptionPricing, SubscriptionStatus 
+    SubscriptionPricing, SubscriptionStatus, SubscriptionVpcPeering, SubscriptionVpcPeeringStatus,
+    SubscriptionCidrWhitelist, SubscriptionCloudDetails, 
 } from './types/responses/subscription';
 export { DatabaseModule, SubscriptionPaymentMethod } from './types/responses/general';
 // TASKS
