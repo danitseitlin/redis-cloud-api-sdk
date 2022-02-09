@@ -1,4 +1,4 @@
-import { SubscriptionPricing } from "./responses/subscription";
+import { SubscriptionPricing, SubscriptionVpcPeering } from "./responses/subscription";
 
 
 /**
@@ -9,7 +9,7 @@ import { SubscriptionPricing } from "./responses/subscription";
  * @param timestamp The timestamp of the task
  * @param response The response of the task
  */
-export type Task = {
+export type TaskObject = {
     taskId: string,
     status: TaskStatus,
     description: string,
@@ -22,13 +22,15 @@ export type Task = {
  * Task response object
  * @param resourceId The resource id
  * @param error The error of the task
- * @param resource The resource of the task (Returned when dryRun = true)
+ * @param resource The resource of the task (Returned when dryRun = true OR for GET VPC Peerings requests)
  */
 export type TaskResponse = {
     resourceId: number,
     error?: ErrorResponse,
     resource?: {
         pricing?: SubscriptionPricing[]
+        peerings?: SubscriptionVpcPeering[],
+        [key: string]: any
     }
     [key: string]: any
 }

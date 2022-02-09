@@ -98,7 +98,7 @@ export class Subscription {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource;
+            return taskResponse.response.resource as SubscriptionCidrWhitelist;
         }
         catch(error) {
             return error as any;
@@ -131,7 +131,8 @@ export class Subscription {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource.peerings;
+            //using Non-null assertion operator https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator
+            return taskResponse!.response!.resource!.peerings!;
         }
         catch(error) {
             return error as any;

@@ -18,6 +18,7 @@ import {
     CloudAccountResponse, CloudAccountStatus
 } from './types/responses/cloud-account';
 import {
+    TaskObject,
     TaskResponse, TaskStatus
 } from './types/task';
 import { DatabaseResponse, DatabaseStatus } from './types/responses/database';
@@ -297,7 +298,7 @@ export class CloudAPISDK extends Client {
     /**
      * Returning a lookup list of tasks owned by the account
      */
-    async getTasks(): Promise<Task[] & {[key: string]: any}> {
+    async getTasks(): Promise<TaskObject[] & {[key: string]: any}> {
         return await this.task.getTasks()
     }
 
@@ -305,7 +306,7 @@ export class CloudAPISDK extends Client {
      * Returning a task
      * @param taskId The id of the task
      */
-    async getTask(taskId: number): Promise<Task & {[key: string]: any}> {
+    async getTask(taskId: number): Promise<TaskObject & {[key: string]: any}> {
         return await this.task.getTask(taskId)
     }
 
@@ -386,7 +387,7 @@ export class CloudAPISDK extends Client {
      * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<Task & {[key: string]: any}> {
+    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<TaskObject & {[key: string]: any}> {
         return await this.task.waitForTaskStatus(taskId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
     }
 }

@@ -1,4 +1,4 @@
-import { TaskStatus } from '../types/task';
+import { TaskObject, TaskStatus } from '../types/task';
 import { Client } from './api.base';
 
 export class Task {
@@ -11,7 +11,7 @@ export class Task {
      * @param timeoutInSeconds The timeout of waiting for the status. Default: 20 minutes
      * @param sleepTimeInSeconds The sleep time between requests. Default: 5 seconds
      */
-     async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<Task & {[key: string]: any}> {
+    async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<TaskObject & {[key: string]: any}> {
         let task = await this.getTask(taskId);
         let timePassedInSeconds = 0;
         while (task.status !== expectedStatus && task.status !== 'processing-error' && task.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
@@ -33,7 +33,7 @@ export class Task {
     /**
      * Returning a lookup list of tasks owned by the account
      */
-    async getTasks(): Promise<Task[] & {[key: string]: any}> {
+    async getTasks(): Promise<TaskObject[] & {[key: string]: any}> {
         try {
             const response = await this.client.get('/tasks');
             return response.data;
@@ -47,7 +47,7 @@ export class Task {
      * Returning a task
      * @param taskId The id of the task
      */
-    async getTask(taskId: number): Promise<Task & {[key: string]: any}> {
+    async getTask(taskId: number): Promise<TaskObject & {[key: string]: any}> {
         try {
             const response = await this.client.get(`/tasks/${taskId}`);
             return response.data;
