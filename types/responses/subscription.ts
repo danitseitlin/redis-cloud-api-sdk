@@ -69,9 +69,10 @@ export type SubscriptionCloudDetails = {
  * @param the list of the errors
  */
 export type SubscriptionCidrWhitelist = {
-    cidr_ips: string[],
-    security_group_ids: string[],
-    errors: any[]
+    cidr_ips?: string[],
+    security_group_ids?: string[],
+    errors?: any[],
+    [key: string]: any
 }
 
 /**
@@ -80,8 +81,8 @@ export type SubscriptionCidrWhitelist = {
  * @param status The status of the vpc peering
  */
 export type SubscriptionVpcPeering = {
-    id: number,
-    status: SubscriptionVpcPeeringStatus
+    id?: number,
+    status?: SubscriptionVpcPeeringStatus
 }
 
 /**

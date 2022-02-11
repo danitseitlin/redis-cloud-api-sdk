@@ -24,4 +24,4 @@ export {
 } from './types/responses/subscription';
 export { DatabaseModule, SubscriptionPaymentMethod } from './types/responses/general';
 // TASKS
-export { Task, TaskResponse, ErrorResponse, TaskStatus } from './types/task';
+export { TaskObject, TaskResponse, ErrorResponse, TaskStatus } from './types/task';
