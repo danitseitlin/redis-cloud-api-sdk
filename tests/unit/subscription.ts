@@ -63,7 +63,6 @@ describe('Testing subscription', async function() {
     }); 
     it('getCidrWhitelists', async () => {
         const cidrWhitelists = await client.getSubscriptionCidrWhitelist(subscriptionId);
-        
         expect(cidrWhitelists.cidr_ips?.length).to.eql(1, 'Cidr whitelists count');
     }); 
     it('updateCidrWhitelists', async () => {
