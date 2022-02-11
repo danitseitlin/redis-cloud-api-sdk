@@ -98,7 +98,7 @@ export class Subscription {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/cidr`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource;
+            return taskResponse.response.resource as any;
         }
         catch(error) {
             return error as any;
@@ -131,7 +131,7 @@ export class Subscription {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/peerings`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
-            return taskResponse.response.resource.peerings;
+            return (taskResponse.response.resource as any).peerings;
         }
         catch(error) {
             return error as any;

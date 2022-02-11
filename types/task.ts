@@ -9,7 +9,7 @@ import { SubscriptionPricing } from "./responses/subscription";
  * @param timestamp The timestamp of the task
  * @param response The response of the task
  */
-export type Task = {
+export type TaskObject = {
     taskId: string,
     status: TaskStatus,
     description: string,
@@ -28,8 +28,12 @@ export type TaskResponse = {
     resourceId: number,
     error?: ErrorResponse,
     resource?: {
-        pricing?: SubscriptionPricing[]
-    }
+        pricing?: SubscriptionPricing[],
+        cidr_ips?: string[],
+        security_group_ids?: string[],
+        errors?: any[],
+        [key: string]: any
+    },
     [key: string]: any
 }
 
