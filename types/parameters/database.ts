@@ -133,3 +133,11 @@ export type DatabaseImportParameters = {
     sourceType: DatabaseImportSource,
     importFromUri: string[]
 }
+
+/**
+ * The region name parameters
+ * @param regionName The name of the region
+ */
+export type RegionName = {
+    regionName: string
+}

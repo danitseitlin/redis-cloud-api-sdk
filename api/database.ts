@@ -1,4 +1,4 @@
-import { DatabaseCreationParameters, DatabaseImportParameters, DatabaseUpdateParameters } from '../types/parameters/database';
+import { RegionName, DatabaseCreationParameters, DatabaseImportParameters, DatabaseUpdateParameters } from '../types/parameters/database';
 import { DatabaseResponse, DatabaseStatus } from '../types/responses/database';
 import { TaskResponse } from '../types/task';
 import { Client } from './api.base';
@@ -94,10 +94,11 @@ export class Database {
      * Backing up a database
      * @param subscriptionId The id of the subscription 
      * @param databaseId The id of the database
+     * @param regionName The region name parameters (Optional)
      */
-    async backupDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
+    async backupDatabase(subscriptionId: number, databaseId: number, regionName?: RegionName): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
+            const response = (regionName !== undefined) ? await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`, regionName) : await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;

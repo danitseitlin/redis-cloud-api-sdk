@@ -2,7 +2,7 @@ import {
     CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters
 } from './types/parameters/subscription';
 import {
-    DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters
+    DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters, RegionName
 } from './types/parameters/database';
 import {
     CloudAccountCreationParameters, CloudAccountUpdateParameters
@@ -238,9 +238,10 @@ export class CloudAPISDK extends Client {
      * Backing up a database
      * @param subscriptionId The id of the subscription 
      * @param databaseId The id of the database
+     * @param regionName The region name parameters (Optional)
      */
-    async backupDatabase(subscriptionId: number, databaseId: number): Promise<TaskResponse & {[key: string]: any}> {
-        return this.database.backupDatabase(subscriptionId, databaseId);
+    async backupDatabase(subscriptionId: number, databaseId: number, regionName?: RegionName): Promise<TaskResponse & {[key: string]: any}> {
+        return this.database.backupDatabase(subscriptionId, databaseId, regionName);
     }
 
     /**
