@@ -56,10 +56,15 @@ export type DatabaseResponse = {
  * @param value The value of the throughput measurement
  */
 export type DatabaseThroughputMeasurement = {
-    by: 'number-of-shards' | 'operations-per-second',
+    by: DatabaseThroughputMeasurementType,
     value: number,
     [key: string]: any
 }
+
+/**
+ * The database throughput measurement type
+ */
+export type DatabaseThroughputMeasurementType = 'number-of-shards' | 'operations-per-second';
 
 /**
  * The database security
