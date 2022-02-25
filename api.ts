@@ -12,7 +12,7 @@ import {
     SubscriptionVpcPeeringStatus, SubscriptionResponse
 } from './types/responses/subscription';
 import {
-    AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence
+    AccountInformation, DatabaseModuleInformation, SystemLog, PaymentMethod, Plan, Region, DataPersistence
 } from './types/responses/general';
 import {
     CloudAccountResponse, CloudAccountStatus
@@ -66,7 +66,7 @@ export class CloudAPISDK extends Client {
     /**
      * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
-    async getDatabaseModules(): Promise<DatabaseModule[] & {[key: string]: any}> {
+    async getDatabaseModules(): Promise<DatabaseModuleInformation[] & {[key: string]: any}> {
         return await this.general.getDatabaseModules();
     }
 

@@ -56,7 +56,7 @@ export type DataPersistence = {
  * @param description The description of the module
  * @param parameters The parameters of the module
  */
-export type DatabaseModule = {
+export type DatabaseModuleInformation = {
     id: number,
     name: string,
     version: string,

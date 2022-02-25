@@ -1,5 +1,6 @@
 import { ifError } from "assert";
-import { DatabaseClustering, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseMemoryStorage, DatabaseProtocol, DatabaseProvider, DatabaseReplicaOfEndpoints, DatabaseResponse, DatabaseSecurity, DatabaseStatus, DatabaseThroughputMeasurement, DatabaseThroughputMeasurementType } from "../../types/responses/database";
+import { DatabaseModule } from "../../types/parameters/database";
+import { DatabaseAlertResponse, DatabaseClustering, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseMemoryStorage, DatabaseProtocol, DatabaseProvider, DatabaseReplicaOfEndpoints, DatabaseResponse, DatabaseSecurity, DatabaseStatus, DatabaseThroughputMeasurement, DatabaseThroughputMeasurementType } from "../../types/responses/database";
 
 export class DatabaseParser {
 
@@ -32,8 +33,8 @@ export class DatabaseParser {
         sslClientAuthentication: false,
         sourceIps: []
     }
-    private _modules = []
-    private _alerts = []
+    private _modules: DatabaseModule[] = []
+    private _alerts: DatabaseAlertResponse[] = []
 
     constructor(database: DatabaseResponse) {
         if(database) {
@@ -236,27 +237,66 @@ export class DatabaseParser {
         }
     }
 
-    
+    public get password() {
+        return this._security.password;
+    }
 
-    /**
-     * provider: DatabaseProvider;
-     * region: string;
-     * redisVersionCompliance: string;
-     * status: DatabaseStatus;
-     * memoryLimitInGb: number;
-     * memoryUsedInMb: number;
-     * memoryStorage: DatabaseMemoryStorage;
-     * supportOSSClusterApi: boolean;
-     * dataPersistence: DatabaseDataPersistence;
-     * replication: boolean,
-     * privateEndpoint: string,
-     * publicEndpoint: string,
-     * dataEvictionPolicy: DatabaseDataEvictionPolicy,
-     * throughputMeasurement: DatabaseThroughputMeasurement,
-     * replicaOf: DatabaseReplicaOfEndpoints,
-     * clustering: DatabaseClustering,
-     * security: DatabaseSecurity,
-     * modules: DatabaseModule[],
-     * alerts: any[],
-     */
+    public set password(password: string) {
+        this._security.password = password;
+    }
+
+    public get sslClientAuthentication() {
+        return this._security.sslClientAuthentication;
+    }
+
+    public set sslClientAuthentication(isEnabled: boolean) {
+        this._security.sslClientAuthentication = isEnabled;
+    }
+
+    public get sourceIps() {
+        return this._security.sourceIps;
+    }
+
+    public set sourceIps(ips: string[] | string) {
+        if(Array.isArray(ips)) {
+            this._security.sourceIps = ips;
+        }
+        else if (typeof ips === 'string') {
+            this._security.sourceIps.push(ips);
+        }
+    }
+
+    public get enableTls() {
+        return this._security.enableTls ?? false;
+    }
+
+    public set enableTls(isEnabled: boolean) {
+        this._security.enableTls = isEnabled;
+    }
+
+    public get modules() {
+        return this._modules;
+    }
+
+    public set modules(modules: DatabaseModule[] | DatabaseModule) {
+        if(Array.isArray(modules)) {
+            this._modules = modules as DatabaseModule[];
+        }
+        else if(typeof modules === 'string') {
+            this._modules.push(modules)
+        }
+    }
+
+    public get alerts() {
+        return this._alerts;
+    }
+
+    public set alerts(alerts: any | any[]) {
+        if(Array.isArray(alerts)) {
+            this._alerts = alerts;
+        }
+        else {
+            this._alerts.push(alerts)
+        }
+    }
 }

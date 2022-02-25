@@ -1,4 +1,4 @@
-import { DatabaseModule } from './general';
+import { DatabaseModuleInformation } from './general';
 
 /**
  * The database response
@@ -45,7 +45,7 @@ export type DatabaseResponse = {
     replicaOf: DatabaseReplicaOfEndpoints,
     clustering: DatabaseClustering,
     security: DatabaseSecurity,
-    modules: DatabaseModule[],
+    modules: DatabaseModuleInformation[],
     alerts: any[],
     [key: string]: any
 }
@@ -166,4 +166,14 @@ export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 
  */
 export type DatabaseReplicaOfEndpoints = {
     endpoints: string[]
+}
+
+/**
+ * The alert of the database
+ * @param name The name of the alert
+ * @param value The value of the alert, most cases it's a value to alert 
+ */
+export type DatabaseAlertResponse = {
+    name: string
+    [key: string]: any
 }

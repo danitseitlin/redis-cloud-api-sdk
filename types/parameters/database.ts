@@ -42,8 +42,8 @@ export type DatabaseCreationParameters = {
     enableTls?: boolean,
     clientSslCertificate?: string,
     password?: string,
-    alerts?: Alert[],
-    modules?: Module[]
+    alerts?: DatabaseAlertParameters[],
+    modules?: DatabaseModule[]
 }
 
 /**
@@ -84,7 +84,7 @@ export type DatabaseUpdateParameters = {
     enableTls?: boolean,
     clientSslCertificate?: string,
     password?: string,
-    alerts?: Alert[],
+    alerts?: DatabaseAlertParameters[],
     regexRules?: string[]
 }
 
@@ -94,7 +94,7 @@ export type DatabaseUpdateParameters = {
  * @param name The name of the alert
  * @param value The value of the alert
  */
-export type Alert = {
+export type DatabaseAlertParameters = {
     name: AlertName,
     value: string
 }
@@ -109,8 +109,8 @@ export type AlertName = 'dataset-size' | 'throughput-higher-than' | 'throughput-
  * @param name Required. The name of the database module.
  * @param parameters Optional Redis Labs database module parameters (name and value), as relevant to the specific module (see modules parameters specification)
  */
-export type Module = {
-    name: DatabaseModule,
+export type DatabaseModule = {
+    name: DatabaseModuleName,
     parameters?: {[key: string]: any}
 }
 
@@ -122,7 +122,7 @@ export type Module = {
  * @param RediSearch The Redis Search module
  * @param RedisTimeSeries The Redis Time Series module
  */
-type DatabaseModule = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch' | 'RedisTimeSeries'
+type DatabaseModuleName = 'RedisBloom' | 'RedisGraph' | 'RedisJSON' | 'RediSearch' | 'RedisTimeSeries'
 
 /**
  * The parameters needed to import a database file into an existing database

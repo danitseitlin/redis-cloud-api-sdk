@@ -1,4 +1,4 @@
-import { AccountInformation, DataPersistence, DatabaseModule, SystemLog, PaymentMethod, Plan, Region } from '../types/responses/general';
+import { AccountInformation, DataPersistence, DatabaseModuleInformation, SystemLog, PaymentMethod, Plan, Region } from '../types/responses/general';
 import { SubscriptionCloudProvider } from '../types/responses/subscription';
 import { Client } from './api.base';
 
@@ -34,7 +34,7 @@ export class General {
     /**
      * Returning a lookup list of database modules supported in current account (support may differ based on subscription and database settings)
      */
-    async getDatabaseModules(): Promise<DatabaseModule[] & {[key: string]: any}> {
+    async getDatabaseModules(): Promise<DatabaseModuleInformation[] & {[key: string]: any}> {
         try {
             const response = await this.client.get('/database-modules');
             return response.data.modules;
