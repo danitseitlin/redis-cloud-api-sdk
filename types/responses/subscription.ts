@@ -89,6 +89,8 @@ export type SubscriptionCidrWhitelist = {
  * @param vpcUid The VPC ID (Optional)
  * @param vpcCidr The VPC CIDR (Optional)
  * @param awsPeeringUid The AWS peering ID (Optional)
+ * @param vpcProjectUid The GCP project ID (Optional)
+ * @param vpcNetworkName The GCP network name (Optional)
  */
 export type SubscriptionVpcPeering = {
     id: number,
@@ -98,7 +100,9 @@ export type SubscriptionVpcPeering = {
     awsAccountId?: string,
     vpcUid?: string,
     vpcCidr?: string,
-    awsPeeringUid?: string
+    awsPeeringUid?: string,
+    vpcProjectUid?: string,
+    vpcNetworkName?: string
 }
 
 /**
