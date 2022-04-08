@@ -19,3 +19,4 @@ jobs:
         pkg_managers: "[github, npm]"
         working_directory: ./
         pretty_print: true
+        debug: true
