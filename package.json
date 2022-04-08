@@ -39,7 +39,7 @@
     "@microsoft/tsdoc": "0.13.2",
     "@types/axios": "0.14.0",
     "@types/chai": "4.3.0",
-    "@types/mocha": "9.0.0",
+    "@types/mocha": "9.1.0",
     "@types/node": "16.11.9",
     "chai": "4.3.4",
     "cli-argument-parser": "0.6.1",
