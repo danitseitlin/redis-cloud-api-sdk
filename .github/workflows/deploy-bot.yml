@@ -17,6 +17,4 @@ jobs:
         npm_access_token: ${{secrets.NPM_AUTH_TOKEN}}
         github_access_token: ${{secrets.G_AUTH_TOKEN}}
         pkg_managers: "[github, npm]"
-        working_directory: ./
         pretty_print: true
-        debug: true
