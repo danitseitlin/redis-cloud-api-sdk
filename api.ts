@@ -1,5 +1,5 @@
 import {
-    CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters
+    CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters, ActiveActiveAwsVpcPeeringParameters, ActiveActiveGcpVpcPeeringParameters, ActiveActiveDeleteRegionParameters
 } from './types/parameters/subscription';
 import {
     DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters, RegionName
@@ -9,7 +9,7 @@ import {
 } from './types/parameters/cloud-account';
 import {
     SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering,
-    SubscriptionVpcPeeringStatus, SubscriptionResponse
+    SubscriptionVpcPeeringStatus, SubscriptionResponse, ActiveActiveVpcPeeringsResponse
 } from './types/responses/subscription';
 import {
     AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence
@@ -170,6 +170,14 @@ export class CloudAPISDK extends Client {
     }
 
     /**
+    * Retrives VPC Peering request for Active Active subscription
+    * @param subscriptionId The subscription ID
+    */
+    async getActiveActiveVpcPeerings(subscriptionId: number): Promise<ActiveActiveVpcPeeringsResponse> {
+        return await this.subscription.getActiveActiveVpcPeerings(subscriptionId);
+    }
+
+    /**
      * Creating a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
@@ -179,12 +187,39 @@ export class CloudAPISDK extends Client {
     }
 
     /**
+    * Creates VPC Peering request for Active Active subscription
+    * @param subscriptionId The subscription ID
+    * @param createParameters The create VPC parameters
+    */
+    async createActiveActiveVpcPeering(subscriptionId: number, createParameters: ActiveActiveAwsVpcPeeringParameters | ActiveActiveGcpVpcPeeringParameters): Promise<TaskResponse & { [key: string]: any }> {
+        return await this.subscription.createActiveActiveVpcPeering(subscriptionId, createParameters)
+    }
+
+    /**
      * Deleting a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the VPC peering
      */
     async deleteSubscriptionVpcPeering(subscriptionId: number, vpcPeeringId: number): Promise<TaskResponse & {[key: string]: any}> {
         return await this.subscription.deleteSubscriptionVpcPeering(subscriptionId, vpcPeeringId)
+    }
+
+    /**
+    * Deletes a VPC Peering from Active Active subscription
+    * @param subscriptionId The Subscription ID
+    * @param peeringId The peering ID
+    */
+    async deleteActiveActiveVpcPeering(subscriptionId: number, peeringId: number): Promise<TaskResponse & { [key: string]: any }> {
+        return await this.subscription.deleteActiveActiveVpcPeering(subscriptionId, peeringId);
+    }
+
+    /**
+    * Deletes region/s from Active Active subscriptions
+    * @param subscriptionId The subscription ID
+    * @param deleteParameters The delete region parameters
+    */
+    async deleteActiveActiveRegion(subscriptionId: number, deleteParameters: ActiveActiveDeleteRegionParameters): Promise<TaskResponse & { [key: string]: any }> {
+        return await this.subscription.deleteActiveActiveRegion(subscriptionId, deleteParameters)
     }
 
     /* ---------------------------------------------------------------------------------Database---------------------------------------------------------------------------------*/
@@ -223,6 +258,16 @@ export class CloudAPISDK extends Client {
      */
     async updateDatabase(subscriptionId: number, databaseId: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & {[key: string]: any}> {
         return this.database.updateDatabase(subscriptionId, databaseId, updateParameters);
+    }
+
+    /**
+    * Updates an Active Active database (CRDB)
+    * @param subscriptionId The subscription ID
+    * @param databaseid The database ID
+    * @param updateParameters The update parameters to update the database
+    */
+    async updateCRDB(subscriptionId: number, databaseid: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & { [key: string]: any }> {
+        return await this.database.updateCRDB(subscriptionId, databaseid, updateParameters);
     }
 
     /**
