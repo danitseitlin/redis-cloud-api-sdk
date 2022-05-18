@@ -1,5 +1,5 @@
 import {
-    CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters, ActiveActiveAwsVpcPeeringParameters, ActiveActiveGcpVpcPeeringParameters, ActiveActiveDeleteRegionParameters
+    CreateSubscriptionParameters, SubscriptionUpdateParameters, CidrUpdateParameters, VpcPeeringCreationParameters, ActiveActiveAwsVpcPeeringParameters, ActiveActiveGcpVpcPeeringParameters, ActiveActiveDeleteRegionParameters, ActiveActiveCreateRegionParameters
 } from './types/parameters/subscription';
 import {
     DatabaseImportParameters, DatabaseCreationParameters, DatabaseUpdateParameters, RegionName
@@ -9,7 +9,7 @@ import {
 } from './types/parameters/cloud-account';
 import {
     SubscriptionCloudProvider, SubscriptionCidrWhitelist, SubscriptionStatus, SubscriptionVpcPeering,
-    SubscriptionVpcPeeringStatus, SubscriptionResponse, ActiveActiveVpcPeeringsResponse
+    SubscriptionVpcPeeringStatus, SubscriptionResponse, ActiveActiveVpcPeeringsResponse, ActiveActiveRegionsResponse
 } from './types/responses/subscription';
 import {
     AccountInformation, DatabaseModule, SystemLog, PaymentMethod, Plan, Region, DataPersistence
@@ -211,6 +211,23 @@ export class CloudAPISDK extends Client {
     */
     async deleteActiveActiveVpcPeering(subscriptionId: number, peeringId: number): Promise<TaskResponse & { [key: string]: any }> {
         return await this.subscription.deleteActiveActiveVpcPeering(subscriptionId, peeringId);
+    }
+    
+    /**
+     * Retrives the regions information for Active Active subscription
+     * @param subscriptionId The subscription ID
+     */
+    async getActiveActiveRegions(subscriptionId: number): Promise<ActiveActiveRegionsResponse & { [key: string]: any }> { 
+        return await this.subscription.getActiveActiveRegions(subscriptionId)
+    }
+
+    /**
+    * Creates a new region for Active Active subscription
+    * @param subscriptionId The subscription ID
+    * @param createParameters The create region parameters
+    */
+    async createActiveActiveRegion(subscriptionId: number, createParameters: ActiveActiveCreateRegionParameters): Promise<TaskResponse & { [key: string]: any }> {
+        return await this.subscription.createActiveActiveRegion(subscriptionId, createParameters)
     }
 
     /**

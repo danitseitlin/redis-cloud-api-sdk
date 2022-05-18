@@ -1,5 +1,6 @@
 import { 
     ActiveActiveAwsVpcPeeringParameters,
+    ActiveActiveCreateRegionParameters,
     ActiveActiveDeleteRegionParameters,
     ActiveActiveGcpVpcPeeringParameters,
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
@@ -7,7 +8,7 @@ import {
 } from '../types/parameters/subscription';
 import {
     SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse,
-    SubscriptionStatus, SubscriptionVpcPeeringStatus, ActiveActiveVpcPeeringsResponse
+    SubscriptionStatus, SubscriptionVpcPeeringStatus, ActiveActiveVpcPeeringsResponse, ActiveActiveRegionsResponse
 } from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
@@ -291,6 +292,37 @@ export class Subscription {
         }
         this.client.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
         return vpcPeering;
+    }
+
+    /**
+     * Retrives the regions information for Active Active subscription
+     * @param subscriptionId The subscription ID
+     */
+    async getActiveActiveRegions(subscriptionId: number): Promise<ActiveActiveRegionsResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/regions`);
+            return response.data;
+        }
+        catch (error) {
+            return error as any;
+        }
+    }
+    
+    /**
+     * Creates a new region for Active Active subscription
+     * @param subscriptionId The subscription ID
+     * @param createParameters The create region parameters
+     */
+    async createActiveActiveRegion(subscriptionId: number, createParameters: ActiveActiveCreateRegionParameters): Promise<TaskResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/regions`, createParameters);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response;
+        }
+        catch (error) {
+            return error as any;
+        }
     }
 
     /**
