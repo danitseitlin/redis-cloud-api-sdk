@@ -1,8 +1,14 @@
 import { 
+    ActiveActiveAwsVpcPeeringParameters,
+    ActiveActiveDeleteRegionParameters,
+    ActiveActiveGcpVpcPeeringParameters,
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
 } from '../types/parameters/subscription';
-import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse, SubscriptionStatus, SubscriptionVpcPeeringStatus } from '../types/responses/subscription';
+import {
+    SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse,
+    SubscriptionStatus, SubscriptionVpcPeeringStatus, ActiveActiveVpcPeeringsResponse
+} from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
 import { Client } from './api.base';
@@ -140,6 +146,22 @@ export class Subscription {
     }
 
     /**
+    * Retrives VPC Peering request for Active Active subscription
+    * @param subscriptionId The subscription ID
+    */
+    async getActiveActiveVpcPeerings(subscriptionId: number): Promise<ActiveActiveVpcPeeringsResponse> {
+        try {
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/regions/peerings`);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response.resource as ActiveActiveVpcPeeringsResponse;
+        }
+        catch (error) {
+            return error as any;
+        }
+    }
+
+    /**
      * Creating a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param createParameters The create parameters to create the VPC peering with
@@ -157,6 +179,23 @@ export class Subscription {
     }
 
     /**
+    * Creates VPC Peering request for Active Active subscription
+    * @param subscriptionId The subscription ID
+    * @param createParameters The create VPC parameters
+    */
+    async createActiveActiveVpcPeering(subscriptionId: number, createParameters: ActiveActiveAwsVpcPeeringParameters | ActiveActiveGcpVpcPeeringParameters): Promise<TaskResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/regions/peerings`, createParameters);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response;
+        }
+        catch (error) {
+            return error as any;
+        }
+    }
+
+    /**
      * Deleting a subscription VPC peering
      * @param subscriptionId The id of the subscription
      * @param vpcPeeringId The id of the VPC peering
@@ -169,6 +208,23 @@ export class Subscription {
             return taskResponse.response;
         }
         catch(error) {
+            return error as any;
+        }
+    }
+
+    /**
+    * Deletes a VPC Peering from Active Active subscription
+    * @param subscriptionId The Subscription ID
+    * @param peeringId The peering ID
+    */
+    async deleteActiveActiveVpcPeering(subscriptionId: number, peeringId: number): Promise<TaskResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}/regions/peerings/${peeringId}`);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response;
+        }
+        catch (error) {
             return error as any;
         }
     }
@@ -235,5 +291,22 @@ export class Subscription {
         }
         this.client.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
         return vpcPeering;
+    }
+
+    /**
+    * Deletes region/s from Active Active subscriptions
+    * @param subscriptionId The subscription ID
+    * @param deleteParameters The delete region parameters
+    */
+    async deleteActiveActiveRegion(subscriptionId: number, deleteParameters: ActiveActiveDeleteRegionParameters): Promise<TaskResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}/regions`, deleteParameters);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response;
+        }
+        catch (error) {
+            return error as any;
+        }
     }
 }

@@ -160,4 +160,22 @@ export class Database {
             await this.waitForDatabaseStatus(subscriptionId, database.databaseId, expectedStatus, timeoutInSeconds, sleepTimeInSeconds)
         }
     }
+
+    /**
+    * Updates an Active Active database (CRDB)
+    * @param subscriptionId The subscription ID
+    * @param databaseid The database ID
+    * @param updateParameters The update parameters to update the database
+    */
+    async updateCRDB(subscriptionId: number, databaseid: number, updateParameters: DatabaseUpdateParameters): Promise<TaskResponse & { [key: string]: any }> {
+        try {
+            const response = await this.client.put(`/subscriptions/${subscriptionId}/databases/${databaseid}/regions`, updateParameters);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
+            return taskResponse.response;
+        }
+        catch (error) {
+            return error as any;
+        }
+    }
 }

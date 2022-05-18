@@ -1,3 +1,4 @@
+import { CrdbRegion } from '../parameters/database';
 import { DeploymentType } from '../parameters/subscription';
 import { Region } from './general';
 
@@ -102,7 +103,8 @@ export type SubscriptionVpcPeering = {
     vpcCidr?: string,
     awsPeeringUid?: string,
     vpcProjectUid?: string,
-    vpcNetworkName?: string
+    vpcNetworkName?: string,
+    [key: string]: any
 }
 
 /**
@@ -137,3 +139,55 @@ export type SubscriptionMemoryStorage = 'ram' | 'ram-and-flash';
  * @param GCP Google Cloud Platform cloud provider
  */
 export type SubscriptionCloudProvider = 'AWS' | 'GCP';
+
+/**
+ * The VPC Peerings information for Active Active
+ * @param subscriptionId The subscription ID
+ * @param regions The VPC Peering information per regions
+ */
+export type ActiveActiveVpcPeeringsResponse = {
+    subscriptionId: number,
+    regions: ActiveActiveVpcPeeringsRegion[],
+    [key: string]: any
+};
+
+/**
+ * The VPC Peerings for Active Active region
+ * @param id The ID of the VPC Peering
+ * @param region The region of the VPC Peering
+ * @param vpcPeerings The information of the VPC Peerings
+ */
+export type ActiveActiveVpcPeeringsRegion = {
+    id: number,
+    region: string,
+    vpcPeerings: SubscriptionVpcPeering[],
+    [key: string]: any
+};
+
+/**
+ * The regions information for Active Active subscriptions
+ * @param subscriptionId The subscription ID
+ * @param regions The regions information
+ */
+export type ActiveActiveRegionsResponse = {
+    subscriptionId: number,
+    regions: ActiveActiveRegionInformation[],
+    [key: string]: any
+};
+
+/**
+ * The region (singular) information for Active Active subscriptions
+ * @param regionId The region ID
+ * @param region The region name
+ * @param deploymentCidr The region CIDR value
+ * @param vpcId The region VPC ID value
+ * @param databases The region's databases
+ */
+export type ActiveActiveRegionInformation = {
+    regionId: number,
+    region: string,
+    deploymentCidr: string,
+    vpcId: string,
+    databases: CrdbRegion[],
+    [key: string]: any
+};

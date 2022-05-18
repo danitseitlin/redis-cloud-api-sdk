@@ -1,6 +1,6 @@
 import { SubscriptionMemoryStorage, SubscriptionCloudProvider } from '../responses/subscription'
 import { DatabaseProtocol, DatabaseDataPersistence, DatabaseThroughputMeasurement } from '../responses/database'
-import { Module } from './database'
+import { Alert, CreateRegionActiveActiveDatabaseParameters, DatabaseBackupParameters, LocalThroughputMeasurement, Module } from './database'
 import { SubscriptionPaymentMethod } from '../responses/general'
 
 /**
@@ -29,7 +29,7 @@ export type CreateSubscriptionParameters = {
 /**
  * The subscription cloud provider 
  * @param provider Optional. Cloud provider. Default: ‘AWS’
- * @param cloudAccountId Optional. Cloud account identifier. Default: Redis Labs internal cloud account (using Cloud Account Id = 1 implies using Redis Labs internal cloud account). Note that a GCP subscription can be created only with Redis Labs internal cloud account.
+ * @param cloudAccountId Optional. Cloud account identifier. Default: Redis internal cloud account (using Cloud Account Id = 1 implies using Redis internal cloud account). Note that a GCP subscription can be created only with Redis internal cloud account.
  * @param regions Required. Cloud networking details, per region (single region or multiple regions for Active-Active cluster only) 
  */
 export type CloudProvider = {
@@ -44,7 +44,7 @@ export type CloudProvider = {
  * @param multipleAvailabilityZones Optional. Support deployment on multiple availability zones within the selected region. Default: ‘false’
  * @param preferredAvailabilityZones Optional. Availability zones deployment preferences (for the selected provider & region). Example = '['us-east-1a’, 'us-east-1c’, ‘us-east-2e’]'
  * @param networking Required. The networking of the subscription
- * @param networking.deploymentCIDR Required. Deployment CIDR mask. Default: If using Redis Labs internal cloud account, 192.168.0.0/24
+ * @param networking.deploymentCIDR Required. Deployment CIDR mask. Default: If using Redis internal cloud account, 192.168.0.0/24
  * @param networking.vpcId Optional. Either an existing VPC Id (already exists in the specific region) or create a new VPC (if no VPC is specified). VPC Identifier must be in a valid format (for example: ‘vpc-0125be68a4625884ad’) and existing within the hosting account
  */
 export type CloudProviderRegion = {
@@ -67,9 +67,10 @@ export type CloudProviderRegion = {
  * @param throughputMeasurement The throughput measurement of the database
  * @param throughputMeasurement.by Required. Throughput measurement method. Either ‘number-of-shards’ or ‘operations-per-second’
  * @param throughputMeasurement.value Required. Throughput value (as applies to selected measurement method)
- * @param modules Optional. Redis Labs modules to be provisioned in the database
+ * @param modules Optional. Redis modules to be provisioned in the database
  * @param quantity Optional. Number of databases (of this type) that will be created. Default: 1
  * @param averageItemSizeInBytes Optional. Relevant only to ram-and-flash clusters. Estimated average size (measured in bytes) of the items stored in the database. Default: 1000
+ * @param localThroughputMeasurement The Local Throughput Measurement object
  */
 export type DatabaseParameters = {
     name: string,
@@ -81,7 +82,8 @@ export type DatabaseParameters = {
     throughputMeasurement?: DatabaseThroughputMeasurement,
     modules?: Module[],
     quantity?: number,
-    averageItemSizeInBytes?: number
+    averageItemSizeInBytes?: number,
+    localThroughputMeasurement?: LocalThroughputMeasurement[]
 }
 
 /**
@@ -121,3 +123,61 @@ export type VpcPeeringCreationParameters = {
  * The deployment types for the subscription
  */
 export type DeploymentType = 'single-region' | 'active-active';
+
+/**
+ * The parameters for creating VPC Peering request in GCP Active Active subscription
+ * @param provider The cloud provider. Value must be 'gcp'
+ * @param sourceRegion The GCP region for to connect in the Active Active subscription
+ * @param vpcProjectUid The GCP project UID of the destination
+ * @param vpcNetworkName The GCP network name of the destination
+ */
+export type ActiveActiveGcpVpcPeeringParameters = {
+    provider: 'gcp',
+    sourceRegion: string,
+    vpcProjectUid: string,
+    vpcNetworkName: string
+};
+
+/**
+ * The parameters for creating VPC Peering request in AWS Active Active subscription
+ * @param provider The cloud provider (optional)
+ * @param awsAccountId The AWS Account ID where the destination machine deployed
+ * @param destinationRegion The AWS region for the destination machine
+ * @param sourceRegion The AWS region for to connect in the Active Active subscription
+ * @param vpcCidr The VPC CIDR for the VPC Peering
+ * @param vpcId The VPC ID of the destination machine
+ */
+export type ActiveActiveAwsVpcPeeringParameters = {
+    provider?: 'aws',
+    awsAccountId: string,
+    destinationRegion: string,
+    sourceRegion: string,
+    vpcCidr: string,
+    vpcId: string
+};
+
+/**
+ * The parameters for create region in Active Active
+ */
+export type ActiveActiveCreateRegionParameters = {
+    databases: CreateRegionActiveActiveDatabaseParameters[],
+    dryRun?: boolean,
+    region: string,
+    deploymentCIDR: string
+};
+
+
+/**
+ * The Active Active delete region parameters
+ */
+export type ActiveActiveDeleteRegionParameters = {
+    dryRun?: boolean,
+    regions: ActiveActiveRegion[]
+};
+
+/**
+ * The region for active active
+ */
+export type ActiveActiveRegion = {
+    region: string
+};
