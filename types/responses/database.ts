@@ -187,8 +187,10 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
  * @param error The database status when it's in error
  * @param synced The database status when it's synced with it's replica's
  * @param creation-failed The database status when it's creation has failed
+ * @param rcp-change-pending The database status when it's pending changes
+ * @param rcp-draft The database status when it's still in draft
  */
-export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced' | 'creation-failed';
+export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced' | 'creation-failed' | 'rcp-change-pending' | 'rcp-draft';
 
 /**
  * The replica of endpoints of the database
