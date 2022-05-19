@@ -137,7 +137,7 @@ export class Database {
     async waitForDatabaseStatus(subscriptionId: number, databaseId: number, expectedStatus: DatabaseStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
         let database = await this.getDatabase(subscriptionId, databaseId);
         let timePassedInSeconds = 0;
-        while (database.status !== expectedStatus && database.status !== 'error' && database.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+        while (database !== undefined && database?.status !== expectedStatus && database?.status !== 'error' && database?.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
             this.client.log('debug', `Waiting for database ${databaseId} status '${database.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds} (Subscription ${subscriptionId})`);
             await this.client.sleep(sleepTimeInSeconds);
             timePassedInSeconds+=sleepTimeInSeconds;
