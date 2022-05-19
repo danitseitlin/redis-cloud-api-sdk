@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/redislabsdev/redis-cloud-api-sdk#readme",
   "dependencies": {
-    "axios": "0.25.0"
+    "axios": "0.27.2"
   },
   "devDependencies": {
     "@types/chai": "4.2.22",

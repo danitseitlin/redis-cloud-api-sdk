@@ -186,8 +186,9 @@ export type DatabaseImportSource = 'http' | 'redis' | 'ftp' | 'aws-s3' | 'azure-
  * @param 404 The database status when it's deleted (404 status code)
  * @param error The database status when it's in error
  * @param synced The database status when it's synced with it's replica's
+ * @param creation-failed The database status when it's creation has failed
  */
-export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced';
+export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 | 'error' | 'synced' | 'creation-failed';
 
 /**
  * The replica of endpoints of the database
