@@ -14,7 +14,7 @@ export class Task {
     async waitForTaskStatus(taskId: number, expectedStatus: TaskStatus, timeoutInSeconds = 20 * 60, sleepTimeInSeconds = 5): Promise<TaskObject & {[key: string]: any}> {
         let task = await this.getTask(taskId);
         let timePassedInSeconds = 0;
-        while (task.status !== expectedStatus && task.status !== 'processing-error' && task.status !== undefined && timePassedInSeconds <= timeoutInSeconds) { 
+        while (task !== undefined && task.status !== expectedStatus && task.status !== 'processing-error' && task.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
             this.client.log('debug', `Waiting for task ${taskId} status '${task.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
             await this.client.sleep(sleepTimeInSeconds);
             timePassedInSeconds+=sleepTimeInSeconds;

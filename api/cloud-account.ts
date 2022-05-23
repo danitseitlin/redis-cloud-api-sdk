@@ -96,7 +96,7 @@ export class CloudAccount {
      async waitForCloudAccountStatus(cloudAccountId: number, expectedStatus: CloudAccountStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5) {
         let cloudAccount = await this.getCloudAccount(cloudAccountId);
         let timePassedInSeconds = 0;
-        while (cloudAccount.status !== expectedStatus && cloudAccount.status !== 'error' && cloudAccount.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
+        while (cloudAccount !== undefined && cloudAccount.status !== expectedStatus && cloudAccount.status !== 'error' && cloudAccount.status !== undefined && timePassedInSeconds <= timeoutInSeconds) {
             this.client.log('debug', `Waiting for cloud account ${cloudAccountId} status '${cloudAccount.status}' to be become status '${expectedStatus}' (${timePassedInSeconds}/${timeoutInSeconds}`);
             await this.client.sleep(sleepTimeInSeconds);
             timePassedInSeconds+=sleepTimeInSeconds;
