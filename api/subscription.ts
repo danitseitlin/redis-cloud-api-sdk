@@ -290,7 +290,7 @@ export class Subscription {
                 if(vpcPeering !== undefined) status = vpcPeering.status;
             }
         }
-        this.client.log('debug', `VPC peering ${vpcPeeringId} ended up as '${status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
+        this.client.log('debug', `VPC peering ${vpcPeeringId} ended up as '${vpcPeering?.status}' status after ${timePassedInSeconds}/${timeoutInSeconds}`);
         return vpcPeering;
     }
 
