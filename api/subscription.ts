@@ -277,7 +277,7 @@ export class Subscription {
      */
     async waitForVpcPeeringStatus(subscriptionId: number, vpcPeeringId: number, expectedStatus: SubscriptionVpcPeeringStatus, timeoutInSeconds = 5 * 60, sleepTimeInSeconds = 5){
         let vpcPeerings = await this.getVpcPeerings(subscriptionId);
-        let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+        let vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.vpcPeeringId === vpcPeeringId)
         let timePassedInSeconds = 0;
         if(vpcPeering !== undefined) {
             let status = vpcPeering.status;
@@ -286,7 +286,7 @@ export class Subscription {
                 await this.client.sleep(sleepTimeInSeconds);
                 timePassedInSeconds+=sleepTimeInSeconds;
                 vpcPeerings = await this.getVpcPeerings(subscriptionId);
-                vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering)=> vpcPeering.id === vpcPeeringId)
+                vpcPeering = vpcPeerings.find((vpcPeering: SubscriptionVpcPeering) => vpcPeering.vpcPeeringId === vpcPeeringId)
                 if(vpcPeering !== undefined) status = vpcPeering.status;
             }
         }

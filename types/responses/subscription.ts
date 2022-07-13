@@ -82,7 +82,7 @@ export type SubscriptionCidrWhitelist = {
 
 /**
  * Subscription VPC Peering
- * @param id The id of the vpc peering
+ * @param vpcPeeringId The id of the vpc peering
  * @param status The status of the vpc peering
  * @param regionId The ID of the region (Optional)
  * @param regionName The name of the region (Optional)
@@ -94,7 +94,7 @@ export type SubscriptionCidrWhitelist = {
  * @param vpcNetworkName The GCP network name (Optional)
  */
 export type SubscriptionVpcPeering = {
-    id: number,
+    vpcPeeringId: number,
     status: SubscriptionVpcPeeringStatus,
     regionId?: number,
     regionName?: string,
