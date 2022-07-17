@@ -62,7 +62,8 @@ export class Client {
         this.log('debug', `Performing GET request for url '${url}'`);
         this.log('debug', `Headers for last GET request: '${JSON.stringify(this.httpClient.defaults.headers)}'`);
         const response = await this.httpClient.get(url);
-        this.log('debug', JSON.stringify(response.data))
+        this.log('debug', `Whole response: ${JSON.stringify(response)}`)
+        this.log('debug', `Only data: ${JSON.stringify(response.data)}`)
         return response;
     }
 
