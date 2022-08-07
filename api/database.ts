@@ -98,7 +98,8 @@ export class Database {
      */
     async backupDatabase(subscriptionId: number, databaseId: number, regionName?: RegionName): Promise<TaskResponse & {[key: string]: any}> {
         try {
-            const response = (regionName !== undefined) ? await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`, regionName) : await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`);
+            const payload = (regionName !== undefined) ? regionName : {};
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/databases/${databaseId}/backup`, payload);
             const taskId: number = response.data.taskId;
             const taskResponse = await this.task.waitForTaskStatus(taskId, 'processing-completed');
             return taskResponse.response;
