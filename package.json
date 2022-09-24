@@ -12,7 +12,8 @@
     "general-unit-tests": "npm run test tests/unit/general.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
     "cloud-account-unit-tests": "npm run test tests/unit/cloud-account.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
     "subscription-unit-tests": "npm run test tests/unit/subscription.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
-    "database-unit-tests": "npm run test tests/unit/database.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key"
+    "database-unit-tests": "npm run test tests/unit/database.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key",
+    "database-oop-unit-tests": "npm run test tests/oop/database.parser.ts -- --ENVIRONMENT=localhost --PORT=3000 --API_ACCESS_KEY=access-key --API_SECRET_KEY=secret-key"
   },
   "keywords": [
     "Redis",

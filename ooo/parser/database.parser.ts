@@ -1,10 +1,11 @@
 import { ifError } from "assert";
 import { DatabaseModule } from "../../types/parameters/database";
 import { DatabaseAlertResponse, DatabaseClustering, DatabaseDataEvictionPolicy, DatabaseDataPersistence, DatabaseMemoryStorage, DatabaseProtocol, DatabaseProvider, DatabaseReplicaOfEndpoints, DatabaseResponse, DatabaseSecurity, DatabaseStatus, DatabaseThroughputMeasurement, DatabaseThroughputMeasurementType } from "../../types/responses/database";
+import { DatabaseModuleInformation } from "../../types/responses/general";
 
 export class DatabaseParser {
 
-    private _databaseId: number = 0;
+    private _databaseId: number = -1;
     private _name: string = 'temp-db-name';
     private _protocol: DatabaseProtocol = 'redis';
     private _provider: DatabaseProvider = 'AWS';
@@ -33,20 +34,21 @@ export class DatabaseParser {
         sslClientAuthentication: false,
         sourceIps: []
     }
-    private _modules: DatabaseModule[] = []
+    private _modules: DatabaseModuleInformation[] = []
     private _alerts: DatabaseAlertResponse[] = []
 
-    constructor(database: DatabaseResponse) {
+    constructor(database?: DatabaseResponse) {
         if(database) {
             this.load(database);
         }
     }
 
-    
     public load(database: DatabaseResponse) {
-        if(database.databaseId) { this.databaseId = database.databaseId; }
-        if(database.name) { this.name = database.name };
-        if(database.protocol) { this.protocol = database.protocol; }
+        for(const prop in this) {
+            if(database[prop]) {
+                this[prop] = database[prop] as any
+            }
+        }
     }
 
     public get databaseId() {
@@ -274,16 +276,16 @@ export class DatabaseParser {
         this._security.enableTls = isEnabled;
     }
 
-    public get modules() {
+    public get modules(): DatabaseModuleInformation[] {
         return this._modules;
     }
 
-    public set modules(modules: DatabaseModule[] | DatabaseModule) {
-        if(Array.isArray(modules)) {
-            this._modules = modules as DatabaseModule[];
+    public set modules(modulesList: DatabaseModuleInformation[] | DatabaseModuleInformation) {
+        if(Array.isArray(modulesList)) {
+            this._modules = modulesList as DatabaseModuleInformation[];
         }
-        else if(typeof modules === 'string') {
-            this._modules.push(modules)
+        else if(typeof modulesList === 'string') {
+            this._modules.push(modulesList)
         }
     }
 
@@ -299,4 +301,51 @@ export class DatabaseParser {
             this._alerts.push(alerts)
         }
     }
+
+    toJSON(): DatabaseResponse {
+        return {
+            databaseId: this.databaseId,
+            name: this.name,
+            protocol: this.protocol,
+            memoryStorage: this.memoryStorage,
+            provider: this.provider,
+            region: this.region,
+            redisVersionCompliance: this.redisVersionCompliance,
+            status: this.status,
+            memoryLimitInGb: this.memoryLimitInGb,
+            memoryUsedInMb: this.memoryUsedInMb,
+            supportOSSClusterApi: this.supportOSSClusterApi,
+            dataPersistence: this.dataPersistence,
+            replication: this.replication,
+            privateEndpoint: this.privateEndpoint,
+            publicEndpoint: this.publicEndpoint,
+            dataEvictionPolicy: this.dataEvictionPolicy,
+            throughputMeasurement: this._throughputMeasurement,
+            replicaOf: this._replicaOf,
+            clustering: { hashingPolicy: this.hashingPolicy },
+            security: this._security,
+            modules: this.modules,
+            alerts: this.alerts
+        }
+    }
+    public toString() {
+        return JSON.stringify(this.toJSON());
+    }
 }
+
+/***
+ * 
+    private _replicaOf: DatabaseReplicaOfEndpoints = { endpoints: [] };
+    private _clustering: DatabaseClustering = {
+        hashingPolicy: []
+    }
+    private _security: DatabaseSecurity = {
+        password: 'fake-pass',
+        sslClientAuthentication: false,
+        sourceIps: []
+    }
+    private _modules: DatabaseModule[] = []
+    private _alerts: DatabaseAlertResponse[] = []
+ * 
+ * 
+ */
