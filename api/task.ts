@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { TaskObject, TaskStatus } from '../types/task';
 import { Client } from './api.base';
 
@@ -55,5 +56,19 @@ export class Task {
         catch(error) {
             return error as any;
         }
+    }
+
+    /**
+     * 
+     * @param taskId 
+     * @returns 
+     */
+    async waitForTaskCompletion(taskId: number) {
+        return await this.waitForTaskStatus(taskId, 'processing-completed')
+    }
+
+    getTaskId(response: AxiosResponse): number | null  {
+        const taskId = response?.data?.taskId
+        return taskId ?? null
     }
 }

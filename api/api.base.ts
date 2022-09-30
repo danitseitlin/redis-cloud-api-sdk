@@ -96,9 +96,16 @@ export class Client {
      * @param url The URL of the request
      * @returns An Axios Response
      */
-    async delete(url: string): Promise<AxiosResponse<any, any>> {
-        this.log('debug', `Performing DELETE request for url '${url}'`);
-        const response = await this.httpClient.delete(url);
+    async delete(url: string, requestBody?: any): Promise<AxiosResponse<any, any>> {
+        let response: AxiosResponse;
+        if(requestBody) {
+            this.log('debug', `Performing DELETE request for url '${url}' with body ${JSON.stringify(requestBody)}`);
+            response = await this.httpClient.delete(url, { data: requestBody })
+        }
+        else {
+            this.log('debug', `Performing DELETE request for url '${url}'`);
+            response = await this.httpClient.delete(url)
+        }
         this.log('debug', JSON.stringify(response.data))
         return response;
     }

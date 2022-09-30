@@ -1,3 +1,4 @@
+import { CrdbRegion } from './database';
 import { Region } from './general';
 
 /**
@@ -116,3 +117,32 @@ export type SubscriptionMemoryStorage = 'ram' | 'ram-and-flash';
  * @param GCP Google Cloud Platform cloud provider
  */
 export type SubscriptionCloudProvider = 'AWS' | 'GCP';
+
+
+/**
+ * The regions information for Active Active subscriptions
+ * @param subscriptionId The subscription ID
+ * @param regions The regions information
+ */
+ export type AARegionsResponse = {
+    subscriptionId: number,
+    regions: AARegionInformation[],
+    [key: string]: any
+};
+
+/**
+ * The region (singular) information for Active Active subscriptions
+ * @param regionId The region ID
+ * @param region The region name
+ * @param deploymentCidr The region CIDR value
+ * @param vpcId The region VPC ID value
+ * @param databases The region's databases
+ */
+ export type AARegionInformation = {
+    regionId: number,
+    region: string,
+    deploymentCidr: string,
+    vpcId: string,
+    databases: CrdbRegion[],
+    [key: string]: any
+};

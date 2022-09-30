@@ -4,7 +4,7 @@ import {
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
 } from '../types/parameters/subscription';
-import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse, SubscriptionStatus, SubscriptionVpcPeeringStatus } from '../types/responses/subscription';
+import { SubscriptionCidrWhitelist, SubscriptionVpcPeering, SubscriptionResponse, SubscriptionStatus, SubscriptionVpcPeeringStatus, AARegionsResponse } from '../types/responses/subscription';
 import { TaskResponse } from '../types/task';
 import { Task } from '../api/task';
 import { Client } from './api.base';
@@ -145,7 +145,7 @@ export class Subscription {
      * @param subscriptionId 
      * @returns 
      */
-    async getAASubscriptionRegions(subscriptionId: string): Promise<any> {
+    async getAASubscriptionRegions(subscriptionId: string): Promise<AARegionsResponse & { [key: string]: any }> {
         try {
             const response = await this.client.get(`/subscriptions/${subscriptionId}/regions`);
             return response.data;
@@ -155,12 +155,40 @@ export class Subscription {
         }
     }
 
-    async createAASubscriptionRegion(subscriptionId: string, creationParameters: AARegionCreationParameters) {
-
+    /**
+     * 
+     * @param subscriptionId 
+     * @param creationParameters 
+     * @returns 
+     */
+    async createAASubscriptionRegion(subscriptionId: string, creationParameters: AARegionCreationParameters): Promise<TaskResponse & {[key: string]: any}> {
+        try {
+            const response = await this.client.post(`/subscriptions/${subscriptionId}/regions`, creationParameters);
+            const taskId: number = response.data.taskId;
+            const taskResponse = await this.task.waitForTaskCompletion(taskId)
+            return taskResponse.response;
+        }
+        catch(error) {
+            return error as any;
+        }
     }
 
-    async deleteAASubscriptionRegions(deletionParameters: AARegionDeletionParameters) {
-        
+    /**
+     * 
+     * @param subscriptionId 
+     * @param deletionParameters 
+     * @returns 
+     */
+    async deleteAASubscriptionRegions(subscriptionId: string, deletionParameters: AARegionDeletionParameters): Promise<TaskResponse & {[key: string]: any}> {
+        try {
+            const response = await this.client.delete(`/subscriptions/${subscriptionId}/regions`, deletionParameters);
+            const taskId = this.task.getTaskId(response) as number;
+            const taskResponse = await this.task.waitForTaskCompletion(taskId);
+            return taskResponse.response;
+        }
+        catch(error) {
+            return error as any;
+        }
     }
 
     /**

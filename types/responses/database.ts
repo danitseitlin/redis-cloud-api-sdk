@@ -162,3 +162,25 @@ export type DatabaseStatus = 'active' | 'draft' | 'active-change-pending' | 404 
 export type DatabaseReplicaOfEndpoints = {
     endpoints: string[]
 }
+
+/**
+ * The Local Throughput Measurement object
+ * @param region The name of the region
+ * @param writeOperationsPerSecond The writes/second speed
+ * @param readOperationsPerSecond The reads/second speed
+ */
+ export type LocalThroughputMeasurement = {
+    region: string,
+    writeOperationsPerSecond: number,
+    readOperationsPerSecond: number
+};
+
+/**
+ * The AA database information as returned by GET regions
+ * @param databaseId The database ID
+ * @param databaseName The database ID
+ */
+export type CrdbRegion = Pick<LocalThroughputMeasurement, 'readOperationsPerSecond' | 'writeOperationsPerSecond'> & {
+    databaseId: number,
+    databaseName: string
+};
