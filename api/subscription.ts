@@ -1,4 +1,6 @@
 import { 
+    AARegionCreationParameters,
+    AARegionDeletionParameters,
     CidrUpdateParameters, CreateSubscriptionParameters, SubscriptionUpdateParameters, 
     VpcPeeringCreationParameters 
 } from '../types/parameters/subscription';
@@ -136,6 +138,29 @@ export class Subscription {
         catch(error) {
             return error as any;
         }
+    }
+
+    /**
+     * 
+     * @param subscriptionId 
+     * @returns 
+     */
+    async getAASubscriptionRegions(subscriptionId: string): Promise<any> {
+        try {
+            const response = await this.client.get(`/subscriptions/${subscriptionId}/regions`);
+            return response.data;
+        }
+        catch(error) {
+            return error as any;
+        }
+    }
+
+    async createAASubscriptionRegion(subscriptionId: string, creationParameters: AARegionCreationParameters) {
+
+    }
+
+    async deleteAASubscriptionRegions(deletionParameters: AARegionDeletionParameters) {
+        
     }
 
     /**

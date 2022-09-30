@@ -114,3 +114,28 @@ export type VpcPeeringCreationParameters = {
     vpcId: string,
     vpcCidr: string
 }
+
+export type AARegionCreationParameters = {
+    name: string,
+    databases?: CrdbRegionSpec[],
+    dryRun?: boolean,
+    deploymentCIDR: string
+}
+
+export type CrdbRegionSpec = {
+    name: string,
+    localThroughputMeasurement: {
+        region: string,
+        readOperationsPerSecond: number,
+        writeOperationsPerSecond: number
+    }
+}
+
+export type AARegionDeletionParameters = {
+    dryRun?: boolean,
+    regions: AARegionToDelete[]
+}
+
+export type AARegionToDelete = {
+    region: string
+}
