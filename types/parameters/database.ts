@@ -5,6 +5,7 @@ import { DatabaseProtocol, DatabaseDataPersistence, DatabaseDataEvictionPolicy, 
  * @param dryRun Optional. When 'false’: Creates a deployment plan and deploys it (creating any resources required by the plan). When 'true’: creates a read-only deployment plan without any resource creation. Default: ‘true’
  * @param name Required. Database name
  * @param protocol Optional. Database protocol: either ‘redis’ or 'memcached’. Default: ‘redis’
+ * @param customPort Optional. Database custom port.
  * @param memoryLimitInGb Required. Maximum memory usage for this specific database
  * @param supportOSSClusterApi Optional. Support Redis open-source (OSS) Cluster API
  * @param useExternalEndpointForOSSClusterApi Optional. Should use external endpoint for open-source (OSS) Cluster API. Can only be enabled if OSS Cluster API support is enabled’. Default: ‘false’
@@ -28,6 +29,7 @@ export type DatabaseCreationParameters = {
     dryRun?: boolean,
     name: string,
     protocol?: DatabaseProtocol,
+    customPort?: number,
     memoryLimitInGb: number,
     supportOSSClusterApi?: boolean,
     useExternalEndpointForOSSClusterApi?: boolean,
