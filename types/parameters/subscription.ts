@@ -139,3 +139,35 @@ export type AARegionDeletionParameters = {
 export type AARegionToDelete = {
     region: string
 }
+
+/**
+ * The parameters for creating VPC Peering request in GCP Active Active subscription
+ * @param provider The cloud provider. Value must be 'gcp'
+ * @param sourceRegion The GCP region for to connect in the Active Active subscription
+ * @param vpcProjectUid The GCP project UID of the destination
+ * @param vpcNetworkName The GCP network name of the destination
+ */
+ export type AAGcpVpcPeeringParameters = {
+    provider: 'gcp',
+    sourceRegion: string,
+    vpcProjectUid: string,
+    vpcNetworkName: string
+};
+
+/**
+ * The parameters for creating VPC Peering request in AWS Active Active subscription
+ * @param provider The cloud provider (optional)
+ * @param awsAccountId The AWS Account ID where the destination machine deployed
+ * @param destinationRegion The AWS region for the destination machine
+ * @param sourceRegion The AWS region for to connect in the Active Active subscription
+ * @param vpcCidr The VPC CIDR for the VPC Peering
+ * @param vpcId The VPC ID of the destination machine
+ */
+export type AAAwsVpcPeeringParameters = {
+    provider?: 'aws',
+    awsAccountId: string,
+    destinationRegion: string,
+    sourceRegion: string,
+    vpcCidr: string,
+    vpcId: string
+};

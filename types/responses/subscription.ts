@@ -146,3 +146,27 @@ export type SubscriptionCloudProvider = 'AWS' | 'GCP';
     databases: CrdbRegion[],
     [key: string]: any
 };
+
+/**
+ * The VPC Peerings information for Active Active
+ * @param subscriptionId The subscription ID
+ * @param regions The VPC Peering information per regions
+ */
+ export type AAVpcPeeringsResponse = {
+    subscriptionId: number,
+    regions: AAVpcPeeringsRegion[],
+    [key: string]: any
+};
+
+/**
+ * The VPC Peerings for Active Active region
+ * @param id The ID of the VPC Peering
+ * @param region The region of the VPC Peering
+ * @param vpcPeerings The information of the VPC Peerings
+ */
+ export type AAVpcPeeringsRegion = {
+    id: number,
+    region: string,
+    vpcPeerings: SubscriptionVpcPeering[],
+    [key: string]: any
+};
